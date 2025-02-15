@@ -20,15 +20,31 @@ dependencies:
   build_runner: ^2.4.14
   flutter_svg: ^2.0.17
   flutter_gen: 5.9.0 
+  dio: ^5.7.0
+  injectable: ^2.4.4
+  freezed_annotation: ^2.4.4
+  flutter_bloc: ^8.1.6
+  flutter_web_auth_2: ^4.0.1
+  flutter_dotenv: ^5.1.0
+  retrofit: ^4.4.1
+  mutex: ^3.1.0
+  json_annotation: ^4.9.0
+  rxdart: ^0.28.0
+  get_it: ^8.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+
  
   flutter_lints: ^5.0.0
   auto_route_generator: ^9.3.1
-
+  injectable_generator: ^2.4.1
+  freezed: ^2.5.7
+  dotenv: ^4.2.0
+  retrofit_generator: ^9.1.2
+  json_serializable: ^6.8.0
 
 flutter:
   fonts:
@@ -37,7 +53,7 @@ flutter:
         - asset: assets/fonts/HSSanTokki2.0(2024).ttf
   assets:
     - assets/icons/
-  
+    - .env
   uses-material-design: true
 
 flutter_gen:

@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bbun/presentation/pages/onboarding_page.dart';
-import 'package:bbun/presentation/pages/main_page.dart';
+import 'package:bbun/modules/bbun/presentation/pages/onboarding_page.dart';
+import 'package:bbun/modules/bbun/presentation/pages/main_page.dart';
 
 part 'app_router.gr.dart';
 
