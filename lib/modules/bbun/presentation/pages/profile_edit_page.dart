@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bbun/presentation/widgets/bbun_bottomsheet.dart';
-import 'package:bbun/presentation/widgets/bbun_card.dart';
-import 'package:bbun/presentation/widgets/bbun_checkbox.dart';
-import 'package:bbun/presentation/widgets/bbun_delete.dart';
-import 'package:bbun/presentation/widgets/bbun_displayfield.dart';
-import 'package:bbun/presentation/widgets/bbun_inputfield.dart';
-import 'package:bbun/presentation/widgets/bbun_pressable.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_bottomsheet.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_card.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_pressable.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_checkbox.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_delete.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_displayfield.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_inputfield.dart';
 import 'package:bbun/routes/app_router.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +28,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   final String dummyName = "홍길동";
   final String dummyStudentId = "20231234";
   final String dummyEmail = "hong@example.com";
-  final String dummyIssueDate = "2025-02-15";
+  final DateTime dummyIssueDate = DateTime(1);
   final bool dummyIsBbunReg = true;
   ImageProvider? dummyProfileImage;
   String? dummyDepart;
@@ -62,7 +62,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               child: Column(
                 children: [
                   Container(
-                    width: screenWidth > 430 ? 430 : screenWidth,
+                    width: screenWidth,
                     height: 257,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -162,6 +162,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                     email: dummyEmail,
                     issueDate: dummyIssueDate,
                     profileImage: dummyProfileImage,
+                    textColor: Color(0xFF886CD6),
+                    innerColor: Color(0xFFDDD1FF),
+                    outerColor: Color(0xFFA48EE4),
                   ),
                   const SizedBox(height: 15),
 

@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_card.dart';
 import 'package:flutter/material.dart';
-import 'package:bbun/presentation/widgets/bbun_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 @RoutePage()
@@ -16,7 +16,10 @@ class _BbunNotebookState extends State<BbunNotebook> {
     name: "양예진",
     studentId: "20215121",
     email: "yangyj@gm.gist.ac.kr",
-    issueDate: "2025.01.28",
+    issueDate: DateTime(1),
+    textColor: Colors.white,
+    innerColor: Colors.white,
+    outerColor: Colors.white,
   );
 
   @override
