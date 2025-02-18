@@ -18,7 +18,7 @@ class BbunUserModel with _$BbunUserModel implements BbunUserEntity {
     DateTime? deletedAt,
     required bool isBbunRegistered,
     String? department,
-    String? mbti,
+    @JsonKey(name: 'MBTI') String? mbti,
     @JsonKey(name: 'insta_ID') String? instaId,
     String? description,
     String? profileImage,

@@ -10,6 +10,12 @@
 class FontFamily {
   FontFamily._();
 
+  /// Font family: CornCorn
+  static const String cornCorn = 'CornCorn';
+
   /// Font family: HSSanTokki
   static const String hSSanTokki = 'HSSanTokki';
+
+  /// Font family: Pretendard
+  static const String pretendard = 'Pretendard';
 }

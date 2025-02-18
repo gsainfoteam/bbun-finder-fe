@@ -30,6 +30,7 @@ mixin _$BbunUserModel {
   DateTime? get deletedAt => throw _privateConstructorUsedError;
   bool get isBbunRegistered => throw _privateConstructorUsedError;
   String? get department => throw _privateConstructorUsedError;
+  @JsonKey(name: 'MBTI')
   String? get mbti => throw _privateConstructorUsedError;
   @JsonKey(name: 'insta_ID')
   String? get instaId => throw _privateConstructorUsedError;
@@ -62,7 +63,7 @@ abstract class $BbunUserModelCopyWith<$Res> {
       DateTime? deletedAt,
       bool isBbunRegistered,
       String? department,
-      String? mbti,
+      @JsonKey(name: 'MBTI') String? mbti,
       @JsonKey(name: 'insta_ID') String? instaId,
       String? description,
       String? profileImage});
@@ -172,7 +173,7 @@ abstract class _$$BbunUserModelImplCopyWith<$Res>
       DateTime? deletedAt,
       bool isBbunRegistered,
       String? department,
-      String? mbti,
+      @JsonKey(name: 'MBTI') String? mbti,
       @JsonKey(name: 'insta_ID') String? instaId,
       String? description,
       String? profileImage});
@@ -275,7 +276,7 @@ class _$BbunUserModelImpl extends _BbunUserModel {
       this.deletedAt,
       required this.isBbunRegistered,
       this.department,
-      this.mbti,
+      @JsonKey(name: 'MBTI') this.mbti,
       @JsonKey(name: 'insta_ID') this.instaId,
       this.description,
       this.profileImage})
@@ -304,6 +305,7 @@ class _$BbunUserModelImpl extends _BbunUserModel {
   @override
   final String? department;
   @override
+  @JsonKey(name: 'MBTI')
   final String? mbti;
   @override
   @JsonKey(name: 'insta_ID')
@@ -391,7 +393,7 @@ abstract class _BbunUserModel extends BbunUserModel {
       final DateTime? deletedAt,
       required final bool isBbunRegistered,
       final String? department,
-      final String? mbti,
+      @JsonKey(name: 'MBTI') final String? mbti,
       @JsonKey(name: 'insta_ID') final String? instaId,
       final String? description,
       final String? profileImage}) = _$BbunUserModelImpl;
@@ -420,6 +422,7 @@ abstract class _BbunUserModel extends BbunUserModel {
   @override
   String? get department;
   @override
+  @JsonKey(name: 'MBTI')
   String? get mbti;
   @override
   @JsonKey(name: 'insta_ID')
