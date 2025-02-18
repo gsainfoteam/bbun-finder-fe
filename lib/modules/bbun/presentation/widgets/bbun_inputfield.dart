@@ -14,11 +14,14 @@ class BbunInputfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final scale = screenWidth / 411.42;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+      padding:
+          EdgeInsets.symmetric(horizontal: 10 * scale, vertical: 12 * scale),
       decoration: BoxDecoration(
-        border: Border.all(width: 1.50),
-        borderRadius: BorderRadius.circular(16),
+        border: Border.all(width: 1.50 * scale),
+        borderRadius: BorderRadius.circular(16 * scale),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -27,32 +30,33 @@ class BbunInputfield extends StatelessWidget {
         children: [
           // Label Text
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 7),
+            padding: EdgeInsets.symmetric(horizontal: 7 * scale),
             child: Text(
               labelText,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 18,
+                fontSize: 18 * scale,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10 * scale),
           // Input Field
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+            padding: EdgeInsets.symmetric(
+                horizontal: 16 * scale, vertical: 2 * scale),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(22),
-              border: Border.all(width: 1.50),
+              borderRadius: BorderRadius.circular(22 * scale),
+              border: Border.all(width: 1.50 * scale),
             ),
             child: TextFormField(
-              cursorHeight: 18,
+              cursorHeight: 18 * scale,
               cursorColor: Color(0xFFFFE24A),
               controller: controller,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 18,
+                fontSize: 18 * scale,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w500,
               ),
@@ -60,7 +64,7 @@ class BbunInputfield extends StatelessWidget {
                 hintText: hintText,
                 hintStyle: TextStyle(
                   color: Color(0xFFB6B6B6),
-                  fontSize: 18,
+                  fontSize: 18 * scale,
                   fontFamily: 'Pretendard',
                   fontWeight: FontWeight.w500,
                 ),

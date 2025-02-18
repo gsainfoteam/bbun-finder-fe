@@ -12,11 +12,14 @@ class BbunDisplayField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final scale = screenWidth / 411.42;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+      padding:
+          EdgeInsets.symmetric(horizontal: 10 * scale, vertical: 12 * scale),
       decoration: BoxDecoration(
-        border: Border.all(width: 1.50),
-        borderRadius: BorderRadius.circular(16),
+        border: Border.all(width: 1.50 * scale),
+        borderRadius: BorderRadius.circular(16 * scale),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -25,27 +28,27 @@ class BbunDisplayField extends StatelessWidget {
         children: [
           // Label Text
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 7),
+            padding: EdgeInsets.symmetric(horizontal: 7 * scale),
             child: Text(
               labelText,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 18,
+                fontSize: 18 * scale,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8 * scale),
           // Display Text (non-editable)
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 7),
+            padding: EdgeInsets.symmetric(horizontal: 7 * scale),
             child: Text(
               displayText,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 18,
+                fontSize: 18 * scale,
                 fontFamily: 'Pretendard',
                 fontWeight: FontWeight.w500,
               ),

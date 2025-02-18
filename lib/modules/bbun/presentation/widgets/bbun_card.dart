@@ -1,3 +1,4 @@
+import 'package:bbun/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class BbunCard extends StatelessWidget {
@@ -22,6 +23,13 @@ class BbunCard extends StatelessWidget {
       "inner": Color(0xFFFFD6E5),
       "outer": Color(0xFFFF9BBF),
     },
+  ];
+
+  static final List<SvgGenImage> _svgIcons = [
+    Assets.icons.default1,
+    Assets.icons.default2,
+    Assets.icons.default4,
+    Assets.icons.default3,
   ];
 
   final String name;
@@ -125,10 +133,7 @@ class BbunCard extends StatelessWidget {
                               image: profileImage!, fit: BoxFit.cover)
                           : null,
                     ),
-                    child: profileImage == null
-                        ? Icon(Icons.person,
-                            size: 70 * scale, color: Colors.grey)
-                        : null,
+                    child: profileImage == null ? _svgIcons[index].svg() : null,
                   ),
                   SizedBox(
                     width: 10 * scale,

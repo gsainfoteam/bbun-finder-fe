@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bbun/gen/assets.gen.dart';
 import 'package:bbun/modules/bbun/presentation/widgets/bbun_pressable.dart';
 import 'package:bbun/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
@@ -34,39 +35,34 @@ class OnboardingPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SvgPicture.asset(
-                "assets/icons/onboarding_line.svg",
+              Assets.icons.onboardingLine.svg(
                 width: screenWidth,
               ),
               Positioned(
                 top: 65 * scale,
                 left: 108 * scale,
-                child: SvgPicture.asset(
-                  "assets/icons/one_leaf.svg",
+                child: Assets.icons.oneLeaf.svg(
                   width: 61.43 * scale,
                 ),
               ),
               Positioned(
                 top: 202 * scale,
                 left: 285 * scale,
-                child: SvgPicture.asset(
-                  "assets/icons/two_leaf.svg",
+                child: Assets.icons.twoLeaf.svg(
                   width: 61.43 * scale,
                 ),
               ),
               Positioned(
                 top: 640 * scale,
                 left: 96 * scale,
-                child: SvgPicture.asset(
-                  "assets/icons/three_leaf.svg",
+                child: Assets.icons.threeLeaf.svg(
                   width: 61.43 * scale,
                 ),
               ),
               Positioned(
                 top: 749 * scale,
                 left: 318 * scale,
-                child: SvgPicture.asset(
-                  "assets/icons/four_leaf.svg",
+                child: Assets.icons.fourLeaf.svg(
                   width: 61.43 * scale,
                 ),
               ),

@@ -66,6 +66,13 @@ class _MainPageState extends State<MainPage>
     4: 750,
   };
 
+  final List<SvgGenImage> _svgIcons = [
+    Assets.icons.oneLeaf,
+    Assets.icons.twoLeaf,
+    Assets.icons.threeLeaf,
+    Assets.icons.fourLeaf,
+  ];
+
   late AnimationController _controller;
   late List<Animation<double>> _animations;
 
@@ -139,6 +146,13 @@ class _MainPageState extends State<MainPage>
                         child: Stack(
                           children: [
                             Assets.icons.mainPageDeco.svg(width: screenWidth),
+                            bbunListState.getTotal == 0
+                                ? SizedBox()
+                                : Positioned(
+                                    top: 100 * scale,
+                                    left: 321 * scale,
+                                    child: _svgIcons[bbunListState.getTotal - 1]
+                                        .svg(width: 61.43 * scale)),
                             Positioned(
                               top: 216 * scale,
                               left: 44 * scale,
@@ -226,13 +240,20 @@ class _MainPageState extends State<MainPage>
                                     index: index,
                                     children: bbunListState.mapOrNull(
                                       loaded: (loaded) => loaded.bbunline
-                                          .map((user) => BbunCard(
+                                          .map((user) => BbunPressable(
+                                              onPressed: () {
+                                                context.router.push(DetailRoute(
+                                                    index: index,
+                                                    total: bbunListState
+                                                        .getTotal));
+                                              },
+                                              child: BbunCard(
                                                 name: user.name,
                                                 studentId: user.studentId,
                                                 email: user.email,
                                                 issueDate: user.createdAt!,
                                                 index: index,
-                                              ))
+                                              )))
                                           .toList(),
                                     )!,
                                   ),
