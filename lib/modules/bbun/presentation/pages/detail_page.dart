@@ -33,7 +33,7 @@ class _DetailPageState extends State<DetailPage>
             child: Column(
               children: [
                 Container(
-                  width: screenWidth > 430 ? 430 : screenWidth,
+                  width: screenWidth > 475 ? 475 : screenWidth,
                   height: 257,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -60,7 +60,7 @@ class _DetailPageState extends State<DetailPage>
               child: Column(
                 children: [
                   Container(
-                    width: screenWidth > 430 ? 430 : screenWidth,
+                    width: screenWidth > 475 ? 475 : screenWidth,
                     height: 257,
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -81,28 +81,47 @@ class _DetailPageState extends State<DetailPage>
 
                 // 학생 이름
                 Container(
-                  width: screenWidth > 430 ? 430 : screenWidth,
+                  width: screenWidth > 475 ? 475 : screenWidth,
                   padding: const EdgeInsets.symmetric(horizontal: 36),
-                  child: Text(
-                    '홍길동',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 50,
-                      fontFamily: 'HSSanTokki',
-                      fontWeight: FontWeight.w400,
-                    ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        '홍길동',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 50,
+                          fontFamily: 'HSSanTokki',
+                          fontWeight: FontWeight.w400,
+                          height: 0,
+                        ),
+                      ),
+                      // TODO: 본인 디테일 페이지 일 때만 수정 버튼 보이게 처리
+                      SizedBox(width: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 4),
+                        child: GestureDetector(
+                          onTap: () {
+                            context.pushRoute(ProfileEditRoute());
+                          },
+                          child: SvgPicture.asset(
+                            "assets/icons/edit.svg",
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(height: 28),
 
                 // 노트 부분
-                //BbunNotebook(),
+                BbunNotebook(),
                 SizedBox(
-                    height: 50 * (screenWidth > 430 ? (430 / 411.42) : scale)),
+                    height: 50 * (screenWidth > 475 ? (475 / 411.42) : scale)),
 
                 // 하단 버튼
                 Container(
-                  width: screenWidth > 430 ? 430 : screenWidth,
+                  width: screenWidth > 475 ? 475 : screenWidth,
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 36),
                   child: Row(

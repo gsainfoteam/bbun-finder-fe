@@ -33,6 +33,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   final String dummyStudentId = "20231234";
   final String dummyEmail = "hong@example.com";
   final DateTime dummyIssueDate = DateTime(1);
+
   final bool dummyIsBbunReg = true;
   ImageProvider? dummyProfileImage;
   String? dummyDepart;
@@ -135,29 +136,25 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                 width: screenWidth,
                               ),
 
-                              // 뒤로 가기
-                              Container(
-                                width: screenWidth,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 36),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      GestureDetector(
-                                        child: Icon(
-                                          Icons.arrow_back,
-                                          size: 30,
-                                        ),
-                                        onTap: () {
-                                          // 디테일 -> 프로필 설정 이동(연필 버튼) 구현 전
-                                          // 개발 일정 내에 이동 구현 되면 뒤로 가기도 케이스 두 개
-                                          // TODO: 그땐 진짜 "뒤"로 가기 버튼으로 바꿔야함
-                                          context.pushRoute(MainRoute());
-                                        },
-                                      ),
-                                    ]),
-                              ),
-                              SizedBox(height: 5),
+                                // 뒤로 가기
+                  Container(
+                    width: screenWidth > 475 ? 475 : screenWidth,
+                    padding: const EdgeInsets.symmetric(horizontal: 36),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            child: Icon(
+                              Icons.arrow_back,
+                              size: 30,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ]),
+                  ),
+                  SizedBox(height: 5),
 
                               // 내 프로필
                               Container(

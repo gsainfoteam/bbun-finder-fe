@@ -18,6 +18,9 @@ class _BbunCheckboxState extends State<BbunCheckbox> {
   @override
   Widget build(BuildContext context) {
     return Container(
+
+      width: 321,
+
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
       decoration: BoxDecoration(
         border: Border.all(width: 1.50),
