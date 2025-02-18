@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -47,47 +47,10 @@ class BbunDelete extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 4),
                   child: GestureDetector(
                     onTap: () {
-                      showCupertinoDialog(
+                      showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return CupertinoAlertDialog(
-                            title: Text('정말 탈퇴하시겠습니까?'),
-                            content: Text(
-                                '회원 탈퇴 시 모든 정보가 삭제되며 더이상 서비스를 이용할 수 없습니다.'),
-                            actions: [
-                              CupertinoDialogAction(
-                                child: Text(
-                                  '취소',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: CupertinoColors.activeBlue,
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              CupertinoDialogAction(
-                                isDestructiveAction: true,
-                                child: Text(
-                                  '탈퇴',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Color(0xFFF10000),
-                                    fontFamily: 'Pretendard',
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  // TODO: 탈퇴 로직 구현
-                                  print('탈퇴');
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          );
+                          return BbunDialog();
                         },
                       );
                     },

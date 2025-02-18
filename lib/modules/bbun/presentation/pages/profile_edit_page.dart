@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:bbun/presentation/widgets/bbun_bottomsheet.dart';
-import 'package:bbun/presentation/widgets/bbun_card.dart';
-import 'package:bbun/presentation/widgets/bbun_checkbox.dart';
-import 'package:bbun/presentation/widgets/bbun_delete.dart';
-import 'package:bbun/presentation/widgets/bbun_displayfield.dart';
-import 'package:bbun/presentation/widgets/bbun_inputfield.dart';
-import 'package:bbun/presentation/widgets/bbun_pressable.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_card.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_checkbox.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_delete.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_displayfield.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_inputfield.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_pressable.dart';
 import 'package:bbun/routes/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 @RoutePage()
 class ProfileEditPage extends StatefulWidget {
@@ -62,7 +62,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               child: Column(
                 children: [
                   Container(
-                    width: screenWidth > 430 ? 430 : screenWidth,
+                    width: screenWidth > 475 ? 475 : screenWidth,
                     height: 257,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -84,7 +84,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                 child: Column(
                   children: [
                     Container(
-                      width: screenWidth > 430 ? 430 : screenWidth,
+                      width: screenWidth > 475 ? 475 : screenWidth,
                       height: 257,
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -105,7 +105,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
                   // 뒤로 가기
                   Container(
-                    width: screenWidth > 430 ? 430 : screenWidth,
+                    width: screenWidth > 475 ? 475 : screenWidth,
                     padding: const EdgeInsets.symmetric(horizontal: 36),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -116,10 +116,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                               size: 30,
                             ),
                             onTap: () {
-                              // 디테일 -> 프로필 설정 이동(연필 버튼) 구현 전
-                              // 개발 일정 내에 이동 구현 되면 뒤로 가기도 케이스 두 개
-                              // TODO: 그땐 진짜 "뒤"로 가기 버튼으로 바꿔야함
-                              context.pushRoute(MainRoute());
+                              Navigator.of(context).pop();
                             },
                           ),
                         ]),
@@ -128,7 +125,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
                   // 내 프로필
                   Container(
-                    width: screenWidth > 430 ? 430 : screenWidth,
+                    width: screenWidth > 475 ? 475 : screenWidth,
                     padding: const EdgeInsets.symmetric(horizontal: 36),
                     child: Text(
                       '내 프로필',
@@ -143,7 +140,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
                   // 개인 정보 동의 안내
                   Container(
-                    width: screenWidth > 430 ? 430 : screenWidth,
+                    width: screenWidth > 475 ? 475 : screenWidth,
                     padding: const EdgeInsets.symmetric(horizontal: 36),
                     child: const Text(
                       "개인 정보 제공에 동의해야 프로필 설정을 완료하고 서비스를 이용할 수 있습니다.",
@@ -160,40 +157,48 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                     name: dummyName,
                     studentId: dummyStudentId,
                     email: dummyEmail,
-                    issueDate: dummyIssueDate,
-                    profileImage: dummyProfileImage,
+                    issueDate: DateTime.parse("2025-01-28"),
+                    textColor: Color(0xFFFC639B),
+                    innerColor: Color(0xFFFFD6E5),
+                    outerColor: Color(0xFFFF9BBF),
                   ),
                   const SizedBox(height: 15),
 
                   Container(
-                    width: screenWidth > 430 ? 430 : screenWidth,
+                    width: screenWidth > 475 ? 475 : screenWidth,
                     padding: const EdgeInsets.symmetric(horizontal: 36),
                     child: GestureDetector(
                       onTap: () {
-                        // 사진 변경 클릭 시 생기는 바텀 시트
-                        showModalBottomSheet(
-                            context: context,
-                            backgroundColor: Colors.transparent,
-                            builder: (BuildContext context) {
-                              return BbunBottomsheet();
-                            });
+                        // TODO: 뻔카드 색 & 캐릭터 변경되는 구현 필요
+                        print("캐릭터 변경");
                       },
-                      child: Text(
-                        '사진 변경',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w500,
-                        ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/icons/refresh.svg",
+                            width: 24,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            '캐릭터 변경',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontFamily: 'Pretendard',
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                   const SizedBox(height: 20),
 
                   Container(
-                    width: screenWidth > 430 ? 430 : screenWidth,
+                    width: screenWidth > 475 ? 475 : screenWidth,
                     padding: const EdgeInsets.symmetric(horizontal: 36),
                     child: Column(
                       children: [
@@ -261,7 +266,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
                         // 제출 버튼
                         SizedBox(
-                          width: 317,
                           child: BbunPressable(
                             onPressed: (!isChecked && !dummyIsBbunReg)
                                 ? null
