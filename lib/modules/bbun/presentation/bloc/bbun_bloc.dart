@@ -50,6 +50,17 @@ class BbunBloc extends Bloc<BbunEvent, BbunState> {
         emit(BbunState.error(e.toString()));
       }
     });
+
+    on<_Delete>((event, emit) async {
+      try {
+        emit(const BbunState.loading());
+        await _repository.delete();
+        final user = await _repository.getUser();
+        emit(BbunState.loaded(user));
+      } catch (e) {
+        emit(BbunState.error(e.toString()));
+      }
+    });
   }
 }
 
@@ -69,6 +80,7 @@ class BbunEvent with _$BbunEvent {
     String? instaId,
     String? description,
   ) = _Update;
+  const factory BbunEvent.delete() = _Delete;
 }
 
 @freezed

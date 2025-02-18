@@ -1,5 +1,6 @@
 import 'package:bbun/modules/bbun/domain/entities/bbun_user_entity.dart';
 import 'package:bbun/modules/bbun/domain/entities/bbun_user_list_entity.dart';
+import 'package:bbun/modules/bbun/domain/entities/delete_bbun_user_entity.dart';
 
 abstract class BbunRepository {
   Future<BbunUserEntity> getUser();
@@ -16,4 +17,5 @@ abstract class BbunRepository {
     required String? description,
   });
   Future<BbunUserListEntity> getBbunline();
+  Future<DeleteBbunUserEntity> delete();
 }

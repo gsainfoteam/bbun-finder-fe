@@ -25,6 +25,7 @@ mixin _$BbunEvent {
     required TResult Function(String? department, String? mbti, String? instaId,
             String? description)
         update,
+    required TResult Function() delete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -36,6 +37,7 @@ mixin _$BbunEvent {
     TResult? Function(String? department, String? mbti, String? instaId,
             String? description)?
         update,
+    TResult? Function()? delete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -47,6 +49,7 @@ mixin _$BbunEvent {
     TResult Function(String? department, String? mbti, String? instaId,
             String? description)?
         update,
+    TResult Function()? delete,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -55,6 +58,7 @@ mixin _$BbunEvent {
     required TResult Function(_Load value) load,
     required TResult Function(_Register value) register,
     required TResult Function(_Update value) update,
+    required TResult Function(_Delete value) delete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -62,6 +66,7 @@ mixin _$BbunEvent {
     TResult? Function(_Load value)? load,
     TResult? Function(_Register value)? register,
     TResult? Function(_Update value)? update,
+    TResult? Function(_Delete value)? delete,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -69,6 +74,7 @@ mixin _$BbunEvent {
     TResult Function(_Load value)? load,
     TResult Function(_Register value)? register,
     TResult Function(_Update value)? update,
+    TResult Function(_Delete value)? delete,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -141,6 +147,7 @@ class _$LoadImpl implements _Load {
     required TResult Function(String? department, String? mbti, String? instaId,
             String? description)
         update,
+    required TResult Function() delete,
   }) {
     return load();
   }
@@ -155,6 +162,7 @@ class _$LoadImpl implements _Load {
     TResult? Function(String? department, String? mbti, String? instaId,
             String? description)?
         update,
+    TResult? Function()? delete,
   }) {
     return load?.call();
   }
@@ -169,6 +177,7 @@ class _$LoadImpl implements _Load {
     TResult Function(String? department, String? mbti, String? instaId,
             String? description)?
         update,
+    TResult Function()? delete,
     required TResult orElse(),
   }) {
     if (load != null) {
@@ -183,6 +192,7 @@ class _$LoadImpl implements _Load {
     required TResult Function(_Load value) load,
     required TResult Function(_Register value) register,
     required TResult Function(_Update value) update,
+    required TResult Function(_Delete value) delete,
   }) {
     return load(this);
   }
@@ -193,6 +203,7 @@ class _$LoadImpl implements _Load {
     TResult? Function(_Load value)? load,
     TResult? Function(_Register value)? register,
     TResult? Function(_Update value)? update,
+    TResult? Function(_Delete value)? delete,
   }) {
     return load?.call(this);
   }
@@ -203,6 +214,7 @@ class _$LoadImpl implements _Load {
     TResult Function(_Load value)? load,
     TResult Function(_Register value)? register,
     TResult Function(_Update value)? update,
+    TResult Function(_Delete value)? delete,
     required TResult orElse(),
   }) {
     if (load != null) {
@@ -320,6 +332,7 @@ class _$RegisterImpl implements _Register {
     required TResult Function(String? department, String? mbti, String? instaId,
             String? description)
         update,
+    required TResult Function() delete,
   }) {
     return register(department, mbti, instaId, description);
   }
@@ -334,6 +347,7 @@ class _$RegisterImpl implements _Register {
     TResult? Function(String? department, String? mbti, String? instaId,
             String? description)?
         update,
+    TResult? Function()? delete,
   }) {
     return register?.call(department, mbti, instaId, description);
   }
@@ -348,6 +362,7 @@ class _$RegisterImpl implements _Register {
     TResult Function(String? department, String? mbti, String? instaId,
             String? description)?
         update,
+    TResult Function()? delete,
     required TResult orElse(),
   }) {
     if (register != null) {
@@ -362,6 +377,7 @@ class _$RegisterImpl implements _Register {
     required TResult Function(_Load value) load,
     required TResult Function(_Register value) register,
     required TResult Function(_Update value) update,
+    required TResult Function(_Delete value) delete,
   }) {
     return register(this);
   }
@@ -372,6 +388,7 @@ class _$RegisterImpl implements _Register {
     TResult? Function(_Load value)? load,
     TResult? Function(_Register value)? register,
     TResult? Function(_Update value)? update,
+    TResult? Function(_Delete value)? delete,
   }) {
     return register?.call(this);
   }
@@ -382,6 +399,7 @@ class _$RegisterImpl implements _Register {
     TResult Function(_Load value)? load,
     TResult Function(_Register value)? register,
     TResult Function(_Update value)? update,
+    TResult Function(_Delete value)? delete,
     required TResult orElse(),
   }) {
     if (register != null) {
@@ -511,6 +529,7 @@ class _$UpdateImpl implements _Update {
     required TResult Function(String? department, String? mbti, String? instaId,
             String? description)
         update,
+    required TResult Function() delete,
   }) {
     return update(department, mbti, instaId, description);
   }
@@ -525,6 +544,7 @@ class _$UpdateImpl implements _Update {
     TResult? Function(String? department, String? mbti, String? instaId,
             String? description)?
         update,
+    TResult? Function()? delete,
   }) {
     return update?.call(department, mbti, instaId, description);
   }
@@ -539,6 +559,7 @@ class _$UpdateImpl implements _Update {
     TResult Function(String? department, String? mbti, String? instaId,
             String? description)?
         update,
+    TResult Function()? delete,
     required TResult orElse(),
   }) {
     if (update != null) {
@@ -553,6 +574,7 @@ class _$UpdateImpl implements _Update {
     required TResult Function(_Load value) load,
     required TResult Function(_Register value) register,
     required TResult Function(_Update value) update,
+    required TResult Function(_Delete value) delete,
   }) {
     return update(this);
   }
@@ -563,6 +585,7 @@ class _$UpdateImpl implements _Update {
     TResult? Function(_Load value)? load,
     TResult? Function(_Register value)? register,
     TResult? Function(_Update value)? update,
+    TResult? Function(_Delete value)? delete,
   }) {
     return update?.call(this);
   }
@@ -573,6 +596,7 @@ class _$UpdateImpl implements _Update {
     TResult Function(_Load value)? load,
     TResult Function(_Register value)? register,
     TResult Function(_Update value)? update,
+    TResult Function(_Delete value)? delete,
     required TResult orElse(),
   }) {
     if (update != null) {
@@ -596,6 +620,135 @@ abstract class _Update implements BbunEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UpdateImplCopyWith<_$UpdateImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DeleteImplCopyWith<$Res> {
+  factory _$$DeleteImplCopyWith(
+          _$DeleteImpl value, $Res Function(_$DeleteImpl) then) =
+      __$$DeleteImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$DeleteImplCopyWithImpl<$Res>
+    extends _$BbunEventCopyWithImpl<$Res, _$DeleteImpl>
+    implements _$$DeleteImplCopyWith<$Res> {
+  __$$DeleteImplCopyWithImpl(
+      _$DeleteImpl _value, $Res Function(_$DeleteImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BbunEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$DeleteImpl implements _Delete {
+  const _$DeleteImpl();
+
+  @override
+  String toString() {
+    return 'BbunEvent.delete()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$DeleteImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() load,
+    required TResult Function(String? department, String? mbti, String? instaId,
+            String? description)
+        register,
+    required TResult Function(String? department, String? mbti, String? instaId,
+            String? description)
+        update,
+    required TResult Function() delete,
+  }) {
+    return delete();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? load,
+    TResult? Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        register,
+    TResult? Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        update,
+    TResult? Function()? delete,
+  }) {
+    return delete?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? load,
+    TResult Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        register,
+    TResult Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        update,
+    TResult Function()? delete,
+    required TResult orElse(),
+  }) {
+    if (delete != null) {
+      return delete();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Load value) load,
+    required TResult Function(_Register value) register,
+    required TResult Function(_Update value) update,
+    required TResult Function(_Delete value) delete,
+  }) {
+    return delete(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Load value)? load,
+    TResult? Function(_Register value)? register,
+    TResult? Function(_Update value)? update,
+    TResult? Function(_Delete value)? delete,
+  }) {
+    return delete?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Load value)? load,
+    TResult Function(_Register value)? register,
+    TResult Function(_Update value)? update,
+    TResult Function(_Delete value)? delete,
+    required TResult orElse(),
+  }) {
+    if (delete != null) {
+      return delete(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Delete implements BbunEvent {
+  const factory _Delete() = _$DeleteImpl;
 }
 
 /// @nodoc
