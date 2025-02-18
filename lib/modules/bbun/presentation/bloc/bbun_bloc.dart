@@ -20,12 +20,55 @@ class BbunBloc extends Bloc<BbunEvent, BbunState> {
         emit(BbunState.error(e.toString()));
       }
     });
+
+    on<_Register>((event, emit) async {
+      try {
+        emit(const BbunState.loading());
+        final user = await _repository.register(
+          department: event.department,
+          mbti: event.mbti,
+          instaId: event.instaId,
+          description: event.description,
+        );
+        emit(BbunState.loaded(user));
+      } catch (e) {
+        emit(BbunState.error(e.toString()));
+      }
+    });
+
+    on<_Update>((event, emit) async {
+      try {
+        emit(const BbunState.loading());
+        final user = await _repository.update(
+          department: event.department,
+          mbti: event.mbti,
+          instaId: event.instaId,
+          description: event.description,
+        );
+        emit(BbunState.loaded(user));
+      } catch (e) {
+        emit(BbunState.error(e.toString()));
+      }
+    });
   }
 }
 
 @freezed
 class BbunEvent with _$BbunEvent {
   const factory BbunEvent.load() = _Load;
+  const factory BbunEvent.register(
+    String? department,
+    String? mbti,
+    String? instaId,
+    String? description,
+  ) = _Register;
+
+  const factory BbunEvent.update(
+    String? department,
+    String? mbti,
+    String? instaId,
+    String? description,
+  ) = _Update;
 }
 
 @freezed

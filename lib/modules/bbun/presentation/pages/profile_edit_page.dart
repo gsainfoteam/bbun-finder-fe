@@ -1,13 +1,17 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:bbun/di/locator.dart';
+import 'package:bbun/modules/bbun/presentation/bloc/bbun_bloc.dart';
+import 'package:bbun/modules/bbun/presentation/bloc/bbun_list_bloc.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_bottomsheet.dart';
 import 'package:bbun/modules/bbun/presentation/widgets/bbun_card.dart';
+import 'package:bbun/modules/bbun/presentation/widgets/bbun_pressable.dart';
 import 'package:bbun/modules/bbun/presentation/widgets/bbun_checkbox.dart';
 import 'package:bbun/modules/bbun/presentation/widgets/bbun_delete.dart';
 import 'package:bbun/modules/bbun/presentation/widgets/bbun_displayfield.dart';
 import 'package:bbun/modules/bbun/presentation/widgets/bbun_inputfield.dart';
-import 'package:bbun/modules/bbun/presentation/widgets/bbun_pressable.dart';
 import 'package:bbun/routes/app_router.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class ProfileEditPage extends StatefulWidget {
@@ -28,7 +32,8 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   final String dummyName = "홍길동";
   final String dummyStudentId = "20231234";
   final String dummyEmail = "hong@example.com";
-  final String dummyIssueDate = "2025-02-15";
+  final DateTime dummyIssueDate = DateTime(1);
+
   final bool dummyIsBbunReg = true;
   ImageProvider? dummyProfileImage;
   String? dummyDepart;
@@ -48,62 +53,90 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final scale = screenWidth / 411.42;
 
-    return Scaffold(
-      backgroundColor: Color(0xFFFBFBFB),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Stack(children: [
-            // 상단 그라데이션
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Column(
-                children: [
-                  Container(
-                    width: screenWidth > 475 ? 475 : screenWidth,
-                    height: 257,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [Color(0xFFFBFBFB), Color(0xFFFDFD96)],
-                      ),
+    return BlocProvider(
+      create: (_) => sl<BbunBloc>()..add(const BbunEvent.load()),
+      child: BlocProvider(
+        create: (_) => sl<BbunListBloc>()..add(const BbunListEvent.load()),
+        child: BlocBuilder<BbunListBloc, BbunListState>(
+          builder: (context, bbunListState) {
+            return BlocBuilder<BbunBloc, BbunState>(
+              builder: (context, bbunState) {
+                if (!bbunListState.hasResult || !bbunState.hasResult) {
+                  return Scaffold(
+                    backgroundColor: Color(0xFFFBFBFB),
+                    body: Center(
+                      child: CircularProgressIndicator(),
                     ),
-                  ),
-                ],
-              ),
-            ),
+                  );
+                }
+                final user =
+                    bbunState.mapOrNull(loaded: (loaded) => loaded.user);
+                final bbunline = bbunListState.mapOrNull(
+                    loaded: (loaded) => loaded.bbunline);
 
-            // 하단 그라데이션
-            Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Column(
-                  children: [
-                    Container(
-                      width: screenWidth > 475 ? 475 : screenWidth,
-                      height: 257,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [Color(0xFFFDFD96), Color(0xFFFBFBFB)])),
-                    ),
-                  ],
-                )),
+                return Scaffold(
+                  backgroundColor: Color(0xFFFBFBFB),
+                  body: SingleChildScrollView(
+                    child: Center(
+                      child: Stack(children: [
+                        // 상단 그라데이션
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          child: Column(
+                            children: [
+                              Container(
+                                width: screenWidth,
+                                height: 257,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                    colors: [
+                                      Color(0xFFFBFBFB),
+                                      Color(0xFFFDFD96)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
 
-            Positioned(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 165,
-                    width: screenWidth,
-                  ),
+                        // 하단 그라데이션
+                        Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: screenWidth,
+                                  height: 257,
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.topCenter,
+                                          colors: [
+                                        Color(0xFFFDFD96),
+                                        Color(0xFFFBFBFB)
+                                      ])),
+                                ),
+                              ],
+                            )),
 
-                  // 뒤로 가기
+                        Positioned(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 165,
+                                width: screenWidth,
+                              ),
+
+                                // 뒤로 가기
                   Container(
                     width: screenWidth > 475 ? 475 : screenWidth,
                     padding: const EdgeInsets.symmetric(horizontal: 36),
@@ -123,200 +156,209 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                   ),
                   SizedBox(height: 5),
 
-                  // 내 프로필
-                  Container(
-                    width: screenWidth > 475 ? 475 : screenWidth,
-                    padding: const EdgeInsets.symmetric(horizontal: 36),
-                    child: Text(
-                      '내 프로필',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 50,
-                        fontFamily: 'HSSanTokki',
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-
-                  // 개인 정보 동의 안내
-                  Container(
-                    width: screenWidth > 475 ? 475 : screenWidth,
-                    padding: const EdgeInsets.symmetric(horizontal: 36),
-                    child: const Text(
-                      "개인 정보 제공에 동의해야 프로필 설정을 완료하고 서비스를 이용할 수 있습니다.",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Pretendard',
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // 뻔카드
-                  BbunCard(
-                    name: dummyName,
-                    studentId: dummyStudentId,
-                    email: dummyEmail,
-                    issueDate: DateTime.parse("2025-01-28"),
-                    textColor: Color(0xFFFC639B),
-                    innerColor: Color(0xFFFFD6E5),
-                    outerColor: Color(0xFFFF9BBF),
-                  ),
-                  const SizedBox(height: 15),
-
-                  Container(
-                    width: screenWidth > 475 ? 475 : screenWidth,
-                    padding: const EdgeInsets.symmetric(horizontal: 36),
-                    child: GestureDetector(
-                      onTap: () {
-                        // TODO: 뻔카드 색 & 캐릭터 변경되는 구현 필요
-                        print("캐릭터 변경");
-                      },
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/icons/refresh.svg",
-                            width: 24,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            '캐릭터 변경',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontFamily: 'Pretendard',
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  Container(
-                    width: screenWidth > 475 ? 475 : screenWidth,
-                    padding: const EdgeInsets.symmetric(horizontal: 36),
-                    child: Column(
-                      children: [
-                        // 학번 (변경 불가)
-                        BbunDisplayField(
-                            labelText: '학번', displayText: dummyStudentId),
-                        const SizedBox(height: 10),
-
-                        // 이름 (변경 불가)
-                        BbunDisplayField(
-                            labelText: '이름', displayText: dummyName),
-                        const SizedBox(height: 10),
-
-                        // 이메일 (변경 불가)
-                        BbunDisplayField(
-                          labelText: '이메일',
-                          displayText: dummyEmail,
-                        ),
-                        const SizedBox(height: 10), // 학과 (변경 가능)
-                        BbunInputfield(
-                          labelText: '학과 (선택)',
-                          hintText:
-                              (dummyDepart != null && dummyDepart!.isNotEmpty)
-                                  ? dummyDepart!
-                                  : '학과를 입력하세요',
-                          controller: departmentController,
-                        ),
-                        const SizedBox(height: 10),
-
-                        // MBTI (변경 가능)
-                        BbunInputfield(
-                          labelText: 'MBTI (선택)',
-                          hintText: (dummyMBTI != null && dummyMBTI!.isNotEmpty)
-                              ? dummyMBTI!
-                              : 'MBTI를 입력하세요',
-                          controller: mbtiController,
-                        ),
-                        const SizedBox(height: 10),
-
-                        // 인스타그램 아이디 (변경 가능)
-                        BbunInputfield(
-                          labelText: '인스타그램 아이디 (선택)',
-                          hintText: (dummyIGID != null && dummyIGID!.isNotEmpty)
-                              ? dummyIGID!
-                              : '@instagram',
-                          controller: igIdController,
-                        ),
-                        const SizedBox(height: 10),
-
-                        dummyIsBbunReg
-                            ?
-                            // 탈퇴 박스
-                            BbunDelete()
-                            :
-                            // 개인정보 동의 체크박스
-                            BbunCheckbox(
-                                isChecked: isChecked,
-                                onChanged: (value) {
-                                  setState(() {
-                                    isChecked = value; // 체크 상태 갱신
-                                  });
-                                },
-                              ),
-                        const SizedBox(height: 20),
-
-                        // 제출 버튼
-                        SizedBox(
-                          child: BbunPressable(
-                            onPressed: (!isChecked && !dummyIsBbunReg)
-                                ? null
-                                : () {
-                                    setState(() {
-                                      dummyDepart = departmentController.text;
-                                      dummyMBTI = mbtiController.text;
-                                      dummyIGID = igIdController.text;
-                                    });
-                                  },
-                            decoration: BoxDecoration(
-                              color: !isChecked && !dummyIsBbunReg
-                                  ? Color(0xFFE2E2E2)
-                                  : Color(0xFFFFE24A),
-                              borderRadius: BorderRadius.circular(38),
-                              border: !isChecked && !dummyIsBbunReg
-                                  ? Border.all(
-                                      color:
-                                          Colors.transparent, // 기본 상태에서는 테두리 없음
-                                    )
-                                  : Border.all(
-                                      color: Colors.black,
-                                      width: 1.5,
-                                    ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Center(
+                              // 내 프로필
+                              Container(
+                                width: screenWidth,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 36 * scale),
                                 child: Text(
-                                  dummyIsBbunReg ? "수정" : "제출",
+                                  '내 프로필',
                                   style: TextStyle(
-                                      color: !isChecked && !dummyIsBbunReg
-                                          ? Color(0xFFB6B6B6)
-                                          : Colors.black,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
+                                    color: Colors.black,
+                                    fontSize: 50,
+                                    fontFamily: 'HSSanTokki',
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
-                            ),
+
+                              // 개인 정보 동의 안내
+                              Container(
+                                width: screenWidth,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 36 * scale),
+                                child: Text(
+                                  bbunState.isBbunRegistered
+                                      ? "개인 정보 제공 동의를 철회하려면 회원 탈퇴가 필요합니다."
+                                      : "개인 정보 제공에 동의해야 프로필 설정을 완료하고 서비스를 이용할 수 있습니다.",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'Pretendard',
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+
+                              // 뻔카드
+                              BbunCard(
+                                name: user!.name,
+                                studentId: user.studentId,
+                                email: user.email,
+                                issueDate: user.updatedAt!,
+                                profileImage: dummyProfileImage,
+                                index: bbunState.isBbunRegistered
+                                    ? bbunline!.indexWhere(
+                                        (bbun) => bbun.uuid == user.uuid)
+                                    : bbunListState.getTotal,
+                              ),
+                              const SizedBox(height: 35),
+
+                              Container(
+                                width: screenWidth,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 36 * scale),
+                                child: Column(
+                                  children: [
+                                    BbunDisplayField(
+                                        labelText: '학번',
+                                        displayText: user.studentId),
+                                    const SizedBox(height: 10),
+
+                                    BbunDisplayField(
+                                        labelText: '이름',
+                                        displayText: user.name),
+                                    const SizedBox(height: 10),
+
+                                    BbunDisplayField(
+                                      labelText: '이메일',
+                                      displayText: user.email,
+                                    ),
+                                    const SizedBox(height: 10),
+                                    BbunInputfield(
+                                      labelText: '학과 (선택)',
+                                      hintText: (user.department != null &&
+                                              user.department!.isNotEmpty)
+                                          ? user.department!
+                                          : '학과를 입력하세요',
+                                      controller: departmentController,
+                                    ),
+                                    const SizedBox(height: 10),
+
+                                    BbunInputfield(
+                                      labelText: 'MBTI (선택)',
+                                      hintText: (user.mbti != null &&
+                                              user.mbti!.isNotEmpty)
+                                          ? user.mbti!
+                                          : 'MBTI를 입력하세요',
+                                      controller: mbtiController,
+                                    ),
+                                    const SizedBox(height: 10),
+
+                                    BbunInputfield(
+                                      labelText: '인스타그램 아이디 (선택)',
+                                      hintText: (user.instaId != null &&
+                                              user.instaId!.isNotEmpty)
+                                          ? user.instaId!
+                                          : '@instagram',
+                                      controller: igIdController,
+                                    ),
+                                    const SizedBox(height: 10),
+
+                                    bbunState.isBbunRegistered
+                                        ?
+                                        // 탈퇴 박스
+                                        BbunDelete()
+                                        :
+                                        // 개인정보 동의 체크박스
+                                        BbunCheckbox(
+                                            isChecked: isChecked,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                isChecked = value; // 체크 상태 갱신
+                                              });
+                                            },
+                                          ),
+                                    const SizedBox(height: 20),
+
+                                    // 제출 버튼
+                                    SizedBox(
+                                      child: BbunPressable(
+                                        onPressed: (isChecked &&
+                                                    !bbunState
+                                                        .isBbunRegistered) ||
+                                                (bbunState.isBbunRegistered)
+                                            ? () {
+                                                setState(() {
+                                                  bbunState.isBbunRegistered
+                                                      ? context
+                                                          .read<BbunBloc>()
+                                                          .add(BbunEvent.update(
+                                                              departmentController
+                                                                  .text,
+                                                              mbtiController
+                                                                  .text,
+                                                              igIdController
+                                                                  .text,
+                                                              "미구현"))
+                                                      : context
+                                                          .read<BbunBloc>()
+                                                          .add(BbunEvent.register(
+                                                              departmentController
+                                                                  .text,
+                                                              mbtiController
+                                                                  .text,
+                                                              igIdController
+                                                                  .text,
+                                                              "미구현"));
+                                                });
+                                                context.router
+                                                    .push(const MainRoute());
+                                              }
+                                            : null,
+                                        decoration: BoxDecoration(
+                                          color: !isChecked &&
+                                                  !bbunState.isBbunRegistered
+                                              ? Color(0xFFE2E2E2)
+                                              : Color(0xFFFFE24A),
+                                          borderRadius:
+                                              BorderRadius.circular(38 * scale),
+                                          border: !isChecked &&
+                                                  !bbunState.isBbunRegistered
+                                              ? Border.all(
+                                                  color: Colors
+                                                      .transparent, // 기본 상태에서는 테두리 없음
+                                                )
+                                              : Border.all(
+                                                  color: Colors.black,
+                                                  width: 1.5,
+                                                ),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(16.0),
+                                          child: Center(
+                                            child: Text(
+                                              bbunState.isBbunRegistered
+                                                  ? "수정"
+                                                  : "제출",
+                                              style: TextStyle(
+                                                  color: !isChecked &&
+                                                          !bbunState
+                                                              .isBbunRegistered
+                                                      ? Color(0xFFB6B6B6)
+                                                      : Colors.black,
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 200,
+                              ),
+                            ],
                           ),
                         ),
-                      ],
+                      ]),
                     ),
                   ),
-                  const SizedBox(
-                    height: 200,
-                  ),
-                ],
-              ),
-            ),
-          ]),
+                );
+              },
+            );
+          },
         ),
       ),
     );

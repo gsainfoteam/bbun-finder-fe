@@ -19,32 +19,56 @@ mixin _$BbunEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
+    required TResult Function(String? department, String? mbti, String? instaId,
+            String? description)
+        register,
+    required TResult Function(String? department, String? mbti, String? instaId,
+            String? description)
+        update,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
+    TResult? Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        register,
+    TResult? Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        update,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
+    TResult Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        register,
+    TResult Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        update,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Load value) load,
+    required TResult Function(_Register value) register,
+    required TResult Function(_Update value) update,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Load value)? load,
+    TResult? Function(_Register value)? register,
+    TResult? Function(_Update value)? update,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Load value)? load,
+    TResult Function(_Register value)? register,
+    TResult Function(_Update value)? update,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -111,6 +135,12 @@ class _$LoadImpl implements _Load {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() load,
+    required TResult Function(String? department, String? mbti, String? instaId,
+            String? description)
+        register,
+    required TResult Function(String? department, String? mbti, String? instaId,
+            String? description)
+        update,
   }) {
     return load();
   }
@@ -119,6 +149,12 @@ class _$LoadImpl implements _Load {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? load,
+    TResult? Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        register,
+    TResult? Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        update,
   }) {
     return load?.call();
   }
@@ -127,6 +163,12 @@ class _$LoadImpl implements _Load {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? load,
+    TResult Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        register,
+    TResult Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        update,
     required TResult orElse(),
   }) {
     if (load != null) {
@@ -139,6 +181,8 @@ class _$LoadImpl implements _Load {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Load value) load,
+    required TResult Function(_Register value) register,
+    required TResult Function(_Update value) update,
   }) {
     return load(this);
   }
@@ -147,6 +191,8 @@ class _$LoadImpl implements _Load {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Load value)? load,
+    TResult? Function(_Register value)? register,
+    TResult? Function(_Update value)? update,
   }) {
     return load?.call(this);
   }
@@ -155,6 +201,8 @@ class _$LoadImpl implements _Load {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Load value)? load,
+    TResult Function(_Register value)? register,
+    TResult Function(_Update value)? update,
     required TResult orElse(),
   }) {
     if (load != null) {
@@ -166,6 +214,388 @@ class _$LoadImpl implements _Load {
 
 abstract class _Load implements BbunEvent {
   const factory _Load() = _$LoadImpl;
+}
+
+/// @nodoc
+abstract class _$$RegisterImplCopyWith<$Res> {
+  factory _$$RegisterImplCopyWith(
+          _$RegisterImpl value, $Res Function(_$RegisterImpl) then) =
+      __$$RegisterImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call(
+      {String? department, String? mbti, String? instaId, String? description});
+}
+
+/// @nodoc
+class __$$RegisterImplCopyWithImpl<$Res>
+    extends _$BbunEventCopyWithImpl<$Res, _$RegisterImpl>
+    implements _$$RegisterImplCopyWith<$Res> {
+  __$$RegisterImplCopyWithImpl(
+      _$RegisterImpl _value, $Res Function(_$RegisterImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BbunEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? department = freezed,
+    Object? mbti = freezed,
+    Object? instaId = freezed,
+    Object? description = freezed,
+  }) {
+    return _then(_$RegisterImpl(
+      freezed == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
+              as String?,
+      freezed == mbti
+          ? _value.mbti
+          : mbti // ignore: cast_nullable_to_non_nullable
+              as String?,
+      freezed == instaId
+          ? _value.instaId
+          : instaId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$RegisterImpl implements _Register {
+  const _$RegisterImpl(
+      this.department, this.mbti, this.instaId, this.description);
+
+  @override
+  final String? department;
+  @override
+  final String? mbti;
+  @override
+  final String? instaId;
+  @override
+  final String? description;
+
+  @override
+  String toString() {
+    return 'BbunEvent.register(department: $department, mbti: $mbti, instaId: $instaId, description: $description)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RegisterImpl &&
+            (identical(other.department, department) ||
+                other.department == department) &&
+            (identical(other.mbti, mbti) || other.mbti == mbti) &&
+            (identical(other.instaId, instaId) || other.instaId == instaId) &&
+            (identical(other.description, description) ||
+                other.description == description));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, department, mbti, instaId, description);
+
+  /// Create a copy of BbunEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RegisterImplCopyWith<_$RegisterImpl> get copyWith =>
+      __$$RegisterImplCopyWithImpl<_$RegisterImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() load,
+    required TResult Function(String? department, String? mbti, String? instaId,
+            String? description)
+        register,
+    required TResult Function(String? department, String? mbti, String? instaId,
+            String? description)
+        update,
+  }) {
+    return register(department, mbti, instaId, description);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? load,
+    TResult? Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        register,
+    TResult? Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        update,
+  }) {
+    return register?.call(department, mbti, instaId, description);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? load,
+    TResult Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        register,
+    TResult Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        update,
+    required TResult orElse(),
+  }) {
+    if (register != null) {
+      return register(department, mbti, instaId, description);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Load value) load,
+    required TResult Function(_Register value) register,
+    required TResult Function(_Update value) update,
+  }) {
+    return register(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Load value)? load,
+    TResult? Function(_Register value)? register,
+    TResult? Function(_Update value)? update,
+  }) {
+    return register?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Load value)? load,
+    TResult Function(_Register value)? register,
+    TResult Function(_Update value)? update,
+    required TResult orElse(),
+  }) {
+    if (register != null) {
+      return register(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Register implements BbunEvent {
+  const factory _Register(final String? department, final String? mbti,
+      final String? instaId, final String? description) = _$RegisterImpl;
+
+  String? get department;
+  String? get mbti;
+  String? get instaId;
+  String? get description;
+
+  /// Create a copy of BbunEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RegisterImplCopyWith<_$RegisterImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UpdateImplCopyWith<$Res> {
+  factory _$$UpdateImplCopyWith(
+          _$UpdateImpl value, $Res Function(_$UpdateImpl) then) =
+      __$$UpdateImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call(
+      {String? department, String? mbti, String? instaId, String? description});
+}
+
+/// @nodoc
+class __$$UpdateImplCopyWithImpl<$Res>
+    extends _$BbunEventCopyWithImpl<$Res, _$UpdateImpl>
+    implements _$$UpdateImplCopyWith<$Res> {
+  __$$UpdateImplCopyWithImpl(
+      _$UpdateImpl _value, $Res Function(_$UpdateImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BbunEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? department = freezed,
+    Object? mbti = freezed,
+    Object? instaId = freezed,
+    Object? description = freezed,
+  }) {
+    return _then(_$UpdateImpl(
+      freezed == department
+          ? _value.department
+          : department // ignore: cast_nullable_to_non_nullable
+              as String?,
+      freezed == mbti
+          ? _value.mbti
+          : mbti // ignore: cast_nullable_to_non_nullable
+              as String?,
+      freezed == instaId
+          ? _value.instaId
+          : instaId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UpdateImpl implements _Update {
+  const _$UpdateImpl(
+      this.department, this.mbti, this.instaId, this.description);
+
+  @override
+  final String? department;
+  @override
+  final String? mbti;
+  @override
+  final String? instaId;
+  @override
+  final String? description;
+
+  @override
+  String toString() {
+    return 'BbunEvent.update(department: $department, mbti: $mbti, instaId: $instaId, description: $description)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateImpl &&
+            (identical(other.department, department) ||
+                other.department == department) &&
+            (identical(other.mbti, mbti) || other.mbti == mbti) &&
+            (identical(other.instaId, instaId) || other.instaId == instaId) &&
+            (identical(other.description, description) ||
+                other.description == description));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, department, mbti, instaId, description);
+
+  /// Create a copy of BbunEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdateImplCopyWith<_$UpdateImpl> get copyWith =>
+      __$$UpdateImplCopyWithImpl<_$UpdateImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() load,
+    required TResult Function(String? department, String? mbti, String? instaId,
+            String? description)
+        register,
+    required TResult Function(String? department, String? mbti, String? instaId,
+            String? description)
+        update,
+  }) {
+    return update(department, mbti, instaId, description);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? load,
+    TResult? Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        register,
+    TResult? Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        update,
+  }) {
+    return update?.call(department, mbti, instaId, description);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? load,
+    TResult Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        register,
+    TResult Function(String? department, String? mbti, String? instaId,
+            String? description)?
+        update,
+    required TResult orElse(),
+  }) {
+    if (update != null) {
+      return update(department, mbti, instaId, description);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Load value) load,
+    required TResult Function(_Register value) register,
+    required TResult Function(_Update value) update,
+  }) {
+    return update(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Load value)? load,
+    TResult? Function(_Register value)? register,
+    TResult? Function(_Update value)? update,
+  }) {
+    return update?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Load value)? load,
+    TResult Function(_Register value)? register,
+    TResult Function(_Update value)? update,
+    required TResult orElse(),
+  }) {
+    if (update != null) {
+      return update(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Update implements BbunEvent {
+  const factory _Update(final String? department, final String? mbti,
+      final String? instaId, final String? description) = _$UpdateImpl;
+
+  String? get department;
+  String? get mbti;
+  String? get instaId;
+  String? get description;
+
+  /// Create a copy of BbunEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UpdateImplCopyWith<_$UpdateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc

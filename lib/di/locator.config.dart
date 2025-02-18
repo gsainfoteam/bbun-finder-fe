@@ -76,8 +76,8 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i668.MemoryApiChannelRepository(gh<_i328.BbunDio>()),
       dispose: _i668.MemoryApiChannelRepository.dispose,
     );
-    gh.factory<_i451.UserApi>(() => _i451.UserApi(gh<_i328.BbunDio>()));
     gh.factory<_i708.BbunApi>(() => _i708.BbunApi(gh<_i328.BbunDio>()));
+    gh.factory<_i451.UserApi>(() => _i451.UserApi(gh<_i328.BbunDio>()));
     gh.singleton<_i226.RestAuthRepository>(
       () => _i19.BbunRestAuthRepository(
         gh<_i451.UserApi>(),

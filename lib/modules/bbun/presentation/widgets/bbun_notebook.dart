@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
 import 'package:bbun/modules/bbun/presentation/widgets/bbun_card.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-@RoutePage()
 class BbunNotebook extends StatefulWidget {
   const BbunNotebook({super.key});
 
@@ -16,10 +15,8 @@ class _BbunNotebookState extends State<BbunNotebook> {
     name: "양예진",
     studentId: "20215121",
     email: "yangyj@gm.gist.ac.kr",
-    issueDate: DateTime.parse("2025-01-28"),
-    textColor: Color(0xFFFC639B),
-    innerColor: Color(0xFFFFD6E5),
-    outerColor: Color(0xFFFF9BBF),
+    issueDate: DateTime(1),
+    index: 1,
   );
 
   @override
