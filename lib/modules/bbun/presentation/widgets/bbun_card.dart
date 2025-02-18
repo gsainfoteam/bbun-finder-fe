@@ -1,26 +1,44 @@
 import 'package:flutter/material.dart';
 
 class BbunCard extends StatelessWidget {
+  static const List<Map<String, Color>> _colorSchemes = [
+    {
+      "text": Color(0xFF886CD6),
+      "inner": Color(0xFFDDD1FF),
+      "outer": Color(0xFFA48EE4),
+    },
+    {
+      "text": Color(0xFF2681D7),
+      "inner": Color(0xFFC5E3FF),
+      "outer": Color(0xFF70B6F7),
+    },
+    {
+      "text": Color(0xFFEBB608),
+      "inner": Color(0xFFFDFD96),
+      "outer": Color(0xFFF1DA66),
+    },
+    {
+      "text": Color(0xFFFC639B),
+      "inner": Color(0xFFFFD6E5),
+      "outer": Color(0xFFFF9BBF),
+    },
+  ];
+
   final String name;
   final String studentId;
   final String email;
   final DateTime issueDate;
   final ImageProvider? profileImage;
-  final Color textColor;
-  final Color innerColor;
-  final Color outerColor;
+  final int index;
 
-  const BbunCard({
-    super.key,
-    required this.name,
-    required this.studentId,
-    required this.email,
-    required this.issueDate,
-    this.profileImage,
-    required this.textColor,
-    required this.innerColor,
-    required this.outerColor,
-  });
+  const BbunCard(
+      {super.key,
+      required this.name,
+      required this.studentId,
+      required this.email,
+      required this.issueDate,
+      this.profileImage,
+      required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +69,7 @@ class BbunCard extends StatelessWidget {
                 "funline sk8ter ID Card",
                 style: TextStyle(
                   fontSize: 10 * scale,
-                  color: textColor,
+                  color: _colorSchemes[index]["text"]!,
                   fontWeight: FontWeight.w400,
                   height: 1.1,
                 ),
@@ -61,7 +79,7 @@ class BbunCard extends StatelessWidget {
                 ">>>",
                 style: TextStyle(
                   fontSize: 10 * scale,
-                  color: textColor,
+                  color: _colorSchemes[index]["text"]!,
                   fontWeight: FontWeight.w300,
                   height: 1.1,
                 ),
@@ -78,7 +96,10 @@ class BbunCard extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 gradient: RadialGradient(
-                  colors: [innerColor, outerColor],
+                  colors: [
+                    _colorSchemes[index]["inner"]!,
+                    _colorSchemes[index]["outer"]!,
+                  ],
                   radius: 0.92,
                 ),
               ),
@@ -119,7 +140,7 @@ class BbunCard extends StatelessWidget {
                         "NAME",
                         style: TextStyle(
                           fontSize: 12 * scale,
-                          color: textColor,
+                          color: _colorSchemes[index]["text"]!,
                           fontWeight: FontWeight.w400,
                           height: 1.1,
                         ),
@@ -143,7 +164,7 @@ class BbunCard extends StatelessWidget {
                         "STUDENT ID",
                         style: TextStyle(
                           fontSize: 12 * scale,
-                          color: textColor,
+                          color: _colorSchemes[index]["text"]!,
                           fontWeight: FontWeight.w400,
                           height: 1.1,
                         ),
@@ -167,7 +188,7 @@ class BbunCard extends StatelessWidget {
                         "E-MAIL",
                         style: TextStyle(
                           fontSize: 12 * scale,
-                          color: textColor,
+                          color: _colorSchemes[index]["text"]!,
                           fontWeight: FontWeight.w400,
                           height: 1.1,
                         ),
@@ -197,7 +218,7 @@ class BbunCard extends StatelessWidget {
                 "issue date $issueDate",
                 style: TextStyle(
                   fontSize: 9 * scale,
-                  color: textColor,
+                  color: _colorSchemes[index]["text"]!,
                   fontWeight: FontWeight.w400,
                   height: 1.1,
                 ),
