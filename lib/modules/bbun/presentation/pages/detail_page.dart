@@ -96,7 +96,7 @@ class _DetailPageState extends State<DetailPage>
                 SizedBox(height: 28),
 
                 // 노트 부분
-                BbunNotebook(),
+                //BbunNotebook(),
                 SizedBox(
                     height: 50 * (screenWidth > 430 ? (430 / 411.42) : scale)),
 

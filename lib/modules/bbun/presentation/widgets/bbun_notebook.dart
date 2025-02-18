@@ -3,7 +3,6 @@ import 'package:bbun/modules/bbun/presentation/widgets/bbun_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-@RoutePage()
 class BbunNotebook extends StatefulWidget {
   const BbunNotebook({super.key});
 
@@ -17,9 +16,7 @@ class _BbunNotebookState extends State<BbunNotebook> {
     studentId: "20215121",
     email: "yangyj@gm.gist.ac.kr",
     issueDate: DateTime(1),
-    textColor: Colors.white,
-    innerColor: Colors.white,
-    outerColor: Colors.white,
+    index: 1,
   );
 
   @override
