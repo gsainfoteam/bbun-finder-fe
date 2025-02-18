@@ -1,4 +1,6 @@
+import 'package:bbun/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class BbunCard extends StatelessWidget {
   static const List<Map<String, Color>> _colorSchemes = [
@@ -24,12 +26,20 @@ class BbunCard extends StatelessWidget {
     },
   ];
 
+  static final List<SvgGenImage> _svgIcons = [
+    Assets.icons.default1,
+    Assets.icons.default2,
+    Assets.icons.default4,
+    Assets.icons.default3,
+  ];
+
   final String name;
   final String studentId;
   final String email;
   final DateTime issueDate;
   final ImageProvider? profileImage;
   final int index;
+  final bool isBbunRegistered;
 
   const BbunCard(
       {super.key,
@@ -38,12 +48,14 @@ class BbunCard extends StatelessWidget {
       required this.email,
       required this.issueDate,
       this.profileImage,
-      required this.index});
+      required this.index,
+      this.isBbunRegistered = true});
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final scale = screenWidth / 411.42;
+    final fIssueDate = DateFormat('yyyy.MM.dd').format(issueDate.toLocal());
     return Container(
       width: 321 * scale,
       height: 175 * scale,
@@ -125,10 +137,7 @@ class BbunCard extends StatelessWidget {
                               image: profileImage!, fit: BoxFit.cover)
                           : null,
                     ),
-                    child: profileImage == null
-                        ? Icon(Icons.person,
-                            size: 70 * scale, color: Colors.grey)
-                        : null,
+                    child: profileImage == null ? _svgIcons[index].svg() : null,
                   ),
                   SizedBox(
                     width: 10 * scale,
@@ -214,15 +223,25 @@ class BbunCard extends StatelessWidget {
           Row(
             children: [
               Spacer(),
-              Text(
-                "issue date $issueDate",
-                style: TextStyle(
-                  fontSize: 9 * scale,
-                  color: _colorSchemes[index]["text"]!,
-                  fontWeight: FontWeight.w400,
-                  height: 1.1,
-                ),
-              ),
+              isBbunRegistered
+                  ? Text(
+                      "issue date $fIssueDate",
+                      style: TextStyle(
+                        fontSize: 9 * scale,
+                        color: _colorSchemes[index]["text"]!,
+                        fontWeight: FontWeight.w400,
+                        height: 1.1,
+                      ),
+                    )
+                  : Text(
+                      "",
+                      style: TextStyle(
+                        fontSize: 9 * scale,
+                        color: _colorSchemes[index]["text"]!,
+                        fontWeight: FontWeight.w400,
+                        height: 1.1,
+                      ),
+                    ),
               SizedBox(
                 width: 10 * scale,
               ),

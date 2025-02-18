@@ -12,18 +12,42 @@ part of 'app_router.dart';
 
 /// generated route for
 /// [DetailPage]
-class DetailRoute extends PageRouteInfo<void> {
-  const DetailRoute({List<PageRouteInfo>? children})
-    : super(DetailRoute.name, initialChildren: children);
+class DetailRoute extends PageRouteInfo<DetailRouteArgs> {
+  DetailRoute({
+    Key? key,
+    required int index,
+    required int total,
+    List<PageRouteInfo>? children,
+  }) : super(
+         DetailRoute.name,
+         args: DetailRouteArgs(key: key, index: index, total: total),
+         initialChildren: children,
+       );
 
   static const String name = 'DetailRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const DetailPage();
+      final args = data.argsAs<DetailRouteArgs>();
+      return DetailPage(key: args.key, index: args.index, total: args.total);
     },
   );
+}
+
+class DetailRouteArgs {
+  const DetailRouteArgs({this.key, required this.index, required this.total});
+
+  final Key? key;
+
+  final int index;
+
+  final int total;
+
+  @override
+  String toString() {
+    return 'DetailRouteArgs{key: $key, index: $index, total: $total}';
+  }
 }
 
 /// generated route for

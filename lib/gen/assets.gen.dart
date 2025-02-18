@@ -46,6 +46,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/devider_3.svg
   SvgGenImage get devider3 => const SvgGenImage('assets/icons/devider_3.svg');
 
+  /// File path: assets/icons/edit.svg
+  SvgGenImage get edit => const SvgGenImage('assets/icons/edit.svg');
+
   /// File path: assets/icons/four_leaf.svg
   SvgGenImage get fourLeaf => const SvgGenImage('assets/icons/four_leaf.svg');
 
@@ -62,6 +65,12 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/one_leaf.svg
   SvgGenImage get oneLeaf => const SvgGenImage('assets/icons/one_leaf.svg');
+
+  /// File path: assets/icons/paper.svg
+  SvgGenImage get paper => const SvgGenImage('assets/icons/paper.svg');
+
+  /// File path: assets/icons/refresh.svg
+  SvgGenImage get refresh => const SvgGenImage('assets/icons/refresh.svg');
 
   /// File path: assets/icons/star_clip.svg
   SvgGenImage get starClip => const SvgGenImage('assets/icons/star_clip.svg');
@@ -84,11 +93,14 @@ class $AssetsIconsGen {
     devider1,
     devider2,
     devider3,
+    edit,
     fourLeaf,
     gallery,
     mainPageDeco,
     onboardingLine,
     oneLeaf,
+    paper,
+    refresh,
     starClip,
     threeLeaf,
     twoLeaf,

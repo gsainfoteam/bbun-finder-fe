@@ -1,4 +1,4 @@
-
+import 'package:bbun/gen/assets.gen.dart';
 import 'package:bbun/modules/bbun/presentation/widgets/bbun_dialog.dart';
 
 import 'package:flutter/material.dart';
@@ -9,11 +9,14 @@ class BbunDelete extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final scale = screenWidth / 411.42;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+      padding:
+          EdgeInsets.symmetric(horizontal: 10 * scale, vertical: 12 * scale),
       decoration: BoxDecoration(
-        border: Border.all(width: 1.50),
-        borderRadius: BorderRadius.circular(16),
+        border: Border.all(width: 1.50 * scale),
+        borderRadius: BorderRadius.circular(16 * scale),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -21,7 +24,7 @@ class BbunDelete extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 7),
+            padding: EdgeInsets.symmetric(horizontal: 7 * scale),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,7 +33,7 @@ class BbunDelete extends StatelessWidget {
                   '회원 탈퇴',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 18,
+                    fontSize: 18 * scale,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w500,
                   ),
@@ -39,14 +42,14 @@ class BbunDelete extends StatelessWidget {
                   '개인 정보 동의를 철회하려면 회원 탈퇴가 필요합니다. 이 행위는 되돌릴 수 없습니다.',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 14,
+                    fontSize: 14 * scale,
                     fontFamily: 'Pretendard',
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10 * scale),
                 Container(
-                  padding: const EdgeInsets.only(left: 4),
+                  padding: EdgeInsets.only(left: 4 * scale),
                   child: GestureDetector(
                     onTap: () {
                       showDialog(
@@ -60,17 +63,16 @@ class BbunDelete extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(
-                          'assets/icons/delete.svg',
-                          height: 18,
+                        Assets.icons.delete.svg(
+                          width: 18 * scale,
                         ),
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12 * scale),
                         Expanded(
                           child: Text(
                             '탈퇴하기',
                             style: TextStyle(
                               color: Color(0xFFF10000),
-                              fontSize: 18,
+                              fontSize: 18 * scale,
                               fontFamily: 'Pretendard',
                               fontWeight: FontWeight.w500,
                             ),

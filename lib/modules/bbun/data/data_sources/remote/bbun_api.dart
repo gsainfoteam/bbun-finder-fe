@@ -1,5 +1,6 @@
 import 'package:bbun/modules/bbun/data/models/bbun_user_list_model.dart';
 import 'package:bbun/modules/bbun/data/models/bbun_user_model.dart';
+import 'package:bbun/modules/bbun/data/models/delete_bbun_user_model.dart';
 import 'package:bbun/modules/bbun/data/models/modify_bbun_user_model.dart';
 import 'package:bbun/modules/core/data/dio/bbun_dio.dart';
 import 'package:injectable/injectable.dart';
@@ -24,6 +25,9 @@ abstract class BbunApi {
   @PATCH('')
   Future<BbunUserModel> update(@Body() ModifyBbunUserModel model,
       {@Header("Content-Type") String contentType = "application/json"});
+
+  @DELETE('')
+  Future<DeleteBbunUserModel> delete();
 
   @GET('bbunline')
   Future<BbunUserListModel> getBbunline();

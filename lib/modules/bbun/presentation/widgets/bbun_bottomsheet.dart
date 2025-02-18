@@ -1,3 +1,4 @@
+import 'package:bbun/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -6,6 +7,8 @@ class BbunBottomsheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final scale = screenWidth / 411.42;
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -35,9 +38,8 @@ class BbunBottomsheet extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(
-                    'assets/icons/gallery.svg',
-                    width: 18,
+                  Assets.icons.gallery.svg(
+                    width: 18 * scale,
                   ),
                   const SizedBox(width: 15),
                   Expanded(
@@ -69,9 +71,8 @@ class BbunBottomsheet extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(
-                    'assets/icons/delete.svg',
-                    width: 18,
+                  Assets.icons.delete.svg(
+                    width: 18 * scale,
                   ),
                   const SizedBox(width: 15),
                   Expanded(

@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bbun/di/locator.dart';
 import 'package:bbun/modules/bbun/presentation/bloc/bbun_bloc.dart';
 import 'package:bbun/modules/bbun/presentation/bloc/bbun_list_bloc.dart';
-import 'package:bbun/modules/bbun/presentation/widgets/bbun_bottomsheet.dart';
 import 'package:bbun/modules/bbun/presentation/widgets/bbun_card.dart';
 import 'package:bbun/modules/bbun/presentation/widgets/bbun_pressable.dart';
 import 'package:bbun/modules/bbun/presentation/widgets/bbun_checkbox.dart';
@@ -28,18 +27,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   final TextEditingController mbtiController = TextEditingController();
   final TextEditingController igIdController = TextEditingController();
 
-  // dummy
-  final String dummyName = "홍길동";
-  final String dummyStudentId = "20231234";
-  final String dummyEmail = "hong@example.com";
-  final DateTime dummyIssueDate = DateTime(1);
-
-  final bool dummyIsBbunReg = true;
-  ImageProvider? dummyProfileImage;
-  String? dummyDepart;
-  String? dummyMBTI;
-  String? dummyIGID;
-
   @override
   void dispose() {
     // 위젯이 파괴될 때, 텍스트 컨트롤러를 메모리에서 해제
@@ -49,7 +36,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     super.dispose();
   }
 
-  // TODO: 변경 불가 인적 사항 IdP 통해 불러와서 보여주는 로직 추가
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -90,7 +76,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             children: [
                               Container(
                                 width: screenWidth,
-                                height: 257,
+                                height: 257 * scale,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     begin: Alignment.bottomCenter,
@@ -136,25 +122,26 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                 width: screenWidth,
                               ),
 
-                                // 뒤로 가기
-                  Container(
-                    width: screenWidth > 475 ? 475 : screenWidth,
-                    padding: const EdgeInsets.symmetric(horizontal: 36),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          GestureDetector(
-                            child: Icon(
-                              Icons.arrow_back,
-                              size: 30,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ]),
-                  ),
-                  SizedBox(height: 5),
+                              // 뒤로 가기
+                              Container(
+                                width: screenWidth,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 36),
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      GestureDetector(
+                                        child: Icon(
+                                          Icons.arrow_back,
+                                          size: 30,
+                                        ),
+                                        onTap: () {
+                                          Navigator.of(context).pop(true);
+                                        },
+                                      ),
+                                    ]),
+                              ),
+                              SizedBox(height: 5),
 
                               // 내 프로필
                               Container(
@@ -165,7 +152,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                   '내 프로필',
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 50,
+                                    fontSize: 50 * scale,
                                     fontFamily: 'HSSanTokki',
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -182,7 +169,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                       ? "개인 정보 제공 동의를 철회하려면 회원 탈퇴가 필요합니다."
                                       : "개인 정보 제공에 동의해야 프로필 설정을 완료하고 서비스를 이용할 수 있습니다.",
                                   style: TextStyle(
-                                      fontSize: 18,
+                                      fontSize: 18 * scale,
                                       fontFamily: 'Pretendard',
                                       fontWeight: FontWeight.w500),
                                 ),
@@ -195,11 +182,11 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                 studentId: user.studentId,
                                 email: user.email,
                                 issueDate: user.updatedAt!,
-                                profileImage: dummyProfileImage,
                                 index: bbunState.isBbunRegistered
                                     ? bbunline!.indexWhere(
                                         (bbun) => bbun.uuid == user.uuid)
                                     : bbunListState.getTotal,
+                                isBbunRegistered: bbunState.isBbunRegistered,
                               ),
                               const SizedBox(height: 35),
 
@@ -212,18 +199,18 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                     BbunDisplayField(
                                         labelText: '학번',
                                         displayText: user.studentId),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height: 10 * scale),
 
                                     BbunDisplayField(
                                         labelText: '이름',
                                         displayText: user.name),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height: 10 * scale),
 
                                     BbunDisplayField(
                                       labelText: '이메일',
                                       displayText: user.email,
                                     ),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height: 10 * scale),
                                     BbunInputfield(
                                       labelText: '학과 (선택)',
                                       hintText: (user.department != null &&
@@ -232,7 +219,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                           : '학과를 입력하세요',
                                       controller: departmentController,
                                     ),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height: 10 * scale),
 
                                     BbunInputfield(
                                       labelText: 'MBTI (선택)',
@@ -242,7 +229,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                           : 'MBTI를 입력하세요',
                                       controller: mbtiController,
                                     ),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height: 10 * scale),
 
                                     BbunInputfield(
                                       labelText: '인스타그램 아이디 (선택)',
@@ -252,7 +239,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                           : '@instagram',
                                       controller: igIdController,
                                     ),
-                                    const SizedBox(height: 10),
+                                    SizedBox(height: 10 * scale),
 
                                     bbunState.isBbunRegistered
                                         ?
@@ -268,7 +255,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                               });
                                             },
                                           ),
-                                    const SizedBox(height: 20),
+                                    SizedBox(height: 20 * scale),
 
                                     // 제출 버튼
                                     SizedBox(
@@ -301,8 +288,10 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                                                   .text,
                                                               "미구현"));
                                                 });
+                                                context.router.popUntil(
+                                                    (route) => route.isActive);
                                                 context.router
-                                                    .push(const MainRoute());
+                                                    .replace(MainRoute());
                                               }
                                             : null,
                                         decoration: BoxDecoration(
@@ -320,11 +309,11 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                                 )
                                               : Border.all(
                                                   color: Colors.black,
-                                                  width: 1.5,
+                                                  width: 1.5 * scale,
                                                 ),
                                         ),
                                         child: Padding(
-                                          padding: const EdgeInsets.all(16.0),
+                                          padding: EdgeInsets.all(16.0 * scale),
                                           child: Center(
                                             child: Text(
                                               bbunState.isBbunRegistered
@@ -336,7 +325,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                                               .isBbunRegistered
                                                       ? Color(0xFFB6B6B6)
                                                       : Colors.black,
-                                                  fontSize: 18,
+                                                  fontSize: 18 * scale,
                                                   fontWeight: FontWeight.w600),
                                             ),
                                           ),
