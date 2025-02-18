@@ -4,6 +4,7 @@ import 'package:bbun/modules/bbun/presentation/pages/main_page.dart';
 import 'package:bbun/modules/bbun/presentation/pages/detail_page.dart';
 import 'package:bbun/modules/bbun/presentation/pages/profile_edit_page.dart';
 import 'package:bbun/routes/auth_guard.dart';
+import 'package:flutter/material.dart';
 
 part 'app_router.gr.dart';
 
@@ -22,7 +23,13 @@ class AppRouter extends RootStackRouter {
           path: '/profile-edit',
           page: ProfileEditRoute.page,
           initial: false,
+          guards: [AuthGuard()],
         ),
-        AutoRoute(path: '/detail', page: DetailRoute.page, initial: false),
+        AutoRoute(
+          path: '/detail',
+          page: DetailRoute.page,
+          initial: false,
+          guards: [AuthGuard()],
+        ),
       ];
 }
