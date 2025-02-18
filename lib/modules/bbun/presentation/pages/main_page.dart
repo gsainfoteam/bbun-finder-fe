@@ -251,7 +251,7 @@ class _MainPageState extends State<MainPage>
                                                 name: user.name,
                                                 studentId: user.studentId,
                                                 email: user.email,
-                                                issueDate: user.createdAt!,
+                                                issueDate: user.updatedAt!,
                                                 index: index,
                                               )))
                                           .toList(),

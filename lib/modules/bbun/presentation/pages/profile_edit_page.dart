@@ -186,6 +186,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                     ? bbunline!.indexWhere(
                                         (bbun) => bbun.uuid == user.uuid)
                                     : bbunListState.getTotal,
+                                isBbunRegistered: bbunState.isBbunRegistered,
                               ),
                               const SizedBox(height: 35),
 
