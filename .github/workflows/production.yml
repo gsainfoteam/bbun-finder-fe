@@ -1,9 +1,9 @@
-name: Staging Deploy
+name: Production Deploy
 
 on:
-  push:
-    branches:
-      - master
+  release:
+    types:
+      - released
 
 jobs:
   preview-deploy:
@@ -13,8 +13,8 @@ jobs:
       deployments: write
 
     environment:
-      name: staging
-      url: https://stg.bbun.gistory.me
+      name: production
+      url: https://bbun.gistory.me
 
     steps:
       - uses: actions/checkout@v4
@@ -49,6 +49,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: pages deploy build --project-name=bbunline-fe-stg
+          command: pages deploy build --project-name=bbunline-fe
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           environment: production
