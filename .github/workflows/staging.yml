@@ -38,7 +38,6 @@ jobs:
 
       - name: Generate files
         run: |
-          dart run slang
           dart run build_runner build --delete-conflicting-outputs
 
       - name: build
