@@ -1,6 +1,6 @@
-import '../entities/oauth_entity.dart';
+import '../entities/token_entity.dart';
 
 abstract class OAuthRepository {
-  Future<OAuthEntity> getAuthorizationCode();
+  Future<TokenEntity> getToken();
   Future<void> setRecentLogout([bool value = true]);
 }

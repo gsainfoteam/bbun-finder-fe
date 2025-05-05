@@ -22,11 +22,11 @@ abstract class RestAuthRepository implements AuthRepository {
 
   @override
   Future<void> login() async {
-    final code = await _oAuthRepository.getAuthorizationCode();
-
-    final result = await _api.login(code.authCode);
-
-    await _tokenRepository.saveToken(result.accessToken);
+    final token = await _oAuthRepository.getToken();
+    await _tokenRepository.saveToken(token.accessToken);
+    if (token.refreshToken != null) {
+      await _tokenRepository.saveRefreshToken(token.refreshToken!);
+    }
   }
 
   @override
@@ -45,5 +45,6 @@ abstract class RestAuthRepository implements AuthRepository {
   Future<void> logout() async {
     await _tokenRepository.deleteToken();
     await _cookieManager.deleteAllCookies();
+    await _oAuthRepository.setRecentLogout(true);
   }
 }
