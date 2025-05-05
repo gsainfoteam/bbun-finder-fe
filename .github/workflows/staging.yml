@@ -49,5 +49,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          command: pages deploy build --project-name=bbunline-fe-stg --branch=master
+          command: pages deploy ./build/web --project-name=bbunline-fe-stg --branch=master
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
