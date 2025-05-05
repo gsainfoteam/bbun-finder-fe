@@ -2,10 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bbun/gen/assets.gen.dart';
 import 'package:bbun/modules/bbun/presentation/widgets/bbun_pressable.dart';
 import 'package:bbun/modules/user/presentation/bloc/auth_bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:bbun/routes/app_router.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 @RoutePage()
 class OnboardingPage extends StatelessWidget {

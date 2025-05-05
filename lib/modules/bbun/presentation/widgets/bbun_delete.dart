@@ -1,8 +1,6 @@
 import 'package:bbun/gen/assets.gen.dart';
 import 'package:bbun/modules/bbun/presentation/widgets/bbun_dialog.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class BbunDelete extends StatelessWidget {
   const BbunDelete({super.key});

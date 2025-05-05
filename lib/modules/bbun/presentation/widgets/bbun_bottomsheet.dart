@@ -1,6 +1,5 @@
 import 'package:bbun/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class BbunBottomsheet extends StatelessWidget {
   const BbunBottomsheet({super.key});

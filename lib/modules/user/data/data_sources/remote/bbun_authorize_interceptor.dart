@@ -12,6 +12,7 @@ class BbunAuthorizeInterceptor extends AuthorizeInterceptor {
 
   BbunAuthorizeInterceptor(
     @Named.from(BbunWebStorageTokenRepository) super.repository,
+    super.oAuthApi,
   );
 
   @override

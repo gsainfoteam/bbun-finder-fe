@@ -8,7 +8,6 @@ import 'package:bbun/modules/bbun/presentation/widgets/bbun_pressable.dart';
 import 'package:bbun/routes/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 @RoutePage()
 class DetailPage extends StatefulWidget {
@@ -172,7 +171,7 @@ class _DetailPageState extends State<DetailPage> {
                                             CrossAxisAlignment.end,
                                         children: [
                                           Text(
-                                            bbunline![currentIndex]
+                                            bbunline[currentIndex]
                                                 .name, // currentIndex를 사용
                                             style: TextStyle(
                                               color: Colors.black,
@@ -206,17 +205,17 @@ class _DetailPageState extends State<DetailPage> {
 
                                     // 노트 부분
                                     BbunNotebook(
-                                      name: bbunline![currentIndex].name,
+                                      name: bbunline[currentIndex].name,
                                       studentId:
-                                          bbunline![currentIndex].studentId,
-                                      email: bbunline![currentIndex].email,
+                                          bbunline[currentIndex].studentId,
+                                      email: bbunline[currentIndex].email,
                                       issueDate:
-                                          bbunline![currentIndex].updatedAt!,
+                                          bbunline[currentIndex].updatedAt!,
                                       index: currentIndex,
                                       department:
-                                          bbunline![currentIndex].department,
-                                      mbti: bbunline![currentIndex].mbti,
-                                      instaId: bbunline![currentIndex].instaId,
+                                          bbunline[currentIndex].department,
+                                      mbti: bbunline[currentIndex].mbti,
+                                      instaId: bbunline[currentIndex].instaId,
                                     ),
                                     SizedBox(height: 50 * scale),
 

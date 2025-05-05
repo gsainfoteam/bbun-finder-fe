@@ -1,8 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:bbun/gen/assets.gen.dart';
 import 'package:bbun/modules/bbun/presentation/widgets/bbun_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class BbunNotebook extends StatefulWidget {
   final String name;
