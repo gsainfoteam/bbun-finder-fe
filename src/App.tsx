@@ -1,7 +1,15 @@
+import BusinessCard from "./components/BusinessCard";
+
 function App() {
   return (
     <div className="h-screen flex items-center justify-center bg-gray-100">
-      <h1 className="text-5xl font-bold text-blue-600">Test tailwind</h1>
+      <BusinessCard
+        name="지니"
+        studentId="20251234"
+        email="aaa@gm.gist.ac.kr"
+        centerColor="purple"
+        issueDate="2025.01.01"
+      />
     </div>
   );
 }
