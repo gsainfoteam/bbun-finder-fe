@@ -1,13 +1,35 @@
 @import "tailwindcss";
 
+/* 스크롤바 숨김 처리 */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* 폰트 설정 */
+@theme {
+  --font-ria: "RiaSansBold", "NanumGothic", sans-serif;
+}
+
 @font-face {
-  font-family: "Pretendard";
-  src: url("./assets/fonts/PretendardVariable.woff2") format("woff2");
-  font-weight: 100 900;
+  font-family: "NanumGothic";
+  src: url("./assets/fonts/NanumGothic.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "RiaSansBold";
+  src: url("./assets/fonts/RiaSans-Bold.otf") format("opentype");
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 body {
-  font-family: "Pretendard", sans-serif;
+  font-family: "NanumGothic", sans-serif;
 }
