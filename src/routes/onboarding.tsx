@@ -1,3 +1,4 @@
+import { generateLoginURLHandler } from "../apis/auth";
 import { createFileRoute, useRouter, redirect } from "@tanstack/react-router";
 import onboarding_page_skater_and_trajectory_1 from "../assets/icons/onboarding_page_skater_and_trajectory_1.svg";
 import onboarding_page_trajectory_2 from "../assets/icons/onboarding_page_trajectory_2.svg";
@@ -25,10 +26,14 @@ export const Route = createFileRoute("/onboarding")({
 function OnboardingPage() {
   const router = useRouter();
 
-  const handleLoginClick = () => {
-    localStorage.setItem("accessToken", "im_logged_in");
-    router.navigate({ to: "/" });
-  };
+  const handleLoginClick = async () => {
+      try {
+        await generateLoginURLHandler(location.pathname);
+      } catch (error) {
+        console.error("로그인 실패:", error);
+        alert("로그인 URL 생성 중 오류가 발생했습니다.");
+      }
+    };
 
   return (
     <div className="relative w-full h-full overflow-y-auto scrollbar-hide overflow-x-hidden bg-[linear-gradient(162deg,#D2E4FF,#E9E0FF)] flex flex-col justify-between items-center">
