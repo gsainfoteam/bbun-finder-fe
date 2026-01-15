@@ -1,9 +1,10 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import LocalStorageKeys from "../types/localstorage";
 
 export const Route = createFileRoute("/")({
   /* 로그인 확인(임시) */
   beforeLoad: () => {
-    const isAuthenticated = localStorage.getItem("accessToken");
+    const isAuthenticated = localStorage.getItem(LocalStorageKeys.AccessToken);
     if (!isAuthenticated) {
       throw redirect({
         to: "/onboarding",
@@ -26,7 +27,7 @@ function MainPage() {
       <button
         className="block mt-10 text-gray-400"
         onClick={() => {
-          localStorage.removeItem("accessToken");
+          localStorage.removeItem(LocalStorageKeys.AccessToken);
           window.location.reload();
         }}
       >

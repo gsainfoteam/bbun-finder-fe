@@ -31,7 +31,7 @@ export const generateOAuthLoginURL = async () => {
       code_challenge: code_challenge,
       code_challenge_method: "S256",
       redirect_uri: REDIRECT_URI,
-      scope: "openid profile email",
+      scope: "openid profile email student_id",
       prompt: "login",
       state: state,
       nonce: nonce,
@@ -104,7 +104,15 @@ export const generateLoginURLHandler = async (returnTo: string) => {
   }
 };
 
-export const bbunLogin = async (token: string) => {
+export const bbunLogin = async () => {
+  return api
+    .get(`/user/login`)
+    .then(({ data }) => data)
+    .catch((err) => console.error(err));
+};
+
+// access_token이 필요한 로그인(아직 api가 없음)
+export const bbunLogin2 = async (token: string) => {
   return api
     .get(`/auth/login?token=${token}`)
     .then(({ data }) => data)
