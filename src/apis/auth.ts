@@ -4,7 +4,6 @@ import apiKeys from "../types/api-keys";
 import LocalStorageKeys from "../types/localstorage";
 import * as client from "openid-client";
 
-const API_URL = import.meta.env.VITE_API_URL;
 const IDP_API_URL = import.meta.env.VITE_IDP_API_URL;
 const CLIENT_ID = import.meta.env.VITE_IDP_CLIENT_ID;
 const REDIRECT_URI = import.meta.env.VITE_IDP_REDIRECT_URI;
@@ -85,7 +84,7 @@ export const getUserInfo = async () => {
   try {
     const response = await api.get<UserInfo>(apiKeys.auth.info);
     return response.data;
-  } catch (error) {
+  } catch (error) { 
     console.error("Error fetching user info:", error);
     throw new Error("Failed to fetch user info");
   }

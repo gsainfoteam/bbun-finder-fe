@@ -1,7 +1,7 @@
 const apiKeys = {
   auth: {
-    login: "/auth/login",
-    info: "/auth/info",
+    login: "/user/login",
+    info: "/user/idp",
   },
 };
 
