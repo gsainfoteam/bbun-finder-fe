@@ -7,6 +7,11 @@ import * as client from "openid-client";
 const IDP_API_URL = import.meta.env.VITE_IDP_API_URL;
 const CLIENT_ID = import.meta.env.VITE_IDP_CLIENT_ID;
 const REDIRECT_URI = import.meta.env.VITE_IDP_REDIRECT_URI;
+
+if (!IDP_API_URL || !CLIENT_ID || !REDIRECT_URI) {
+  throw new Error("Missing required environment variables for OAuth configuration");
+}
+
 export const generateOAuthLoginURL = async () => {
   try {
     let server: URL = new URL(`${IDP_API_URL}.well-known/openid-configuration`);

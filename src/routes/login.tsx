@@ -31,7 +31,7 @@ function RouteComponent() {
     return (
       <div>
         <p>로그인 실패: {errorMessage}</p>
-        <button onClick={() => navigate({ to: "/" })}>돌아가기</button>
+        <button onClick={() => navigate({ to: "/onboarding" })}>돌아가기</button>
       </div>
     );
   }
