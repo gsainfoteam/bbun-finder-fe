@@ -1,4 +1,6 @@
+import { generateLoginURLHandler } from "../apis/auth";
 import { createFileRoute, useRouter, redirect } from "@tanstack/react-router";
+import LocalStorageKeys from "../types/localstorage";
 import onboarding_page_skater_and_trajectory_1 from "../assets/icons/onboarding_page_skater_and_trajectory_1.svg";
 import onboarding_page_trajectory_2 from "../assets/icons/onboarding_page_trajectory_2.svg";
 import onboarding_page_hill from "../assets/icons/onboarding_page_hill.svg";
@@ -12,7 +14,7 @@ import snowflake_3 from "../assets/icons/snowflake_3.svg";
 export const Route = createFileRoute("/onboarding")({
   /* 로그인 확인(임시) */
   beforeLoad: () => {
-    const isAuthenticated = localStorage.getItem("accessToken");
+    const isAuthenticated = localStorage.getItem(LocalStorageKeys.AccessToken);
     if (isAuthenticated) {
       throw redirect({
         to: "/",
@@ -25,9 +27,13 @@ export const Route = createFileRoute("/onboarding")({
 function OnboardingPage() {
   const router = useRouter();
 
-  const handleLoginClick = () => {
-    localStorage.setItem("accessToken", "im_logged_in");
-    router.navigate({ to: "/" });
+  const handleLoginClick = async () => {
+    try {
+      await generateLoginURLHandler(location.pathname);
+    } catch (error) {
+      console.error("로그인 실패:", error);
+      alert("로그인 URL 생성 중 오류가 발생했습니다.");
+    }
   };
 
   return (
