@@ -10,11 +10,12 @@ import skating_icon_Default from "../assets/icons/skating_icon_Default.svg";
 import snowflake_1 from "../assets/icons/snowflake_1.svg";
 import snowflake_2 from "../assets/icons/snowflake_2.svg";
 import snowflake_4 from "../assets/icons/snowflake_4.svg";
+import LocalStorageKeys from "../types/localstorage";
 
 export const Route = createFileRoute("/")({
   /* 로그인 확인(임시) */
   beforeLoad: () => {
-    const isAuthenticated = localStorage.getItem("accessToken");
+    const isAuthenticated = localStorage.getItem(LocalStorageKeys.AccessToken);
     if (!isAuthenticated) {
       throw redirect({
         to: "/onboarding",
@@ -36,7 +37,7 @@ function MainPage() {
   }, []);
 
   const handleLogoutClick = () => {
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem(LocalStorageKeys.AccessToken);
     localStorage.removeItem("hasProfile");
 
     router.navigate({ to: "/onboarding" });
