@@ -10,6 +10,7 @@ import onboarding_page_deco from "../assets/icons/onboarding_page_deco.svg";
 import snowflake_1 from "../assets/icons/snowflake_1.svg";
 import snowflake_2 from "../assets/icons/snowflake_2.svg";
 import snowflake_3 from "../assets/icons/snowflake_3.svg";
+import Button from "../components/Button";
 
 export const Route = createFileRoute("/onboarding")({
   /* 로그인 확인(임시) */
@@ -92,12 +93,9 @@ function OnboardingPage() {
           src={onboarding_page_trajectory_2}
           alt="trajectory"
         />
-        <button
-          onClick={handleLoginClick}
-          className="absolute left-1/2 -translate-x-1/2 bottom-[66px] w-[280px] pt-[14px] pb-[14px] bg-[#9EB6FF] text-[#FFFFFF] rounded-[100px] leading-[25px] text-[23px]"
-        >
-          로그인하기
-        </button>
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-[66px]">
+          <Button label="로그인하기" onClick={handleLoginClick} />
+        </div>
       </div>
     </div>
   );
