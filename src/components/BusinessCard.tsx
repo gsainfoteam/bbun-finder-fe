@@ -18,6 +18,7 @@ interface BusinessCardProps {
   centerColor: string;
   instagramId: string;
   department: string;
+  isPreview?: boolean;
 }
 export default function BusinessCard({
   name,
@@ -26,6 +27,7 @@ export default function BusinessCard({
   centerColor,
   instagramId,
   department,
+  isPreview,
 }: BusinessCardProps) {
   const imageSrcs: Record<string, string> = {
     blue: default_profile_1,
@@ -34,7 +36,6 @@ export default function BusinessCard({
     yellow: default_profile_4,
     pink: default_profile_5,
     non: default_profile_1,
-    preview: default_profile_1,
   };
 
   const skatingIconSrcs: Record<string, string> = {
@@ -44,7 +45,6 @@ export default function BusinessCard({
     yellow: skating_icon_4,
     pink: skating_icon_5,
     non: skating_icon_1,
-    preview: skating_icon_1,
   };
 
   const borderGradients: Record<string, string> = {
@@ -57,8 +57,6 @@ export default function BusinessCard({
       "bg-[linear-gradient(143deg,#E3DB87B3_21%,#EEC17A80_39%,#EAC28E80_59%,#E4D67C99_79%)]",
     pink: "bg-[linear-gradient(143deg,#FCBBCEB3_21%,#EE7AAE80_39%,#EA8EDF80_59%,#C2628499_79%)]",
     non: "bg-[linear-gradient(157deg,#CBBAFFB3_0%,#8AB1FF66_34%,#4CA4FB66_63%,#0059D799_100%)]",
-    preview:
-      "bg-[linear-gradient(157deg,#CBBAFFB3_0%,#8AB1FF66_34%,#4CA4FB66_63%,#0059D799_100%)]",
   };
 
   const innerGradients: Record<string, string> = {
@@ -68,7 +66,6 @@ export default function BusinessCard({
     yellow: "bg-[linear-gradient(170deg,#E2D6A3_5%,#DCBDA3_91%)]",
     pink: "bg-[linear-gradient(160deg,#E2A3D5_5%,#EA91AC_91%)]",
     non: "bg-[linear-gradient(157deg,#E6C4F8_2%,#B4DBF2_92%)]",
-    preview: "bg-[linear-gradient(157deg,#E6C4F8_2%,#B4DBF2_92%)]",
   };
 
   const borderStyle = borderGradients[centerColor] || borderGradients["blue"];
@@ -77,7 +74,7 @@ export default function BusinessCard({
   const skatingIconSrc =
     skatingIconSrcs[centerColor] || skatingIconSrcs["blue"];
   const isNonCard = centerColor === "non";
-  const isPreviewCard = centerColor === "preview";
+  const isPreviewCard = isPreview === true;
 
   return (
     <div className="relative w-[324px] h-[140px]">
@@ -137,13 +134,14 @@ export default function BusinessCard({
                 <p className="leading-[14px] text-[13px]">{instagramId}</p>
                 <p className="leading-[14px] text-[13px]">{department}</p>
               </div>
-              {isPreviewCard && (
-                <div className="absolute inset-0 z-20 flex justify-center items-center pointer-events-none">
-                  <p className="text-[23px] text-[#8181814D] font-bold">
-                    카드 미리보기
-                  </p>
-                </div>
-              )}
+            </div>
+          )}
+
+          {isPreviewCard && (
+            <div className="absolute inset-0 z-20 flex justify-center items-center pointer-events-none">
+              <p className="text-[23px] text-[#8181814D] font-bold">
+                카드 미리보기
+              </p>
             </div>
           )}
         </div>

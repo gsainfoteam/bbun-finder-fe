@@ -139,6 +139,7 @@ function MainPage() {
                   centerColor={card.centerColor}
                   instagramId={card.instagramId}
                   department={card.department}
+                  isPreview={card.isPreview}
                 />
               ))}
         </div>
