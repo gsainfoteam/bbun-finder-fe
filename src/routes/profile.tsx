@@ -1,21 +1,26 @@
-import { createFileRoute } from "@tanstack/react-router";
-import BusinessCard from "../components/BusinessCard";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/profile")({
   component: ProfilePage,
 });
 
 function ProfilePage() {
+  const router = useRouter();
+
+  const handleRegisterClick = () => {
+    localStorage.setItem("hasProfile", "true");
+    router.navigate({ to: "/" });
+  };
+
   return (
     <div className="h-full w-full overflow-y-auto">
       <p>프로필 페이지</p>
-      <BusinessCard
-        name="지니"
-        studentId="20251234"
-        email="helloworld@gm.gist.ac.kr"
-        centerColor="newBlue"
-        issueDate="2025.01.01"
-      />
+      <button
+        className="w-[100px] bg-[#9EB6FF] text-white"
+        onClick={handleRegisterClick}
+      >
+        등록
+      </button>
     </div>
   );
 }

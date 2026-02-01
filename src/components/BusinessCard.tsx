@@ -1,151 +1,150 @@
 import clsx from "clsx";
-import default_profile_1 from "../assets/icons/default_profile_1.svg";
-import default_profile_2 from "../assets/icons/default_profile_2.svg";
-import default_profile_3 from "../assets/icons/default_profile_3.svg";
-import default_profile_4 from "../assets/icons/default_profile_4.svg";
-import default_profile_5 from "../assets/icons/default_profile_5.svg";
+import default_profile_1 from "../assets/icons/default_profile_1.png";
+import default_profile_2 from "../assets/icons/default_profile_2.png";
+import default_profile_3 from "../assets/icons/default_profile_3.png";
+import default_profile_4 from "../assets/icons/default_profile_4.png";
+import default_profile_5 from "../assets/icons/default_profile_5.png";
+import skating_icon_1 from "../assets/icons/skating_icon_1.svg";
+import skating_icon_2 from "../assets/icons/skating_icon_2.svg";
+import skating_icon_3 from "../assets/icons/skating_icon_3.svg";
+import skating_icon_4 from "../assets/icons/skating_icon_4.svg";
+import skating_icon_5 from "../assets/icons/skating_icon_5.svg";
+import card_effect from "../assets/icons/card_effect.png";
 
 interface BusinessCardProps {
   name: string;
   studentId: string;
   email: string;
   centerColor: string;
-  issueDate: string;
+  instagramId: string;
+  department: string;
+  isPreview?: boolean;
 }
-
 export default function BusinessCard({
   name,
   studentId,
   email,
   centerColor,
-  issueDate,
+  instagramId,
+  department,
+  isPreview,
 }: BusinessCardProps) {
-  const gradients: Record<string, [string, string]> = {
-    purple: ["#DDD1FF", "#A48EE4"],
-    orange: ["#FFC591", "#FF9F51"],
-    green: ["#D3EBC5", "#AFF486"],
-    pink: ["#FFD6E5", "#FF9BBF"],
-    blue: ["#C5E3FF", "#70B6F7"],
-    yellow: ["#FDFD96", "#F1DA66"],
-    newBlue: ["#D6E0FF", "#D6E0FF"],
-  };
-  const textColors: Record<string, string> = {
-    purple: "text-[#886CD6]",
-    orange: "text-[#FF682C]",
-    green: "text-[#54C711]",
-    pink: "text-[#FC639B]",
-    blue: "text-[#2681D7]",
-    yellow: "text-[#EBB608]",
-    newBlue: "text-[#414177]",
-  };
-
   const imageSrcs: Record<string, string> = {
-    purple: default_profile_1,
-    orange: default_profile_4,
-    green: default_profile_1,
-    pink: default_profile_3,
-    blue: default_profile_4,
-    yellow: default_profile_2,
-    newBlue: default_profile_5,
+    blue: default_profile_1,
+    purple: default_profile_2,
+    green: default_profile_3,
+    yellow: default_profile_4,
+    pink: default_profile_5,
+    non: default_profile_1,
   };
 
-  const [gradientLight, gradientDark] =
-    gradients[centerColor] || gradients["purple"];
-  const textColor = textColors[centerColor] || textColors["purple"];
-  const imageSrc = imageSrcs[centerColor] || imageSrcs["purple"];
+  const skatingIconSrcs: Record<string, string> = {
+    blue: skating_icon_1,
+    purple: skating_icon_2,
+    green: skating_icon_3,
+    yellow: skating_icon_4,
+    pink: skating_icon_5,
+    non: skating_icon_1,
+  };
+
+  const borderGradients: Record<string, string> = {
+    blue: "bg-[linear-gradient(157deg,#CBBAFFB3_0%,#8AB1FF66_34%,#4CA4FB66_63%,#0059D799_100%)]",
+    purple:
+      "bg-[linear-gradient(157deg,#BF97FFB3_0%,#C876FF66_34%,#F2A6FF66_63%,#F27DFF99_100%)]",
+    green:
+      "bg-[linear-gradient(157deg,#71C97BB3_0%,#A2D2A266_34%,#97C7C566_63%,#6DD0C399_100%)]",
+    yellow:
+      "bg-[linear-gradient(143deg,#E3DB87B3_21%,#EEC17A80_39%,#EAC28E80_59%,#E4D67C99_79%)]",
+    pink: "bg-[linear-gradient(143deg,#FCBBCEB3_21%,#EE7AAE80_39%,#EA8EDF80_59%,#C2628499_79%)]",
+    non: "bg-[linear-gradient(157deg,#CBBAFFB3_0%,#8AB1FF66_34%,#4CA4FB66_63%,#0059D799_100%)]",
+  };
+
+  const innerGradients: Record<string, string> = {
+    blue: "bg-[linear-gradient(157deg,#E6C4F8_2%,#B4DBF2_92%)]",
+    purple: "bg-[linear-gradient(136deg,#D6A7FF_28%,#FFC8F7_85%)]",
+    green: "bg-[linear-gradient(170deg,#A8D7B7_5%,#97B5B5_91%)]",
+    yellow: "bg-[linear-gradient(170deg,#E2D6A3_5%,#DCBDA3_91%)]",
+    pink: "bg-[linear-gradient(160deg,#E2A3D5_5%,#EA91AC_91%)]",
+    non: "bg-[linear-gradient(157deg,#E6C4F8_2%,#B4DBF2_92%)]",
+  };
+
+  const borderStyle = borderGradients[centerColor] || borderGradients["blue"];
+  const innerStyle = innerGradients[centerColor] || innerGradients["blue"];
+  const imageSrc = imageSrcs[centerColor] || imageSrcs["blue"];
+  const skatingIconSrc =
+    skatingIconSrcs[centerColor] || skatingIconSrcs["blue"];
+  const isNonCard = centerColor === "non";
+  const isPreviewCard = isPreview === true;
 
   return (
-    <div
-      style={{
-        background: `radial-gradient(${gradientLight}, ${gradientDark})`,
-      }}
-      className="flex flex-col justify-between w-fit h-fit rounded-[8px]"
-    >
-      <div className="h-[22px] bg-white relative">
-        <p
-          className={clsx(
-            "text-[10px] leading-[12px] absolute top-[7px] left-[10px]",
-            textColor
+    <div className="relative w-[324px] h-[140px]">
+      <div
+        className={clsx(
+          "absolute inset-0 rounded-[12px] p-[2px] pointer-events-none",
+          borderStyle,
+        )}
+        style={{
+          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          maskComposite: "exclude",
+          WebkitMaskComposite: "xor",
+        }}
+      />
+
+      <div className="absolute inset-[2px] rounded-[10px] overflow-hidden backdrop-blur-[20px]">
+        <div className={clsx("absolute inset-0 opacity-20", innerStyle)} />
+
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,#FFFFFF4D_0%,#FFFFFF1A_85%)]" />
+
+        <img
+          src={card_effect}
+          alt="effect"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+        />
+
+        {/* 카드 콘텐츠 */}
+        <div className="relative z-10 w-full h-full flex items-center justify-center">
+          {isNonCard ? (
+            <div className="relative flex justify-center items-center w-[269px] h-[101px]">
+              <img
+                className="absolute top-[3px] right-[0px]"
+                src={skatingIconSrc}
+                alt="icon"
+              />
+              <span className="text-[60px] font-bold text-[#8181814D]">?</span>
+            </div>
+          ) : (
+            <div className="relative flex flex-col justify-start items-start gap-[18px] w-[269px] h-[101px]">
+              <img
+                className="absolute top-[3px] right-[0px]"
+                src={skatingIconSrc}
+              />
+              <div className="flex flex-col justify-start items-start gap-[8px]">
+                <div className="flex flex-row justify-start items-center gap-[8px]">
+                  <img className="w-[26px] h-[26px]" src={imageSrc} />
+                  <p className="leading-[18px] text-[16px] font-bold">{name}</p>
+                </div>
+                <div className="flex flex-col justify-start items-start gap-[6px]">
+                  <p className="leading-[15px] text-[14px] font-bold">
+                    {studentId}
+                  </p>
+                  <p className="leading-[14px] text-[13px]">{email}</p>
+                </div>
+              </div>
+              <div className="w-full h-[14px] flex flex-row justify-between">
+                <p className="leading-[14px] text-[13px]">{instagramId}</p>
+                <p className="leading-[14px] text-[13px]">{department}</p>
+              </div>
+            </div>
           )}
-        >
-          Funline skater ID Card
-        </p>
 
-        <p
-          className={clsx(
-            "text-[10px] leading-[11px] absolute top-[9px] right-[12px]",
-            textColor
+          {isPreviewCard && (
+            <div className="absolute inset-0 z-20 flex justify-center items-center pointer-events-none">
+              <p className="text-[23px] text-[#8181814D] font-bold">
+                카드 미리보기
+              </p>
+            </div>
           )}
-        >
-          &gt;&gt;&gt;
-        </p>
-      </div>
-
-      <div className="flex justify-center items-center">
-        <div className="w-fit h-fit pt-[14px] pb-[14px] pl-[16px] pr-[36px] flex items-center gap-[14px]">
-          <div className="relative w-[78px] h-[99px] rounded-[8px] overflow-hidden">
-            <img
-              src={imageSrc}
-              alt="profile"
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          <div className="flex flex-col w-[183px] h-[118px] justify-between">
-            <div>
-              <p
-                className={clsx(
-                  "text-[12px] leading-[13px] mb-[4px] font-bold",
-                  textColor
-                )}
-              >
-                NAME
-              </p>
-              <p className="text-[15px] leading-[17px] text-black font-bold">
-                {name}
-              </p>
-            </div>
-
-            <div>
-              <p
-                className={clsx(
-                  "text-[12px] leading-[13px] mb-[4px] font-bold",
-                  textColor
-                )}
-              >
-                STUDENT ID
-              </p>
-              <p className="text-[15px] leading-[17px] text-black font-bold">
-                {studentId}
-              </p>
-            </div>
-
-            <div>
-              <p
-                className={clsx(
-                  "text-[12px] leading-[15px] mb-[4px] font-bold",
-                  textColor
-                )}
-              >
-                E-MAIL
-              </p>
-              <p className="text-[15px] leading-[17px] text-black font-bold">
-                {email}
-              </p>
-            </div>
-          </div>
         </div>
-      </div>
-
-      <div className="relative h-[22px] bg-white">
-        <p
-          className={clsx(
-            "text-[10px] leading-[11px] absolute top-[2px] right-[12px]",
-            textColor
-          )}
-        >
-          issue date {issueDate}
-        </p>
       </div>
     </div>
   );

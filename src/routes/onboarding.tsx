@@ -59,7 +59,7 @@ function OnboardingPage() {
       </div>
 
       {/* 로고와 제목 */}
-      <div className="relative z-10 flex flex-col items-center pt-[95px] shrink-0">
+      <div className="relative z-10 flex flex-col items-center pt-[103px] shrink-0">
         <img className="pb-[18px]" src={skating_icon_Default} alt="icon" />
         <p className="w-[292px] leading-[58px] text-[40px] text-[#414177] font-bold font-ria text-center">
           뻔라인스케이팅
@@ -94,7 +94,7 @@ function OnboardingPage() {
         />
         <button
           onClick={handleLoginClick}
-          className="absolute left-1/2 -translate-x-1/2 bottom-[66px] w-[280px] pt-[14px] pb-[14px] bg-[#9EB6FF] text-[#FFFFFF] rounded-[100px] leading-[25px] text-[23px]"
+          className="absolute left-1/2 -translate-x-1/2 bottom-[66px] w-[280px] pt-[10px] pb-[10px] bg-[#9EB6FF] text-[#FFFFFF] rounded-[100px] text-[20px]"
         >
           로그인하기
         </button>
