@@ -6,7 +6,7 @@ import LocalStorageKeys from "../types/localstorage";
 
 type AuthStatus = "loading" | "success" | "failed";
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute("/login")({  
   component: RouteComponent,
 });
 

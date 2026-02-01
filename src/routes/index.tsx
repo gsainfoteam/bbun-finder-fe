@@ -10,7 +10,9 @@ import skating_icon_Default from "../assets/icons/skating_icon_Default.svg";
 import snowflake_1 from "../assets/icons/snowflake_1.svg";
 import snowflake_2 from "../assets/icons/snowflake_2.svg";
 import snowflake_4 from "../assets/icons/snowflake_4.svg";
+import Button from "../components/Button";
 import LocalStorageKeys from "../types/localstorage";
+import LoadingModal from "../components/LoadingModal";
 
 export const Route = createFileRoute("/")({
   /* 로그인 확인(임시) */
@@ -28,7 +30,7 @@ export const Route = createFileRoute("/")({
 function MainPage() {
   const router = useRouter();
   const [isProfileRegistered, setIsProfileRegistered] = useState(false);
-
+  
   useEffect(() => {
     const hasProfile = localStorage.getItem("hasProfile");
     if (hasProfile === "true") {
