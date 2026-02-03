@@ -1,11 +1,14 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { useState } from "react";
+import { getBbunUser, getUser, updateBbunUser, withdrawBbunUser } from "../apis/user";
+import { useEffect, useState } from "react";
 import snowflake_1 from "../assets/icons/snowflake_1.svg";
 import snowflake_4 from "../assets/icons/snowflake_4.svg";
 import skating_icon_Default from "../assets/icons/skating_icon_Default.svg";
+import trash_icon from "../assets/icons/trash_icon_Default.svg";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import BusinessCard from "../components/BusinessCard";
+import LocalStorageKeys from "../types/localstorage";
 
 export const Route = createFileRoute("/profile")({
   component: ProfilePage,
@@ -20,6 +23,7 @@ function ProfilePage() {
   const [mbti, setMbti] = useState("");
   const [instagramId, setInstagramId] = useState("");
   const [agreement, setAgreement] = useState(false);
+  const [hasProfile, setHasProfile] = useState(localStorage.getItem(LocalStorageKeys.HasProfile) === "true");
 
   const mbtiList = [
     "ENFJ",
@@ -43,22 +47,80 @@ function ProfilePage() {
     "전기전자컴퓨터공학과",
     "AI융합학과",
     "반도체공학과",
-    "물리·광과학과",
+    "물리광과학과",
     "화학과",
     "수리과학과",
     "신소재공학과",
     "기계로봇공학과",
-    "환경·에너지공학과",
+    "환경에너지공학과",
     "생명과학과",
     "도전탐색과정",
   ];
-  const handleRegisterClick = () => {
+
+  useEffect(() => {
+    if(localStorage.getItem(LocalStorageKeys.HasProfile) === "true") {
+      getBbunUser().then((data) => {
+        setName(data.name || "");
+        setStudentId(data.studentNumber || "");
+        setEmail(data.email || "");
+        setMajor(data.department || "");
+        setMbti(data.MBTI || "");
+        setInstagramId(data.instaId || "");
+      });
+    } else {
+      getUser().then((data) => {
+        setName(data.user_name || "");
+        setStudentId(data.student_id || "");
+        setEmail(data.user_email_id || "");
+      });
+    }
+    
+  }, []);
+
+  const handleUpdateClick = async () => {
     if (!studentId.trim() || !name.trim() || !email.trim()) {
       alert("필수 항목(학번, 이름, 이메일)을 모두 입력해주세요.");
       return;
     }
-    // localStorage.setItem("hasProfile", "true");
-    router.navigate({ to: "/" });
+    
+    try {
+      // registerBbunUser는 index.tsx에서 수행됨
+      
+      const profileData = {
+        department: major,
+        MBTI: mbti,
+        instaId: instagramId,
+        description: "",
+      };
+
+      await updateBbunUser(profileData);
+      if(!hasProfile) {
+        localStorage.setItem(LocalStorageKeys.HasProfile, "true");
+        setHasProfile(true);
+      }
+      router.navigate({ to: "/" });
+    } catch (error) {
+      console.error("Profile registration failed:", error);
+      alert("프로필 등록에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
+  const handleWithdrawClick = async () => {
+    if (!confirm("정말로 탈퇴하시겠습니까? 이 행위는 되돌릴 수 없습니다.")) {
+      return;
+    }
+
+    try {
+      await withdrawBbunUser();
+      localStorage.removeItem(LocalStorageKeys.AccessToken);
+      localStorage.removeItem(LocalStorageKeys.IdToken);
+      localStorage.removeItem(LocalStorageKeys.BbunAccessToken);
+      localStorage.removeItem(LocalStorageKeys.HasProfile);
+      router.navigate({ to: "/onboarding" });
+    } catch (error) {
+      console.error("Withdrawal failed:", error);
+      alert("회원 탈퇴에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
@@ -90,8 +152,9 @@ function ProfilePage() {
               name={name}
               studentId={studentId}
               email={email}
-              centerColor="orange"
-              issueDate="2026.01.01"
+              centerColor="blue"
+              instagramId={instagramId}
+              department={major}
             />
             <div className="flex flex-col gap-[40px]">
               <div className="flex flex-col gap-[19px]">
@@ -148,6 +211,28 @@ function ProfilePage() {
                   placeholder="인스타그램 아이디를 입력해주세요."
                 />
               </div>
+              
+              {hasProfile ? (
+                <div className="flex flex-col gap-[10px]">
+                  <div className="flex flex-col gap-[6px]">
+                    <div className="text-[18px] font-bold">회원 탈퇴</div>
+                    <div className="text-[12px]">
+                      개인 정보 동의를 철회하려면 회원 탈퇴가 필요합니다. 이 행위는
+                      되돌릴 수 없습니다.
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleWithdrawClick}
+                    className="flex items-center gap-[8px] cursor-pointer"
+                  >
+                    <img src={trash_icon} className="w-[18px] h-[20px]" />
+                    <span className="text-[#FF2626] text-[15px] font-bold">
+                      탈퇴하기
+                    </span>
+                  </button>
+                </div>
+              ) : (
               <div className="flex flex-col gap-[10px]">
                 <div className="flex flex-col gap-[6px]">
                   <div className="text-[18px] font-bold">
@@ -157,6 +242,7 @@ function ProfilePage() {
                     동의하지 않을 시 서비스 이용이 불가능합니다.
                   </div>
                 </div>
+                
                 <label className="flex items-center gap-[8px] cursor-pointer">
                   <input
                     type="checkbox"
@@ -166,15 +252,20 @@ function ProfilePage() {
                   />
                   <span className="text-[15px] font-bold">동의합니다.</span>
                 </label>
-              </div>
+              </div>)}
+
+              
+
             </div>
           </div>
         </div>
         <div className="mb-[80px]">
           <Button
-            label="등록"
-            onClick={handleRegisterClick}
+            label={hasProfile ? "수정" : "등록"}
+            onClick={handleUpdateClick}
             disabled={
+              hasProfile ? 
+              !studentId.trim() || !name.trim() || !email.trim() :
               !agreement || !studentId.trim() || !name.trim() || !email.trim()
             }
           />

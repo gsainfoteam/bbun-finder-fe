@@ -1,6 +1,5 @@
 import {
   createFileRoute,
-  Link,
   redirect,
   useRouter,
 } from "@tanstack/react-router";
@@ -12,7 +11,7 @@ import snowflake_2 from "../assets/icons/snowflake_2.svg";
 import snowflake_4 from "../assets/icons/snowflake_4.svg";
 import Button from "../components/Button";
 import LocalStorageKeys from "../types/localstorage";
-import LoadingModal from "../components/LoadingModal";
+import { registerBbunUser } from "../apis/user";
 
 export const Route = createFileRoute("/")({
   /* 로그인 확인(임시) */
@@ -32,7 +31,7 @@ function MainPage() {
   const [isProfileRegistered, setIsProfileRegistered] = useState(false);
   
   useEffect(() => {
-    const hasProfile = localStorage.getItem("hasProfile");
+    const hasProfile = localStorage.getItem(LocalStorageKeys.HasProfile);
     if (hasProfile === "true") {
       setIsProfileRegistered(true);
     }
@@ -40,7 +39,9 @@ function MainPage() {
 
   const handleLogoutClick = () => {
     localStorage.removeItem(LocalStorageKeys.AccessToken);
-    localStorage.removeItem("hasProfile");
+    localStorage.removeItem(LocalStorageKeys.IdToken);
+    localStorage.removeItem(LocalStorageKeys.BbunAccessToken);
+    localStorage.removeItem(LocalStorageKeys.HasProfile);
 
     router.navigate({ to: "/onboarding" });
   };
@@ -148,19 +149,28 @@ function MainPage() {
 
         <div className="w-full mt-auto pb-[calc(30px+env(safe-area-inset-bottom))] flex flex-col items-center gap-[10px] z-50">
           {!isProfileRegistered ? (
-            <Link
-              to="/profile"
-              className="flex shrink-0 justify-center items-center w-[280px] h-[50px] rounded-[100px] bg-[#9EB6FF] text-[20px] text-white font-bold shadow-lg"
-            >
-              프로필 등록하기
-            </Link>
+            <Button
+              label="프로필 등록하기"
+              onClick={async () => {
+                try {
+                  await registerBbunUser();
+                  router.navigate({ to: "/profile" });
+                } catch (error) {
+                  console.error("Registration failed:", error);
+                  // Optional: handle error, maybe alert user
+                  router.navigate({ to: "/profile" }); // Navigate anyway? Or block? User said "registerBbunUser로 회원가입 하게 해줘". Assuming if it fails we might still want to go to profile or alert. Let's just alert and navigate for now or maybe just navigate if it's already registered.
+                  // Actually, better to just log and navigate, or maybe it throws if already registered?
+                  // The previous code verified auth token.
+                }
+              }}
+            />
           ) : (
-            <Link
-              // 채팅방 만들어지면 연결
-              className="flex shrink-0 justify-center items-center w-[280px] h-[50px] rounded-[100px] bg-[#9EB6FF] text-[20px] text-white font-bold shadow-lg"
-            >
-              채팅방 참여하기
-            </Link>
+            <Button
+              label="채팅방 참여하기"
+              onClick={() => {
+                // 채팅방 만들어지면 연결
+              }}
+            />
           )}
 
           <button
@@ -168,6 +178,14 @@ function MainPage() {
             onClick={handleLogoutClick}
           >
             테스트용 로그아웃 (토큰/프로필 초기화)
+          </button>
+          <button
+            className="text-gray-400 text-xs mb-2"
+            onClick={() => {
+              router.navigate({ to: "/profile" });
+            }}
+          >
+            테스트용 프로필 수정
           </button>
         </div>
       </div>

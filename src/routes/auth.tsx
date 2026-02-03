@@ -196,19 +196,30 @@ const oauthSequence = async (): Promise<OAuthSequenceResult> => {
       LocalStorageKeys.AccessToken,
       tokenResponse.access_token
     );
-    try {
-      await bbunLogin(); // 만약 백엔드 로그인 부분에 access_token이 필요하다면 bbunLogin2()로 바꾸기
-      return {
-        isSuccessful: true,
-      };
-    } catch (err: any) {
-      if (err.response && err.response.status === 404) {
+    if (tokenResponse.id_token) {
+      localStorage.setItem(LocalStorageKeys.IdToken, tokenResponse.id_token);
+      try {
+        const { access_token } = await bbunLogin(); 
+        localStorage.setItem(LocalStorageKeys.BbunAccessToken, access_token);
+        localStorage.setItem(LocalStorageKeys.HasProfile, "true");
         return {
-          isSuccessful: false,
-          needsSignup: true,
+          isSuccessful: true,
         };
+      } catch (err: any) {
+        if (err.response && err.response.status === 401) {
+          localStorage.setItem(LocalStorageKeys.HasProfile, "false");
+          return {
+            isSuccessful: false,
+            needsSignup: true,
+          };
+        }
+        throw err;
       }
-      throw err;
+    } else {
+      return {
+        isSuccessful: false,
+        errorMessage: "Missing ID Token",
+      };
     }
   } catch (error) {
     console.error(error);

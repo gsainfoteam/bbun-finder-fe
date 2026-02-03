@@ -116,15 +116,18 @@ export const generateLoginURLHandler = async (returnTo: string) => {
 };
 
 export const bbunLogin = async () => {
+  const idToken = localStorage.getItem(LocalStorageKeys.IdToken);
   return api
-    .get(`/auth/login`)
+    .post(`/auth/login`, {}, {
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      }
+    })
     .then(({ data }) => data);
 };
 
-// access_token이 필요한 로그인(아직 api가 없음)
-// export const bbunLogin2 = async (token: string) => {
-//   return api
-//     .get(`/auth/login?token=${token}`)
-//     .then(({ data }) => data)
-//     .catch((err) => console.error(err));
-// };
+export const bbunLogout = async () => {
+  return api
+    .post(`/auth/logout`)
+    .then(({ data }) => data);
+};
