@@ -66,12 +66,18 @@ function ProfilePage() {
         setMajor(data.department || "");
         setMbti(data.MBTI || "");
         setInstagramId(data.instaId || "");
+      }).catch((error) => {
+        console.error("Failed to fetch profile:", error);
+        alert("프로필 정보를 불러오는데 실패했습니다.");
       });
     } else {
       getUser().then((data) => {
         setName(data.user_name || "");
         setStudentId(data.student_id || "");
         setEmail(data.user_email_id || "");
+      }).catch((error) => {
+        console.error("Failed to fetch user:", error);
+        alert("사용자 정보를 불러오는데 실패했습니다.");
       });
     }
     

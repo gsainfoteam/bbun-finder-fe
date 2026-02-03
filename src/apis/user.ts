@@ -2,13 +2,25 @@ import api from "./interceptor";
 import axios from "axios";
 import LocalStorageKeys from "../types/localstorage";
 
+interface ProfileData {
+    department?: string;
+    MBTI?: string;
+    instaId?: string;
+    description?: string;
+}
+
+
 const IDP_API_URL = import.meta.env.VITE_IDP_API_URL;
 
 export const getUser = async () => {
+    const token = localStorage.getItem(LocalStorageKeys.AccessToken);
+    if (!token) {
+        throw new Error("Missing access_token");
+    }
     return axios
         .get(`${IDP_API_URL}/oauth2/userinfo`, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem(LocalStorageKeys.AccessToken)}`,
+                Authorization: `Bearer ${token}`,
             },
         })
         .then(({ data }) => data);
@@ -26,7 +38,7 @@ export const getBbunUser = async () => {
         .then(({ data }) => data);
 };
 
-export const updateBbunUser = async (profileData: any) => {
+export const updateBbunUser = async (profileData: ProfileData) => {
     return api
         .patch(`/user`, profileData)
         .then(({ data }) => data);

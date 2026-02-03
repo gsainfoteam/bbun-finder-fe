@@ -7,6 +7,7 @@ interface ButtonProps {
 function Button({ label, onClick, disabled }: ButtonProps) {
   return (
     <button
+      type="button"
       onClick={disabled ? undefined : onClick}
       disabled={disabled}
       className={`block mx-auto w-[280px] pt-[16px] pb-[12px] text-[20px] rounded-[100px] font-bold

@@ -117,6 +117,9 @@ export const generateLoginURLHandler = async (returnTo: string) => {
 
 export const bbunLogin = async () => {
   const idToken = localStorage.getItem(LocalStorageKeys.IdToken);
+  if (!idToken) {
+    throw new Error("Missing id_token");
+  }
   return api
     .post(`/auth/login`, {}, {
       headers: {

@@ -157,10 +157,7 @@ function MainPage() {
                   router.navigate({ to: "/profile" });
                 } catch (error) {
                   console.error("Registration failed:", error);
-                  // Optional: handle error, maybe alert user
-                  router.navigate({ to: "/profile" }); // Navigate anyway? Or block? User said "registerBbunUser로 회원가입 하게 해줘". Assuming if it fails we might still want to go to profile or alert. Let's just alert and navigate for now or maybe just navigate if it's already registered.
-                  // Actually, better to just log and navigate, or maybe it throws if already registered?
-                  // The previous code verified auth token.
+                  alert("회원 등록에 실패했습니다. 다시 시도해주세요.");
                 }
               }}
             />

@@ -112,6 +112,9 @@ function RouteComponent() {
       
       {/* Modal */}
       {authStatus === "loading" && <LoadingModal label="로그인 중" />}
+      {authStatus === "failed" && errorMessage && (
+        <div className="text-red-500">{errorMessage}</div>
+      )}
     </div>
   );
 }
@@ -157,6 +160,12 @@ interface OAuthSequenceResult {
 }
 
 const oauthSequence = async (): Promise<OAuthSequenceResult> => {
+  const cleanupOAuthState = () => {
+    localStorage.removeItem(LocalStorageKeys.OAuthState);
+    localStorage.removeItem(LocalStorageKeys.CodeVerifier);
+    localStorage.removeItem(LocalStorageKeys.OAuthNonce);
+  };
+
   const urlParams = new URLSearchParams(window.location.search);
   const localState = localStorage.getItem(LocalStorageKeys.OAuthState);
   const state = urlParams.get("state");
@@ -184,14 +193,13 @@ const oauthSequence = async (): Promise<OAuthSequenceResult> => {
     const tokenResponse = await oAuthGetToken(state, currentURL);
 
     if (!tokenResponse) {
+      cleanupOAuthState();
       return {
         isSuccessful: false,
         errorMessage: "Missing TokenResponse",
       };
     }
-    localStorage.removeItem(LocalStorageKeys.OAuthState);
-    localStorage.removeItem(LocalStorageKeys.CodeVerifier);
-    localStorage.removeItem(LocalStorageKeys.OAuthNonce);
+    cleanupOAuthState();
     localStorage.setItem(
       LocalStorageKeys.AccessToken,
       tokenResponse.access_token
@@ -223,6 +231,7 @@ const oauthSequence = async (): Promise<OAuthSequenceResult> => {
     }
   } catch (error) {
     console.error(error);
+    cleanupOAuthState();
     return {
       isSuccessful: false,
       errorMessage: "Unknown error",
