@@ -73,11 +73,18 @@ export const oAuthGetToken = async (state: string, currentURL: URL) => {
   }
 
   try {
-    const token = await client.authorizationCodeGrant(config, currentURL, {
-      pkceCodeVerifier: code_verifier,
-      expectedState: state,
-      expectedNonce: code_nonce,
-    });
+    const token = await client.authorizationCodeGrant(
+      config,
+      currentURL,
+      {
+        pkceCodeVerifier: code_verifier,
+        expectedState: state,
+        expectedNonce: code_nonce,
+      },
+      {
+        redirect_uri: REDIRECT_URI,
+      }
+    );
     return token;
   } catch (err) {
     console.error("OAuth token error:", err);
@@ -109,16 +116,21 @@ export const generateLoginURLHandler = async (returnTo: string) => {
 };
 
 export const bbunLogin = async () => {
+  const idToken = localStorage.getItem(LocalStorageKeys.IdToken);
+  if (!idToken) {
+    throw new Error("Missing id_token");
+  }
   return api
-    .get(`/user/login`)
-    .then(({ data }) => data)
-    .catch((err) => console.error(err));
+    .post(`/auth/login`, {}, {
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      }
+    })
+    .then(({ data }) => data);
 };
 
-// access_token이 필요한 로그인(아직 api가 없음)
-export const bbunLogin2 = async (token: string) => {
+export const bbunLogout = async () => {
   return api
-    .get(`/auth/login?token=${token}`)
-    .then(({ data }) => data)
-    .catch((err) => console.error(err));
+    .post(`/auth/logout`)
+    .then(({ data }) => data);
 };

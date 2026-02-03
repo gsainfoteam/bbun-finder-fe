@@ -6,10 +6,10 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const accessToken = localStorage.getItem(LocalStorageKeys.AccessToken);
-  if (!accessToken) return config;
+  const bbunToken = localStorage.getItem(LocalStorageKeys.BbunAccessToken);
+  if (!bbunToken) return config;
 
-  config.headers["Authorization"] = `Bearer ${accessToken}`;
+  config.headers["Authorization"] = `Bearer ${bbunToken}`;
   return config;
 });
 
