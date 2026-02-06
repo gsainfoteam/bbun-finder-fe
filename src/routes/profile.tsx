@@ -1,5 +1,10 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { getBbunUser, getUser, updateBbunUser, withdrawBbunUser } from "../apis/user";
+import {
+  getBbunUser,
+  getUser,
+  updateBbunUser,
+  withdrawBbunUser,
+} from "../apis/user";
 import { useEffect, useState } from "react";
 import snowflake_1 from "../assets/icons/snowflake_1.svg";
 import snowflake_4 from "../assets/icons/snowflake_4.svg";
@@ -23,7 +28,9 @@ function ProfilePage() {
   const [mbti, setMbti] = useState("");
   const [instagramId, setInstagramId] = useState("");
   const [agreement, setAgreement] = useState(false);
-  const [hasProfile, setHasProfile] = useState(localStorage.getItem(LocalStorageKeys.HasProfile) === "true");
+  const [hasProfile, setHasProfile] = useState(
+    localStorage.getItem(LocalStorageKeys.HasProfile) === "true",
+  );
 
   const mbtiList = [
     "ENFJ",
@@ -58,29 +65,32 @@ function ProfilePage() {
   ];
 
   useEffect(() => {
-    if(localStorage.getItem(LocalStorageKeys.HasProfile) === "true") {
-      getBbunUser().then((data) => {
-        setName(data.name || "");
-        setStudentId(data.studentNumber || "");
-        setEmail(data.email || "");
-        setMajor(data.department || "");
-        setMbti(data.MBTI || "");
-        setInstagramId(data.instaId || "");
-      }).catch((error) => {
-        console.error("Failed to fetch profile:", error);
-        alert("프로필 정보를 불러오는데 실패했습니다.");
-      });
+    if (localStorage.getItem(LocalStorageKeys.HasProfile) === "true") {
+      getBbunUser()
+        .then((data) => {
+          setName(data.name || "");
+          setStudentId(data.studentNumber || "");
+          setEmail(data.email || "");
+          setMajor(data.department || "");
+          setMbti(data.MBTI || "");
+          setInstagramId(data.instaId || "");
+        })
+        .catch((error) => {
+          console.error("Failed to fetch profile:", error);
+          alert("프로필 정보를 불러오는데 실패했습니다.");
+        });
     } else {
-      getUser().then((data) => {
-        setName(data.user_name || "");
-        setStudentId(data.student_id || "");
-        setEmail(data.user_email_id || "");
-      }).catch((error) => {
-        console.error("Failed to fetch user:", error);
-        alert("사용자 정보를 불러오는데 실패했습니다.");
-      });
+      getUser()
+        .then((data) => {
+          setName(data.user_name || "");
+          setStudentId(data.student_id || "");
+          setEmail(data.user_email_id || "");
+        })
+        .catch((error) => {
+          console.error("Failed to fetch user:", error);
+          alert("사용자 정보를 불러오는데 실패했습니다.");
+        });
     }
-    
   }, []);
 
   const handleUpdateClick = async () => {
@@ -88,10 +98,10 @@ function ProfilePage() {
       alert("필수 항목(학번, 이름, 이메일)을 모두 입력해주세요.");
       return;
     }
-    
+
     try {
       // registerBbunUser는 index.tsx에서 수행됨
-      
+
       const profileData = {
         department: major,
         MBTI: mbti,
@@ -100,7 +110,7 @@ function ProfilePage() {
       };
 
       await updateBbunUser(profileData);
-      if(!hasProfile) {
+      if (!hasProfile) {
         localStorage.setItem(LocalStorageKeys.HasProfile, "true");
         setHasProfile(true);
       }
@@ -217,14 +227,14 @@ function ProfilePage() {
                   placeholder="인스타그램 아이디를 입력해주세요."
                 />
               </div>
-              
+
               {hasProfile ? (
                 <div className="flex flex-col gap-[10px]">
                   <div className="flex flex-col gap-[6px]">
                     <div className="text-[18px] font-bold">회원 탈퇴</div>
                     <div className="text-[12px]">
-                      개인 정보 동의를 철회하려면 회원 탈퇴가 필요합니다. 이 행위는
-                      되돌릴 수 없습니다.
+                      개인 정보 동의를 철회하려면 회원 탈퇴가 필요합니다. 이
+                      행위는 되돌릴 수 없습니다.
                     </div>
                   </div>
 
@@ -239,29 +249,27 @@ function ProfilePage() {
                   </button>
                 </div>
               ) : (
-              <div className="flex flex-col gap-[10px]">
-                <div className="flex flex-col gap-[6px]">
-                  <div className="text-[18px] font-bold">
-                    개인 정보 제공에 동의하십니까?
+                <div className="flex flex-col gap-[10px]">
+                  <div className="flex flex-col gap-[6px]">
+                    <div className="text-[18px] font-bold">
+                      개인 정보 제공에 동의하십니까?
+                    </div>
+                    <div className="text-[12px]">
+                      동의하지 않을 시 서비스 이용이 불가능합니다.
+                    </div>
                   </div>
-                  <div className="text-[12px]">
-                    동의하지 않을 시 서비스 이용이 불가능합니다.
-                  </div>
+
+                  <label className="flex items-center gap-[8px] cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={agreement}
+                      onChange={(e) => setAgreement(e.target.checked)}
+                      className="w-5 h-5 cursor-pointer"
+                    />
+                    <span className="text-[15px] font-bold">동의합니다.</span>
+                  </label>
                 </div>
-                
-                <label className="flex items-center gap-[8px] cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={agreement}
-                    onChange={(e) => setAgreement(e.target.checked)}
-                    className="w-5 h-5 cursor-pointer"
-                  />
-                  <span className="text-[15px] font-bold">동의합니다.</span>
-                </label>
-              </div>)}
-
-              
-
+              )}
             </div>
           </div>
         </div>
@@ -270,9 +278,12 @@ function ProfilePage() {
             label={hasProfile ? "수정" : "등록"}
             onClick={handleUpdateClick}
             disabled={
-              hasProfile ? 
-              !studentId.trim() || !name.trim() || !email.trim() :
-              !agreement || !studentId.trim() || !name.trim() || !email.trim()
+              hasProfile
+                ? !studentId.trim() || !name.trim() || !email.trim()
+                : !agreement ||
+                  !studentId.trim() ||
+                  !name.trim() ||
+                  !email.trim()
             }
           />
         </div>
