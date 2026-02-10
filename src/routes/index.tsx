@@ -1,8 +1,4 @@
-import {
-  createFileRoute,
-  redirect,
-  useRouter,
-} from "@tanstack/react-router";
+import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import BusinessCard from "../components/BusinessCard";
 import skating_icon_Default from "../assets/icons/skating_icon_Default.svg";
@@ -11,7 +7,7 @@ import snowflake_2 from "../assets/icons/snowflake_2.svg";
 import snowflake_4 from "../assets/icons/snowflake_4.svg";
 import Button from "../components/Button";
 import LocalStorageKeys from "../types/localstorage";
-import { registerBbunUser } from "../apis/user";
+import { registerBbunUser, getBbun } from "../apis/user";
 
 export const Route = createFileRoute("/")({
   /* 로그인 확인(임시) */
@@ -26,16 +22,42 @@ export const Route = createFileRoute("/")({
   component: MainPage,
 });
 
+interface BbunCardData {
+  uuid: string;
+  name: string;
+  studentNumber: string;
+  email: string;
+  profileImageUrl: string | null;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  consent: boolean;
+  department: string | null;
+  MBTI: string | null;
+  instaId: string | null;
+  description: string | null;
+}
+
 function MainPage() {
   const router = useRouter();
   const [isProfileRegistered, setIsProfileRegistered] = useState(false);
-  
+  const [bbunLineCards, setBbunLineCards] = useState<BbunCardData[]>([]);
+
   useEffect(() => {
     const hasProfile = localStorage.getItem(LocalStorageKeys.HasProfile);
     if (hasProfile === "true") {
       setIsProfileRegistered(true);
+      fetchBbunLine();
     }
   }, []);
+  const fetchBbunLine = async () => {
+    try {
+      const response = await getBbun();
+      setBbunLineCards(response.list || []);
+    } catch (error) {
+      console.error("Failed to fetch Bbun-line:", error);
+    }
+  };
 
   const handleLogoutClick = () => {
     localStorage.removeItem(LocalStorageKeys.AccessToken);
@@ -47,33 +69,6 @@ function MainPage() {
   };
 
   const dummyCards = [1, 2, 3];
-
-  const realCards = [
-    {
-      name: "지니",
-      studentId: "20230001",
-      email: "example@gist.ac.kr",
-      centerColor: "blue",
-      instagramId: "@aaa",
-      department: "전기전자컴퓨터공학과",
-    },
-    {
-      name: "어스",
-      studentId: "20240001",
-      email: "example@gist.ac.kr",
-      centerColor: "purple",
-      instagramId: "@bbb",
-      department: "전기전자컴퓨터공학과",
-    },
-    {
-      name: "예시",
-      studentId: "20250001",
-      email: "example@gist.ac.kr",
-      centerColor: "pink",
-      instagramId: "@ccc",
-      department: "도전탐색과정",
-    },
-  ];
 
   return (
     <div className="w-full h-[100dvh] overflow-y-auto scrollbar-hide overflow-x-hidden">
@@ -116,6 +111,8 @@ function MainPage() {
           )}
         </div>
 
+        {/* 뻔카드 목록 */}
+
         <div
           className={`z-10 w-full flex flex-col justify-start items-center gap-[16px] pt-[20px] pb-[20px] mb-[24px] ${
             !isProfileRegistered ? "blur-[5px]" : ""
@@ -125,24 +122,25 @@ function MainPage() {
             ? dummyCards.map((_, index) => (
                 <BusinessCard
                   key={index}
-                  name="지니"
-                  studentId="20260001"
+                  name="이름"
+                  studentId="20260000"
                   email="example@gm.gist.ac.kr"
                   centerColor="blue"
-                  instagramId="@aaa"
-                  department="도전탐색과정"
+                  instagramId="instaId"
+                  department="GS"
                 />
               ))
-            : realCards.map((card, index) => (
+            : bbunLineCards.map((card, index) => (
                 <BusinessCard
-                  key={index}
+                  key={card.uuid || index}
                   name={card.name}
-                  studentId={card.studentId}
+                  studentId={card.studentNumber}
                   email={card.email}
-                  centerColor={card.centerColor}
-                  instagramId={card.instagramId}
+                  centerColor={
+                    ["blue", "purple", "pink", "yellow", "green"][index % 5]
+                  } // 색상 나중에 랜덤으로
+                  instagramId={card.instaId || ""}
                   department={card.department}
-                  isPreview={card.isPreview}
                 />
               ))}
         </div>
