@@ -7,7 +7,8 @@ import snowflake_2 from "../assets/icons/snowflake_2.svg";
 import snowflake_4 from "../assets/icons/snowflake_4.svg";
 import Button from "../components/Button";
 import LocalStorageKeys from "../types/localstorage";
-import { registerBbunUser, getBbun } from "../apis/user";
+import { registerBbunUser } from "../apis/user";
+import { getBbun } from "../apis/bbun";
 
 export const Route = createFileRoute("/")({
   /* 로그인 확인(임시) */
@@ -66,6 +67,21 @@ function MainPage() {
     localStorage.removeItem(LocalStorageKeys.HasProfile);
 
     router.navigate({ to: "/onboarding" });
+  };
+
+  const handleCardClick = (card: BbunCardData, color: string) => {
+    router.navigate({
+      to: "/cardview",
+      search: {
+        name: card.name,
+        studentId: card.studentNumber,
+        major: card.department || "",
+        email: card.email,
+        mbti: card.MBTI || "",
+        instagramId: card.instaId || "",
+        centerColor: color,
+      },
+    });
   };
 
   const dummyCards = [1, 2, 3];
@@ -140,8 +156,13 @@ function MainPage() {
                     ["blue", "purple", "pink", "yellow", "green"][index % 5]
                   } // 색상 나중에 랜덤으로
                   instagramId={card.instaId || ""}
-                  department={card.department}
-                  onClick={() => handleCardClick(card)}
+                  department={card.department || ""}
+                  onClick={() =>
+                    handleCardClick(
+                      card,
+                      ["blue", "purple", "pink", "yellow", "green"][index % 5],
+                    )
+                  }
                 />
               ))}
         </div>

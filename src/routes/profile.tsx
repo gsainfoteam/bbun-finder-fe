@@ -89,7 +89,7 @@ function ProfilePage() {
         setName(data.name || "");
         setStudentId(data.studentNumber || "");
         setEmail(data.email || "");
-        setMajor(data.department || "");
+        setMajor(reverseDepartmentMap[data.department] || data.department || "");
         setMbti(data.MBTI || "");
         setInstagramId(data.instaId || "");
       }).catch((error) => {
