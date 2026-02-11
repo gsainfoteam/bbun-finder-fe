@@ -1,4 +1,4 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useRouter, redirect } from "@tanstack/react-router";
 import {
   getBbunUser,
   getUser,
@@ -18,26 +18,17 @@ import DropDown from "../components/DropDown";
 import BusinessCard from "../components/BusinessCard";
 import LocalStorageKeys from "../types/localstorage";
 import LoadingModal from "../components/LoadingModal";
-
-const departmentMap: Record<string, string> = {
-  "전기전자컴퓨터공학과": "EC",
-  "AI융합학과": "AI",
-  "반도체공학과": "SE",
-  "물리광과학과": "PS",
-  "화학과": "CH",
-  "수리과학과": "MM",
-  "신소재공학과": "MA",
-  "기계로봇공학과": "MC",
-  "환경에너지공학과": "EV",
-  "생명과학과": "BS",
-  "도전탐색과정": "GS",
-};
-
-const reverseDepartmentMap: Record<string, string> = Object.fromEntries(
-  Object.entries(departmentMap).map(([name, code]) => [code, name])
-);
+import { departmentMap, reverseDepartmentMap } from "../types/department";
 
 export const Route = createFileRoute("/profile")({
+  beforeLoad: () => {
+    const isAuthenticated = localStorage.getItem(LocalStorageKeys.AccessToken);
+    if (!isAuthenticated) {
+      throw redirect({
+        to: "/onboarding",
+      });
+    }
+  },
   component: ProfilePage,
 });
 

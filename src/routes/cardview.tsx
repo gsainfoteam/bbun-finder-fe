@@ -1,4 +1,4 @@
-import { createFileRoute, useRouter } from '@tanstack/react-router'
+import { createFileRoute, useRouter, redirect } from '@tanstack/react-router'
 import { useState, useEffect } from "react";
 import Button from "../components/Button";
 import { getBbunUser } from "../apis/user";
@@ -15,15 +15,11 @@ import default_profile_2 from "../assets/icons/default_profile_2.png";
 import default_profile_3 from "../assets/icons/default_profile_3.png";
 import default_profile_4 from "../assets/icons/default_profile_4.png";
 import default_profile_5 from "../assets/icons/default_profile_5.png";
+import { reverseDepartmentMap } from "../types/department";
+import LocalStorageKeys from "../types/localstorage";
 
 type CardViewSearch = {
-  name: string;
   studentId: string;
-  major: string;
-  email: string;
-  mbti: string;
-  instagramId: string;
-  centerColor: string;
 };
 
 interface BbunCardData {
@@ -42,34 +38,18 @@ interface BbunCardData {
   description: string | null;
 }
 
-const departmentMap: Record<string, string> = {
-  "전기전자컴퓨터공학과": "EC",
-  "AI융합학과": "AI",
-  "반도체공학과": "SE",
-  "물리광과학과": "PS",
-  "화학과": "CH",
-  "수리과학과": "MM",
-  "신소재공학과": "MA",
-  "기계로봇공학과": "MC",
-  "환경에너지공학과": "EV",
-  "생명과학과": "BS",
-  "도전탐색과정": "GS",
-};
-
-const reverseDepartmentMap: Record<string, string> = Object.fromEntries(
-  Object.entries(departmentMap).map(([name, code]) => [code, name])
-);
-
 export const Route = createFileRoute('/cardview')({
+  beforeLoad: () => {
+    const isAuthenticated = localStorage.getItem(LocalStorageKeys.AccessToken);
+    if (!isAuthenticated) {
+      throw redirect({
+        to: "/onboarding",
+      });
+    }
+  },
   validateSearch: (search: Record<string, unknown>): CardViewSearch => {
     return {
-      name: (search.name as string) || "홍길동",
       studentId: (search.studentId as string) || "20250000",
-      major: (search.major as string) || "도전탐색과정",
-      email: (search.email as string) || "example@gm.gist.ac.kr",
-      mbti: (search.mbti as string) || "INTJ",
-      instagramId: (search.instagramId as string) || "@aaa",
-      centerColor: (search.centerColor as string) || "blue",
     };
   },
   component: RouteComponent,
@@ -77,7 +57,7 @@ export const Route = createFileRoute('/cardview')({
 
 function RouteComponent() {
   const router = useRouter();
-  const { name, studentId, major, email, mbti, instagramId, centerColor } = Route.useSearch();
+  const { studentId } = Route.useSearch();
   const [currentUserStudentId, setCurrentUserStudentId] = useState<string | null>(null);
   const [bbunList, setBbunList] = useState<BbunCardData[]>([]);
 
@@ -100,25 +80,28 @@ function RouteComponent() {
   }, []);
 
   const currentIndex = bbunList.findIndex(card => card.studentNumber === studentId);
+  const selectedCard = currentIndex !== -1 ? bbunList[currentIndex] : null;
   const hasPrev = currentIndex > 0;
   const hasNext = currentIndex !== -1 && currentIndex < bbunList.length - 1;
 
-  const navigateToCard = (card: BbunCardData, index: number) => {
+  const navigateToCard = (card: BbunCardData) => {
     router.navigate({
       to: "/cardview",
       search: {
-        name: card.name,
         studentId: card.studentNumber,
-        major: reverseDepartmentMap[card.department || ""] || card.department || "",
-        email: card.email,
-        mbti: card.MBTI || "",
-        instagramId: card.instaId || "",
-        centerColor: ["blue", "purple", "pink", "yellow", "green"][index % 5],
       },
     });
   };
 
   const isMine = currentUserStudentId === studentId;
+
+  // Derived information from found card
+  const name = selectedCard?.name || "홍길동";
+  const major = reverseDepartmentMap[selectedCard?.department || ""] || selectedCard?.department || "도전탐색과정";
+  const email = selectedCard?.email || "example@gm.gist.ac.kr";
+  const mbti = selectedCard?.MBTI || "INTJ";
+  const instagramId = selectedCard?.instaId || "@aaa";
+  const centerColor = ["blue", "purple", "pink", "yellow", "green"][currentIndex % 5] || "blue";
 
   const imageSrcs: Record<string, string> = {
     blue: default_profile_1,
@@ -159,7 +142,7 @@ function RouteComponent() {
         </div>
         <div className="flex flex-row justify-between items-center w-[326px] mt-[34px] gap-[20px]">
           <button 
-            onClick={() => hasPrev && navigateToCard(bbunList[currentIndex - 1], currentIndex - 1)}
+            onClick={() => hasPrev && navigateToCard(bbunList[currentIndex - 1])}
             className={`transition-opacity ${!hasPrev ? "opacity-0 cursor-default" : "cursor-pointer active:scale-95"}`}
             disabled={!hasPrev}
           >
@@ -173,7 +156,7 @@ function RouteComponent() {
           </div>
 
           <button 
-            onClick={() => hasNext && navigateToCard(bbunList[currentIndex + 1], currentIndex + 1)}
+            onClick={() => hasNext && navigateToCard(bbunList[currentIndex + 1])}
             className={`transition-opacity ${!hasNext ? "opacity-0 cursor-default" : "cursor-pointer active:scale-95"}`}
             disabled={!hasNext}
           >

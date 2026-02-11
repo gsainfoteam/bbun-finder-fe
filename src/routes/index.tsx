@@ -10,6 +10,7 @@ import LocalStorageKeys from "../types/localstorage";
 import { registerBbunUser } from "../apis/user";
 import { getBbun } from "../apis/bbun";
 import { bbunLogout } from "../apis/auth";
+import { reverseDepartmentMap } from "../types/department";
 
 export const Route = createFileRoute("/")({
   /* 로그인 확인(임시) */
@@ -40,24 +41,6 @@ interface BbunCardData {
   description: string | null;
 }
 
-const departmentMap: Record<string, string> = {
-  "전기전자컴퓨터공학과": "EC",
-  "AI융합학과": "AI",
-  "반도체공학과": "SE",
-  "물리광과학과": "PS",
-  "화학과": "CH",
-  "수리과학과": "MM",
-  "신소재공학과": "MA",
-  "기계로봇공학과": "MC",
-  "환경에너지공학과": "EV",
-  "생명과학과": "BS",
-  "도전탐색과정": "GS",
-};
-
-const reverseDepartmentMap: Record<string, string> = Object.fromEntries(
-  Object.entries(departmentMap).map(([name, code]) => [code, name])
-);
-
 function MainPage() {
   const router = useRouter();
   const [isProfileRegistered, setIsProfileRegistered] = useState(false);
@@ -79,9 +62,9 @@ function MainPage() {
     }
   };
 
-  const handleLogoutClick = () => {
+  const handleLogoutClick = async () => {
     try {
-      bbunLogout();
+      await bbunLogout();
     } catch (error) {
       console.error("Failed to logout:", error);
     } finally {
@@ -94,18 +77,11 @@ function MainPage() {
     router.navigate({ to: "/onboarding" });
   };
 
-  const handleCardClick = (card: BbunCardData, color: string) => {
+  const handleCardClick = (card: BbunCardData) => {
     router.navigate({
       to: "/cardview",
       search: {
-        name: card.name,
         studentId: card.studentNumber,
-        major:
-          reverseDepartmentMap[card.department || ""] || card.department || "",
-        email: card.email,
-        mbti: card.MBTI || "",
-        instagramId: card.instaId || "",
-        centerColor: color,
       },
     });
   };
@@ -188,10 +164,7 @@ function MainPage() {
                     ""
                   }
                   onClick={() =>
-                    handleCardClick(
-                      card,
-                      ["blue", "purple", "pink", "yellow", "green"][index % 5],
-                    )
+                    handleCardClick(card)
                   }
                 />
               ))}
