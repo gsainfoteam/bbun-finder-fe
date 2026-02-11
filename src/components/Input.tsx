@@ -23,14 +23,14 @@ function Input({
         placeholder={placeholder}
         disabled={disabled}
         className={`w-full px-4 py-2
-          border border-[#9EB6FF]
+          border 
           text-[14px]
           font-bold
           rounded-lg
           focus:outline-none
           focus:ring-2 focus:ring-blue-500
           transition
-          ${disabled ? "bg-gray-100 cursor-not-allowed opacity-70" : "bg-white"}`}
+          ${disabled ? "border-[#8D8D8D] bg-[#EDEDED] cursor-not-allowed opacity-70" : "border-[#9EB6FF] bg-white"}`}
       />
     </div>
   );

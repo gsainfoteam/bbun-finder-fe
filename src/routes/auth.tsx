@@ -214,7 +214,7 @@ const oauthSequence = async (): Promise<OAuthSequenceResult> => {
           isSuccessful: true,
         };
       } catch (err: any) {
-        if (err.response && err.response.status === 401) {
+        if (err.response && (err.response.status === 401 || err.response.status === 404)) {
           localStorage.setItem(LocalStorageKeys.HasProfile, "false");
           return {
             isSuccessful: false,

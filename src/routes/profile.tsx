@@ -10,11 +10,14 @@ import snowflake_1 from "../assets/icons/snowflake_1.svg";
 import snowflake_4 from "../assets/icons/snowflake_4.svg";
 import skating_icon_Default from "../assets/icons/skating_icon_Default.svg";
 import trash_icon from "../assets/icons/trash_icon_Default.svg";
+import go_back from "../assets/icons/go_back.svg";
+import go_back_disabled from "../assets/icons/go_back_disabled.svg";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import DropDown from "../components/DropDown";
 import BusinessCard from "../components/BusinessCard";
 import LocalStorageKeys from "../types/localstorage";
+import LoadingModal from "../components/LoadingModal";
 
 const departmentMap: Record<string, string> = {
   "전기전자컴퓨터공학과": "EC",
@@ -50,6 +53,8 @@ function ProfilePage() {
   const [hasProfile, setHasProfile] = useState(
     localStorage.getItem(LocalStorageKeys.HasProfile) === "true",
   );
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingLabel, setLoadingLabel] = useState("");
 
   const mbtiList = [
     "ENFJ",
@@ -117,6 +122,9 @@ function ProfilePage() {
     }
 
     try {
+      setIsLoading(true);
+      setLoadingLabel(hasProfile ? "프로필 수정 중" : "프로필 등록 중");
+
       // registerBbunUser는 index.tsx에서 수행됨
 
       const profileData = {
@@ -135,6 +143,8 @@ function ProfilePage() {
     } catch (error) {
       console.error("Profile registration failed:", error);
       alert("프로필 등록에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -188,6 +198,7 @@ function ProfilePage() {
               centerColor="blue"
               instagramId={instagramId}
               department={major}
+              isPreview={true}
             />
             <div className="flex flex-col gap-[40px]">
               <div className="flex flex-col gap-[19px]">
@@ -290,22 +301,39 @@ function ProfilePage() {
               )}
             </div>
           </div>
-        </div>
-        <div className="mb-[80px]">
-          <Button
-            label={hasProfile ? "수정" : "등록"}
-            onClick={handleUpdateClick}
-            disabled={
-              hasProfile
-                ? !studentId.trim() || !name.trim() || !email.trim()
-                : !agreement ||
-                  !studentId.trim() ||
-                  !name.trim() ||
-                  !email.trim()
-            }
-          />
+          <div className="mt-[20px] mb-[80px] z-10 flex flex-row items-center justify-center gap-[17px] w-full self-center">
+            <button
+              type="button"
+              onClick={() => router.navigate({ to: "/" })}
+              disabled={isLoading}
+              className={`flex items-center justify-center w-[52px] h-[52px] cursor-pointer active:scale-95 transition-all ${
+                isLoading ? "cursor-not-allowed opacity-70" : ""
+              }`}
+            >
+              <img
+                src={isLoading ? go_back_disabled : go_back}
+                alt="go back"
+                className="w-[50px] h-[50px]"
+              />
+            </button>
+            <Button
+              label={hasProfile ? "수정" : "등록"}
+              onClick={handleUpdateClick}
+              className="w-[240px]"
+              disabled={
+                isLoading ||
+                (hasProfile
+                  ? !studentId.trim() || !name.trim() || !email.trim()
+                  : !agreement ||
+                    !studentId.trim() ||
+                    !name.trim() ||
+                    !email.trim())
+              }
+            />
+          </div>
         </div>
       </div>
+      {isLoading && <LoadingModal label={loadingLabel} />}
     </div>
   );
 }

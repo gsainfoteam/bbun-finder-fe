@@ -23,7 +23,7 @@ function DropDown({
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
         className={`w-full px-4 py-2
-          border border-[#9EB6FF]
+          border 
           text-[14px]
           font-bold
           rounded-lg
@@ -31,7 +31,7 @@ function DropDown({
           focus:ring-2 focus:ring-blue-500
           transition
           cursor-pointer
-          ${disabled ? "bg-gray-100 cursor-not-allowed opacity-70" : "bg-white"}`}
+          ${disabled ? "border-[#8D8D8D] bg-[#EDEDED] cursor-not-allowed" : "border-[#9EB6FF] bg-white "}`}
       >
         <option value="">{placeholder}</option>
         {options.map((option) => (
