@@ -19,6 +19,7 @@ interface BusinessCardProps {
   instagramId: string;
   department: string;
   isPreview?: boolean;
+  onClick?: () => void;
 }
 export default function BusinessCard({
   name,
@@ -28,6 +29,7 @@ export default function BusinessCard({
   instagramId,
   department,
   isPreview,
+  onClick,
 }: BusinessCardProps) {
   const imageSrcs: Record<string, string> = {
     blue: default_profile_1,
@@ -77,7 +79,15 @@ export default function BusinessCard({
   const isPreviewCard = isPreview === true;
 
   return (
-    <div className="relative w-[324px] h-[140px]">
+    <button
+      onClick={onClick}
+      disabled={!onClick || isPreviewCard}
+      className={clsx(
+        "relative w-[324px] h-[140px] text-left transition-all",
+        onClick && !isPreviewCard && "cursor-pointer hover:scale-[1.02] active:scale-[0.98]",
+        !onClick && "cursor-default"
+      )}
+    >
       <div
         className={clsx(
           "absolute inset-0 rounded-[12px] p-[2px] pointer-events-none",
@@ -146,6 +156,6 @@ export default function BusinessCard({
           )}
         </div>
       </div>
-    </div>
+    </button>
   );
 }

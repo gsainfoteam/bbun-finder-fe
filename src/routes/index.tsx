@@ -141,6 +141,7 @@ function MainPage() {
                   } // 색상 나중에 랜덤으로
                   instagramId={card.instaId || ""}
                   department={card.department}
+                  onClick={() => handleCardClick(card)}
                 />
               ))}
         </div>
