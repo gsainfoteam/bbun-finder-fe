@@ -11,7 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
-import { Route as LoginRouteImport } from './routes/login'
+import { Route as CardviewRouteImport } from './routes/cardview'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -25,9 +25,9 @@ const OnboardingRoute = OnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const CardviewRoute = CardviewRouteImport.update({
+  id: '/cardview',
+  path: '/cardview',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -44,14 +44,14 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/login': typeof LoginRoute
+  '/cardview': typeof CardviewRoute
   '/onboarding': typeof OnboardingRoute
   '/profile': typeof ProfileRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/login': typeof LoginRoute
+  '/cardview': typeof CardviewRoute
   '/onboarding': typeof OnboardingRoute
   '/profile': typeof ProfileRoute
 }
@@ -59,22 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/login': typeof LoginRoute
+  '/cardview': typeof CardviewRoute
   '/onboarding': typeof OnboardingRoute
   '/profile': typeof ProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/login' | '/onboarding' | '/profile'
+  fullPaths: '/' | '/auth' | '/cardview' | '/onboarding' | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/login' | '/onboarding' | '/profile'
-  id: '__root__' | '/' | '/auth' | '/login' | '/onboarding' | '/profile'
+  to: '/' | '/auth' | '/cardview' | '/onboarding' | '/profile'
+  id: '__root__' | '/' | '/auth' | '/cardview' | '/onboarding' | '/profile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
-  LoginRoute: typeof LoginRoute
+  CardviewRoute: typeof CardviewRoute
   OnboardingRoute: typeof OnboardingRoute
   ProfileRoute: typeof ProfileRoute
 }
@@ -95,11 +95,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
+    '/cardview': {
+      id: '/cardview'
+      path: '/cardview'
+      fullPath: '/cardview'
+      preLoaderRoute: typeof CardviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -122,7 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
-  LoginRoute: LoginRoute,
+  CardviewRoute: CardviewRoute,
   OnboardingRoute: OnboardingRoute,
   ProfileRoute: ProfileRoute,
 }

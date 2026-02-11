@@ -50,8 +50,3 @@ export const withdrawBbunUser = async () => {
         .then(({ data }) => data);
 };
 
-export const getBbun = async () => {
-    return api
-        .get(`/bbun`)
-        .then(({ data }) => data);
-};

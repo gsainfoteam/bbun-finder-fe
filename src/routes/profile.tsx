@@ -7,8 +7,27 @@ import skating_icon_Default from "../assets/icons/skating_icon_Default.svg";
 import trash_icon from "../assets/icons/trash_icon_Default.svg";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import DropDown from "../components/DropDown";
 import BusinessCard from "../components/BusinessCard";
 import LocalStorageKeys from "../types/localstorage";
+
+const departmentMap: Record<string, string> = {
+  "전기전자컴퓨터공학과": "EC",
+  "AI융합학과": "AI",
+  "반도체공학과": "SE",
+  "물리광과학과": "PS",
+  "화학과": "CH",
+  "수리과학과": "MM",
+  "신소재공학과": "MA",
+  "기계로봇공학과": "MC",
+  "환경에너지공학과": "EV",
+  "생명과학과": "BS",
+  "도전탐색과정": "GS",
+};
+
+const reverseDepartmentMap: Record<string, string> = Object.fromEntries(
+  Object.entries(departmentMap).map(([name, code]) => [code, name])
+);
 
 export const Route = createFileRoute("/profile")({
   component: ProfilePage,
@@ -63,7 +82,7 @@ function ProfilePage() {
         setName(data.name || "");
         setStudentId(data.studentNumber || "");
         setEmail(data.email || "");
-        setMajor(data.department || "");
+        setMajor(reverseDepartmentMap[data.department] || data.department || "");
         setMbti(data.MBTI || "");
         setInstagramId(data.instaId || "");
       }).catch((error) => {
@@ -93,7 +112,7 @@ function ProfilePage() {
       // registerBbunUser는 index.tsx에서 수행됨
       
       const profileData = {
-        department: major,
+        department: departmentMap[major] || major,
         MBTI: mbti,
         instaId: instagramId,
         description: "",
@@ -171,6 +190,7 @@ function ProfilePage() {
                     setStudentId(value);
                   }}
                   placeholder="학번을 입력해주세요."
+                  disabled={true}
                 />
                 <Input
                   value={name}
@@ -179,6 +199,7 @@ function ProfilePage() {
                     setName(value);
                   }}
                   placeholder="이름을 입력해주세요."
+                  disabled={true}
                 />
                 <Input
                   value={email}
@@ -187,24 +208,23 @@ function ProfilePage() {
                     setEmail(value);
                   }}
                   placeholder="이메일을 입력해주세요."
+                  disabled={true}
                 />
-                <Input
+                <DropDown
                   value={major}
                   label="학과 (선택)"
                   onChange={(value) => {
                     setMajor(value);
                   }}
-                  type="select"
                   options={majorList}
                   placeholder="학과 선택"
                 />
-                <Input
+                <DropDown
                   value={mbti}
                   label="MBTI (선택)"
                   onChange={(value) => {
                     setMbti(value);
                   }}
-                  type="select"
                   options={mbtiList}
                   placeholder="MBTI 선택"
                 />
@@ -259,9 +279,6 @@ function ProfilePage() {
                   <span className="text-[15px] font-bold">동의합니다.</span>
                 </label>
               </div>)}
-
-              
-
             </div>
           </div>
         </div>

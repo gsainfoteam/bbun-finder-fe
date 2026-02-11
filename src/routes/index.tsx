@@ -56,6 +56,7 @@ function MainPage() {
       centerColor: "blue",
       instagramId: "@aaa",
       department: "전기전자컴퓨터공학과",
+      isPreview: false,
     },
     {
       name: "어스",
@@ -64,6 +65,7 @@ function MainPage() {
       centerColor: "purple",
       instagramId: "@bbb",
       department: "전기전자컴퓨터공학과",
+      isPreview: false,
     },
     {
       name: "예시",
@@ -72,8 +74,31 @@ function MainPage() {
       centerColor: "pink",
       instagramId: "@ccc",
       department: "도전탐색과정",
+      isPreview: false,
     },
   ];
+
+  const handleCardClick = (card: {
+    name: string;
+    studentId: string;
+    email: string;
+    centerColor: string;
+    instagramId: string;
+    department: string;
+  }) => {
+    router.navigate({
+      to: "/cardview",
+      search: {
+        name: card.name,
+        studentId: card.studentId,
+        major: card.department,
+        email: card.email,
+        mbti: "INTJ", // Placeholder
+        instagramId: card.instagramId,
+        centerColor: card.centerColor,
+      },
+    });
+  };
 
   return (
     <div className="w-full h-[100dvh] overflow-y-auto scrollbar-hide overflow-x-hidden">
@@ -143,6 +168,7 @@ function MainPage() {
                   instagramId={card.instagramId}
                   department={card.department}
                   isPreview={card.isPreview}
+                  onClick={() => handleCardClick(card)}
                 />
               ))}
         </div>
