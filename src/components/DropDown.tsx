@@ -1,6 +1,6 @@
 interface DropDownProps {
-  value: string;
-  onChange: (value: string) => void;
+  value: string | null;
+  onChange: (value: string | null) => void;
   label?: string;
   placeholder?: string;
   options?: string[];
@@ -19,8 +19,8 @@ function DropDown({
     <div className="flex flex-col gap-1">
       <label className="text-[16px] font-bold">{label}</label>
       <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+        value={value ?? ""}
+        onChange={(e) => onChange(e.target.value === "" ? null : e.target.value)}
         disabled={disabled}
         className={`w-full px-4 py-2
           border 

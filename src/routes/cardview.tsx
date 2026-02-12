@@ -96,11 +96,11 @@ function RouteComponent() {
   const isMine = currentUserStudentId === studentId;
 
   // Derived information from found card
-  const name = selectedCard?.name || "홍길동";
-  const major = reverseDepartmentMap[selectedCard?.department || ""] || selectedCard?.department || "도전탐색과정";
-  const email = selectedCard?.email || "example@gm.gist.ac.kr";
-  const mbti = selectedCard?.MBTI || "INTJ";
-  const instagramId = selectedCard?.instaId || "@aaa";
+  const name = selectedCard?.name || "";
+  const major = reverseDepartmentMap[selectedCard?.department || ""] || selectedCard?.department || "???과";
+  const email = selectedCard?.email || "";
+  const mbti = selectedCard?.MBTI || "";
+  const instagramId = selectedCard?.instaId || "";
   const centerColor = ["blue", "purple", "pink", "yellow", "green"][currentIndex % 5] || "blue";
 
   const imageSrcs: Record<string, string> = {

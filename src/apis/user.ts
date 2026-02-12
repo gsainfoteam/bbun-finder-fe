@@ -1,34 +1,25 @@
 import api from "./interceptor";
-import axios from "axios";
 import LocalStorageKeys from "../types/localstorage";
 
 interface ProfileData {
-    department?: string;
-    MBTI?: string;
-    instaId?: string;
-    description?: string;
+    department?: string | null;
+    MBTI?: string | null;
+    instaId?: string | null;
+    description?: string | null;
+    consent?: boolean;
 }
 
-
-const IDP_API_URL = import.meta.env.VITE_IDP_API_URL;
-
-export const getUser = async () => {
-    const token = localStorage.getItem(LocalStorageKeys.AccessToken);
-    if (!token) {
-        throw new Error("Missing access_token");
+export const registerBbunUser = async () => {
+    const idToken = localStorage.getItem(LocalStorageKeys.IdToken);
+    if (!idToken) {
+        throw new Error("Missing id_token");
     }
-    return axios
-        .get(`${IDP_API_URL}/oauth2/userinfo`, {
+    return api
+        .post(`/user`,{}, {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${idToken}`,
             },
         })
-        .then(({ data }) => data);
-};
-
-export const registerBbunUser = async () => {
-    return api
-        .post(`/user`,{})
         .then(({ data }) => data);
 };
 

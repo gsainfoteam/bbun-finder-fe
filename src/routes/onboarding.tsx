@@ -1,5 +1,5 @@
 import { generateLoginURLHandler } from "../apis/auth";
-import { createFileRoute, useRouter, redirect } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import LocalStorageKeys from "../types/localstorage";
 import onboarding_page_skater_and_trajectory_1 from "../assets/icons/onboarding_page_skater_and_trajectory_1.svg";
 import onboarding_page_trajectory_2 from "../assets/icons/onboarding_page_trajectory_2.svg";
@@ -26,8 +26,6 @@ export const Route = createFileRoute("/onboarding")({
 });
 
 function OnboardingPage() {
-  const router = useRouter();
-
   const handleLoginClick = async () => {
     try {
       await generateLoginURLHandler(location.pathname);

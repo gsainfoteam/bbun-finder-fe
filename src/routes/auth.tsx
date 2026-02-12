@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { oAuthGetToken, bbunLogin } from "../apis/auth";
+import { registerBbunUser, getBbunUser } from "../apis/user";
 import LocalStorageKeys from "../types/localstorage";
 import onboarding_page_skater_and_trajectory_1 from "../assets/icons/onboarding_page_skater_and_trajectory_1.svg";
 import onboarding_page_trajectory_2 from "../assets/icons/onboarding_page_trajectory_2.svg";
@@ -206,23 +207,42 @@ const oauthSequence = async (): Promise<OAuthSequenceResult> => {
     );
     if (tokenResponse.id_token) {
       localStorage.setItem(LocalStorageKeys.IdToken, tokenResponse.id_token);
-      try {
-        const { access_token } = await bbunLogin(); 
-        localStorage.setItem(LocalStorageKeys.BbunAccessToken, access_token);
-        localStorage.setItem(LocalStorageKeys.HasProfile, "true");
-        return {
-          isSuccessful: true,
-        };
-      } catch (err: any) {
-        if (err.response && (err.response.status === 401 || err.response.status === 404)) {
-          localStorage.setItem(LocalStorageKeys.HasProfile, "false");
-          return {
-            isSuccessful: false,
-            needsSignup: true,
-          };
+        try {
+          const { access_token } = await bbunLogin(); 
+          localStorage.setItem(LocalStorageKeys.BbunAccessToken, access_token);
+          
+          const userData = await getBbunUser();
+          if (userData.consent) {
+            return {
+              isSuccessful: true,
+            };
+          } else {
+            return {
+              isSuccessful: true,
+              needsSignup: true,
+            };
+          }
+        } catch (err: any) {
+          if (err.response && (err.response.status === 401 || err.response.status === 404)) {
+            try {
+              await registerBbunUser();
+              const { access_token } = await bbunLogin();
+              localStorage.setItem(LocalStorageKeys.BbunAccessToken, access_token);
+              
+              return {
+                isSuccessful: true,
+                needsSignup: true,
+              };
+            } catch (regErr) {
+              console.error("Auto registration failed:", regErr);
+              return {
+                isSuccessful: false,
+                needsSignup: true,
+              };
+            }
+          }
+          throw err;
         }
-        throw err;
-      }
     } else {
       return {
         isSuccessful: false,
