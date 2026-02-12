@@ -7,7 +7,10 @@ import snowflake_2 from "../assets/icons/snowflake_2.svg";
 import snowflake_4 from "../assets/icons/snowflake_4.svg";
 import Button from "../components/Button";
 import LocalStorageKeys from "../types/localstorage";
-import { registerBbunUser, getBbun } from "../apis/user";
+import { registerBbunUser } from "../apis/user";
+import { getBbun } from "../apis/bbun";
+import { bbunLogout } from "../apis/auth";
+import { reverseDepartmentMap } from "../types/department";
 
 export const Route = createFileRoute("/")({
   /* 로그인 확인(임시) */
@@ -59,13 +62,28 @@ function MainPage() {
     }
   };
 
-  const handleLogoutClick = () => {
-    localStorage.removeItem(LocalStorageKeys.AccessToken);
-    localStorage.removeItem(LocalStorageKeys.IdToken);
-    localStorage.removeItem(LocalStorageKeys.BbunAccessToken);
-    localStorage.removeItem(LocalStorageKeys.HasProfile);
+  const handleLogoutClick = async () => {
+    try {
+      await bbunLogout();
+    } catch (error) {
+      console.error("Failed to logout:", error);
+    } finally {
+      localStorage.removeItem(LocalStorageKeys.AccessToken);
+      localStorage.removeItem(LocalStorageKeys.IdToken);
+      localStorage.removeItem(LocalStorageKeys.BbunAccessToken);
+      localStorage.removeItem(LocalStorageKeys.HasProfile);
+    }
 
     router.navigate({ to: "/onboarding" });
+  };
+
+  const handleCardClick = (card: BbunCardData) => {
+    router.navigate({
+      to: "/cardview",
+      search: {
+        studentId: card.studentNumber,
+      },
+    });
   };
 
   const dummyCards = [1, 2, 3];
@@ -140,12 +158,19 @@ function MainPage() {
                     ["blue", "purple", "pink", "yellow", "green"][index % 5]
                   } // 색상 나중에 랜덤으로
                   instagramId={card.instaId || ""}
-                  department={card.department}
+                  department={
+                    reverseDepartmentMap[card.department || ""] ||
+                    card.department ||
+                    ""
+                  }
+                  onClick={() =>
+                    handleCardClick(card)
+                  }
                 />
               ))}
         </div>
 
-        <div className="w-full mt-auto pb-[calc(30px+env(safe-area-inset-bottom))] flex flex-col items-center gap-[10px] z-50">
+        <div className="w-full mt-auto pb-[calc(56px+env(safe-area-inset-bottom))] flex flex-col items-center gap-[10px] z-50">
           {!isProfileRegistered ? (
             <Button
               label="프로필 등록하기"
@@ -161,28 +186,18 @@ function MainPage() {
             />
           ) : (
             <Button
-              label="채팅방 참여하기"
-              onClick={() => {
-                // 채팅방 만들어지면 연결
-              }}
+              label="로그아웃"
+              onClick={handleLogoutClick}
             />
           )}
-
           <button
             className="text-gray-400 text-xs mb-2"
             onClick={handleLogoutClick}
           >
             테스트용 로그아웃 (토큰/프로필 초기화)
           </button>
-          <button
-            className="text-gray-400 text-xs mb-2"
-            onClick={() => {
-              router.navigate({ to: "/profile" });
-            }}
-          >
-            테스트용 프로필 수정
-          </button>
         </div>
+        
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useRouter, redirect } from "@tanstack/react-router";
 import {
   getBbunUser,
   getUser,
@@ -10,12 +10,25 @@ import snowflake_1 from "../assets/icons/snowflake_1.svg";
 import snowflake_4 from "../assets/icons/snowflake_4.svg";
 import skating_icon_Default from "../assets/icons/skating_icon_Default.svg";
 import trash_icon from "../assets/icons/trash_icon_Default.svg";
+import go_back from "../assets/icons/go_back.svg";
+import go_back_disabled from "../assets/icons/go_back_disabled.svg";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import DropDown from "../components/DropDown";
 import BusinessCard from "../components/BusinessCard";
 import LocalStorageKeys from "../types/localstorage";
+import LoadingModal from "../components/LoadingModal";
+import { departmentMap, reverseDepartmentMap } from "../types/department";
 
 export const Route = createFileRoute("/profile")({
+  beforeLoad: () => {
+    const isAuthenticated = localStorage.getItem(LocalStorageKeys.AccessToken);
+    if (!isAuthenticated) {
+      throw redirect({
+        to: "/onboarding",
+      });
+    }
+  },
   component: ProfilePage,
 });
 
@@ -31,6 +44,8 @@ function ProfilePage() {
   const [hasProfile, setHasProfile] = useState(
     localStorage.getItem(LocalStorageKeys.HasProfile) === "true",
   );
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingLabel, setLoadingLabel] = useState("");
 
   const mbtiList = [
     "ENFJ",
@@ -65,20 +80,18 @@ function ProfilePage() {
   ];
 
   useEffect(() => {
-    if (localStorage.getItem(LocalStorageKeys.HasProfile) === "true") {
-      getBbunUser()
-        .then((data) => {
-          setName(data.name || "");
-          setStudentId(data.studentNumber || "");
-          setEmail(data.email || "");
-          setMajor(data.department || "");
-          setMbti(data.MBTI || "");
-          setInstagramId(data.instaId || "");
-        })
-        .catch((error) => {
-          console.error("Failed to fetch profile:", error);
-          alert("프로필 정보를 불러오는데 실패했습니다.");
-        });
+    if(localStorage.getItem(LocalStorageKeys.HasProfile) === "true") {
+      getBbunUser().then((data) => {
+        setName(data.name || "");
+        setStudentId(data.studentNumber || "");
+        setEmail(data.email || "");
+        setMajor(reverseDepartmentMap[data.department] || data.department || "");
+        setMbti(data.MBTI || "");
+        setInstagramId(data.instaId || "");
+      }).catch((error) => {
+        console.error("Failed to fetch profile:", error);
+        alert("프로필 정보를 불러오는데 실패했습니다.");
+      });
     } else {
       getUser()
         .then((data) => {
@@ -100,10 +113,13 @@ function ProfilePage() {
     }
 
     try {
+      setIsLoading(true);
+      setLoadingLabel(hasProfile ? "프로필 수정 중" : "프로필 등록 중");
+
       // registerBbunUser는 index.tsx에서 수행됨
 
       const profileData = {
-        department: major,
+        department: departmentMap[major] || major,
         MBTI: mbti,
         instaId: instagramId,
         description: "",
@@ -118,6 +134,8 @@ function ProfilePage() {
     } catch (error) {
       console.error("Profile registration failed:", error);
       alert("프로필 등록에 실패했습니다. 다시 시도해주세요.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -171,6 +189,7 @@ function ProfilePage() {
               centerColor="blue"
               instagramId={instagramId}
               department={major}
+              isPreview={true}
             />
             <div className="flex flex-col gap-[40px]">
               <div className="flex flex-col gap-[19px]">
@@ -181,6 +200,7 @@ function ProfilePage() {
                     setStudentId(value);
                   }}
                   placeholder="학번을 입력해주세요."
+                  disabled={true}
                 />
                 <Input
                   value={name}
@@ -189,6 +209,7 @@ function ProfilePage() {
                     setName(value);
                   }}
                   placeholder="이름을 입력해주세요."
+                  disabled={true}
                 />
                 <Input
                   value={email}
@@ -197,24 +218,23 @@ function ProfilePage() {
                     setEmail(value);
                   }}
                   placeholder="이메일을 입력해주세요."
+                  disabled={true}
                 />
-                <Input
+                <DropDown
                   value={major}
                   label="학과 (선택)"
                   onChange={(value) => {
                     setMajor(value);
                   }}
-                  type="select"
                   options={majorList}
                   placeholder="학과 선택"
                 />
-                <Input
+                <DropDown
                   value={mbti}
                   label="MBTI (선택)"
                   onChange={(value) => {
                     setMbti(value);
                   }}
-                  type="select"
                   options={mbtiList}
                   placeholder="MBTI 선택"
                 />
@@ -272,22 +292,39 @@ function ProfilePage() {
               )}
             </div>
           </div>
-        </div>
-        <div className="mb-[80px]">
-          <Button
-            label={hasProfile ? "수정" : "등록"}
-            onClick={handleUpdateClick}
-            disabled={
-              hasProfile
-                ? !studentId.trim() || !name.trim() || !email.trim()
-                : !agreement ||
-                  !studentId.trim() ||
-                  !name.trim() ||
-                  !email.trim()
-            }
-          />
+          <div className="mt-[20px] mb-[80px] z-10 flex flex-row items-center justify-center gap-[17px] w-full self-center">
+            <button
+              type="button"
+              onClick={() => router.navigate({ to: "/" })}
+              disabled={isLoading}
+              className={`flex items-center justify-center w-[52px] h-[52px] cursor-pointer active:scale-95 transition-all ${
+                isLoading ? "cursor-not-allowed opacity-70" : ""
+              }`}
+            >
+              <img
+                src={isLoading ? go_back_disabled : go_back}
+                alt="go back"
+                className="w-[50px] h-[50px]"
+              />
+            </button>
+            <Button
+              label={hasProfile ? "수정" : "등록"}
+              onClick={handleUpdateClick}
+              className="w-[240px]"
+              disabled={
+                isLoading ||
+                (hasProfile
+                  ? !studentId.trim() || !name.trim() || !email.trim()
+                  : !agreement ||
+                    !studentId.trim() ||
+                    !name.trim() ||
+                    !email.trim())
+              }
+            />
+          </div>
         </div>
       </div>
+      {isLoading && <LoadingModal label={loadingLabel} />}
     </div>
   );
 }
