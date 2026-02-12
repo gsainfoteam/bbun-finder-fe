@@ -1,6 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, redirect } from "@tanstack/react-router";
 import { oAuthGetToken, bbunLogin } from "../apis/auth";
 import LocalStorageKeys from "../types/localstorage";
 import onboarding_page_skater_and_trajectory_1 from "../assets/icons/onboarding_page_skater_and_trajectory_1.svg";
@@ -18,9 +18,20 @@ import { generateLoginURLHandler } from "../apis/auth";
 
 type AuthStatus = "loading" | "success" | "failed" | "signup";
 
-export const Route = createFileRoute('/auth')({
+export const Route = createFileRoute("/auth")({
+  beforeLoad: () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const state = urlParams.get("state");
+    const code = urlParams.get("code");
+
+    if (!state || !code) {
+      throw redirect({
+        to: "/onboarding",
+      });
+    }
+  },
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   const navigate = useNavigate();
@@ -41,13 +52,13 @@ function RouteComponent() {
   }, [authStatus, navigate]);
 
   const handleLoginClick = async () => {
-      try {
-        await generateLoginURLHandler(location.pathname);
-      } catch (error) {
-        console.error("로그인 실패:", error);
-        alert("로그인 URL 생성 중 오류가 발생했습니다.");
-      }
-    };
+    try {
+      await generateLoginURLHandler(location.pathname);
+    } catch (error) {
+      console.error("로그인 실패:", error);
+      alert("로그인 URL 생성 중 오류가 발생했습니다.");
+    }
+  };
 
   return (
     <div className="relative w-full h-full overflow-y-auto scrollbar-hide overflow-x-hidden bg-[linear-gradient(162deg,#D2E4FF,#E9E0FF)] flex flex-col justify-between items-center">
@@ -109,7 +120,7 @@ function RouteComponent() {
           <Button label="로그인하기" onClick={handleLoginClick} />
         </div>
       </div>
-      
+
       {/* Modal */}
       {authStatus === "loading" && <LoadingModal label="로그인 중" />}
       {authStatus === "failed" && errorMessage && (
@@ -128,11 +139,11 @@ const useOAuthSequence = () => {
       try {
         const result = await oauthSequence();
         if (result.isSuccessful) {
-            setAuthStatus("success");
+          setAuthStatus("success");
         } else if (result.needsSignup) {
-            setAuthStatus("signup");
+          setAuthStatus("signup");
         } else {
-            setAuthStatus("failed");
+          setAuthStatus("failed");
         }
         if (result.errorMessage) {
           setErrorMessage(result.errorMessage);
@@ -202,19 +213,22 @@ const oauthSequence = async (): Promise<OAuthSequenceResult> => {
     cleanupOAuthState();
     localStorage.setItem(
       LocalStorageKeys.AccessToken,
-      tokenResponse.access_token
+      tokenResponse.access_token,
     );
     if (tokenResponse.id_token) {
       localStorage.setItem(LocalStorageKeys.IdToken, tokenResponse.id_token);
       try {
-        const { access_token } = await bbunLogin(); 
+        const { access_token } = await bbunLogin();
         localStorage.setItem(LocalStorageKeys.BbunAccessToken, access_token);
         localStorage.setItem(LocalStorageKeys.HasProfile, "true");
         return {
           isSuccessful: true,
         };
       } catch (err: any) {
-        if (err.response && (err.response.status === 401 || err.response.status === 404)) {
+        if (
+          err.response &&
+          (err.response.status === 401 || err.response.status === 404)
+        ) {
           localStorage.setItem(LocalStorageKeys.HasProfile, "false");
           return {
             isSuccessful: false,

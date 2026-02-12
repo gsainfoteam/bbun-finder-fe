@@ -1,7 +1,28 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { createRootRoute, Outlet, redirect } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
+import LocalStorageKeys from "../types/localstorage";
 
 export const Route = createRootRoute({
+  beforeLoad: ({ location }) => {
+    const isAuthenticated = localStorage.getItem(LocalStorageKeys.AccessToken);
+
+    const publicPaths = ["/onboarding", "/auth"];
+    const isPublicPath = publicPaths.some((path) =>
+      location.pathname.startsWith(path),
+    );
+
+    if (!isAuthenticated && !isPublicPath) {
+      throw redirect({
+        to: "/onboarding",
+      });
+    }
+
+    if (isAuthenticated && isPublicPath) {
+      throw redirect({
+        to: "/",
+      });
+    }
+  },
   component: RootComponent,
 });
 

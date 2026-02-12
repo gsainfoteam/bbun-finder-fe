@@ -13,4 +13,21 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem(LocalStorageKeys.AccessToken);
+      localStorage.removeItem(LocalStorageKeys.IdToken);
+      localStorage.removeItem(LocalStorageKeys.BbunAccessToken);
+      localStorage.removeItem(LocalStorageKeys.HasProfile);
+
+      window.location.href = "/onboarding";
+    }
+    return Promise.reject(error);
+  },
+);
+
 export default api;
