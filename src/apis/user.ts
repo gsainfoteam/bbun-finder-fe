@@ -24,20 +24,13 @@ export const registerBbunUser = async () => {
 };
 
 export const getBbunUser = async () => {
-    return api
-        .get(`/user`)
-        .then(({ data }) => data);
+  return api.get(`/user`).then(({ data }) => data);
 };
 
 export const updateBbunUser = async (profileData: ProfileData) => {
-    return api
-        .patch(`/user`, profileData)
-        .then(({ data }) => data);
+  return api.patch(`/user`, profileData).then(({ data }) => data);
 };
 
 export const withdrawBbunUser = async () => {
-    return api
-        .delete(`/user`)
-        .then(({ data }) => data);
+  return api.delete(`/user`).then(({ data }) => data);
 };
-
