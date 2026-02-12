@@ -32,7 +32,7 @@ interface BbunCardData {
   updatedAt: string;
   deletedAt: string | null;
   consent: boolean;
-  department: string | null;
+  department: string;
   MBTI: string | null;
   instaId: string | null;
   description: string | null;
@@ -103,6 +103,11 @@ function MainPage() {
               뻔카드 확인을 위해서 최초 프로필 등록이 필요합니다. 프로필 등록을
               마친 후 뻔라인과 뻔카드를 확인해보세요.
             </p>
+          ) : bbunLineCards.length <= 1 ? (
+            <p className="h-[40px] mb-[5px] text-[15px] text-[#5E5E88] font-bold">
+              아직 등록된 뻔선뻔후가 없습니다. <br /> 새로운 멤버가 카드 등록 시
+              메일로 알려드립니다.
+            </p>
           ) : (
             <p className="h-[40px] mb-[5px] text-[15px] text-[#5E5E88] font-bold">
               카드를 선택하여 자세한 정보를 확인해보세요. <br /> 새로운 멤버가
@@ -118,19 +123,21 @@ function MainPage() {
             !isProfileRegistered ? "blur-[5px]" : ""
           }`}
         >
-          {!isProfileRegistered
-            ? dummyCards.map((_, index) => (
-                <BusinessCard
-                  key={index}
-                  name="이름"
-                  studentId="20260000"
-                  email="example@gm.gist.ac.kr"
-                  centerColor="blue"
-                  instagramId="instaId"
-                  department="GS"
-                />
-              ))
-            : bbunLineCards.map((card, index) => (
+          {!isProfileRegistered ? (
+            dummyCards.map((_, index) => (
+              <BusinessCard
+                key={index}
+                name="이름"
+                studentId="20260000"
+                email="example@gm.gist.ac.kr"
+                centerColor="blue"
+                instagramId="instaId"
+                department="GS"
+              />
+            ))
+          ) : (
+            <>
+              {bbunLineCards.map((card, index) => (
                 <BusinessCard
                   key={card.uuid || index}
                   name={card.name}
@@ -138,11 +145,25 @@ function MainPage() {
                   email={card.email}
                   centerColor={
                     ["blue", "purple", "pink", "yellow", "green"][index % 5]
-                  } // 색상 나중에 랜덤으로
+                  } // 색상 나중에 수정
                   instagramId={card.instaId || ""}
                   department={card.department}
                 />
               ))}
+              {bbunLineCards.length <= 1 &&
+                [1, 2].map((_, index) => (
+                  <BusinessCard
+                    key={`empty-${index}`}
+                    name=""
+                    studentId=""
+                    email=""
+                    centerColor="non"
+                    instagramId=""
+                    department=""
+                  />
+                ))}
+            </>
+          )}
         </div>
 
         <div className="w-full mt-auto pb-[calc(30px+env(safe-area-inset-bottom))] flex flex-col items-center gap-[10px] z-50">
