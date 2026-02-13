@@ -7,8 +7,8 @@ import snowflake_2 from "../assets/icons/snowflake_2.svg";
 import snowflake_4 from "../assets/icons/snowflake_4.svg";
 import Button from "../components/Button";
 import LocalStorageKeys from "../types/localstorage";
-import { registerBbunUser } from "../apis/user";
 import { getBbun } from "../apis/bbun";
+import { getBbunUser } from "../apis/user";
 import { bbunLogout } from "../apis/auth";
 import { reverseDepartmentMap } from "../types/department";
 
@@ -38,11 +38,22 @@ function MainPage() {
   const [bbunLineCards, setBbunLineCards] = useState<BbunCardData[]>([]);
 
   useEffect(() => {
-    const hasProfile = localStorage.getItem(LocalStorageKeys.HasProfile);
-    if (hasProfile === "true") {
-      setIsProfileRegistered(true);
-      fetchBbunLine();
-    }
+    const fetchUserData = async () => {
+      try {
+        const userData = await getBbunUser();
+        if (userData.consent) {
+          setIsProfileRegistered(true);
+          fetchBbunLine();
+        } else {
+          setIsProfileRegistered(false);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+        setIsProfileRegistered(false);
+      }
+    };
+
+    fetchUserData();
   }, []);
   const fetchBbunLine = async () => {
     try {
@@ -62,7 +73,6 @@ function MainPage() {
       localStorage.removeItem(LocalStorageKeys.AccessToken);
       localStorage.removeItem(LocalStorageKeys.IdToken);
       localStorage.removeItem(LocalStorageKeys.BbunAccessToken);
-      localStorage.removeItem(LocalStorageKeys.HasProfile);
     }
 
     router.navigate({ to: "/onboarding" });
@@ -184,25 +194,11 @@ function MainPage() {
           {!isProfileRegistered ? (
             <Button
               label="프로필 등록하기"
-              onClick={async () => {
-                try {
-                  await registerBbunUser();
-                  router.navigate({ to: "/profile" });
-                } catch (error) {
-                  console.error("Registration failed:", error);
-                  alert("회원 등록에 실패했습니다. 다시 시도해주세요.");
-                }
-              }}
+              onClick={() => router.navigate({ to: "/profile" })}
             />
           ) : (
             <Button label="로그아웃" onClick={handleLogoutClick} />
           )}
-          <button
-            className="text-gray-400 text-xs mb-2"
-            onClick={handleLogoutClick}
-          >
-            테스트용 로그아웃 (토큰/프로필 초기화)
-          </button>
         </div>
       </div>
     </div>

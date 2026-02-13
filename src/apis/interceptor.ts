@@ -22,7 +22,6 @@ api.interceptors.response.use(
       localStorage.removeItem(LocalStorageKeys.AccessToken);
       localStorage.removeItem(LocalStorageKeys.IdToken);
       localStorage.removeItem(LocalStorageKeys.BbunAccessToken);
-      localStorage.removeItem(LocalStorageKeys.HasProfile);
 
       window.location.href = "/onboarding";
     }

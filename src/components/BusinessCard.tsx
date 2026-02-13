@@ -16,8 +16,8 @@ interface BusinessCardProps {
   studentId: string;
   email: string;
   centerColor: string;
-  instagramId: string;
-  department: string;
+  instagramId: string | null;
+  department: string | null;
   isPreview?: boolean;
   onClick?: () => void;
 }
@@ -141,8 +141,8 @@ export default function BusinessCard({
                 </div>
               </div>
               <div className="w-full h-[14px] flex flex-row justify-between">
-                <p className="leading-[14px] text-[13px]">{instagramId}</p>
-                <p className="leading-[14px] text-[13px]">{department}</p>
+                <p className="leading-[14px] text-[13px]">{instagramId ?? ""}</p>
+                <p className="leading-[14px] text-[13px]">{department ?? ""}</p>
               </div>
             </div>
           )}

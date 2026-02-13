@@ -26,7 +26,6 @@ export const Route = createFileRoute("/onboarding")({
 });
 
 function OnboardingPage() {
-
   const handleLoginClick = async () => {
     try {
       await generateLoginURLHandler(location.pathname);

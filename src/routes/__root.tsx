@@ -1,5 +1,4 @@
 import { createRootRoute, Outlet, redirect } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import LocalStorageKeys from "../types/localstorage";
 
 export const Route = createRootRoute({
@@ -36,7 +35,6 @@ function RootComponent() {
           </div>
         </div>
       </div>
-      <TanStackRouterDevtools />
     </>
   );
 }

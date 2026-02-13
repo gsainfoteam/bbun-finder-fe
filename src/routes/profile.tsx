@@ -1,7 +1,6 @@
 import { createFileRoute, useRouter, redirect } from "@tanstack/react-router";
 import {
   getBbunUser,
-  getUser,
   updateBbunUser,
   withdrawBbunUser,
 } from "../apis/user";
@@ -37,13 +36,11 @@ function ProfilePage() {
   const [studentId, setStudentId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [major, setMajor] = useState("");
-  const [mbti, setMbti] = useState("");
+  const [major, setMajor] = useState<string | null>(null);
+  const [mbti, setMbti] = useState<string | null>(null);
   const [instagramId, setInstagramId] = useState("");
   const [agreement, setAgreement] = useState(false);
-  const [hasProfile, setHasProfile] = useState(
-    localStorage.getItem(LocalStorageKeys.HasProfile) === "true",
-  );
+  const [hasProfile, setHasProfile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingLabel, setLoadingLabel] = useState("");
 
@@ -80,30 +77,26 @@ function ProfilePage() {
   ];
 
   useEffect(() => {
-    if(localStorage.getItem(LocalStorageKeys.HasProfile) === "true") {
-      getBbunUser().then((data) => {
+    getBbunUser()
+      .then((data) => {
         setName(data.name || "");
         setStudentId(data.studentNumber || "");
         setEmail(data.email || "");
-        setMajor(reverseDepartmentMap[data.department] || data.department || "");
-        setMbti(data.MBTI || "");
-        setInstagramId(data.instaId || "");
-      }).catch((error) => {
+        if (data.consent) {
+          setHasProfile(true);
+          setMajor(
+            reverseDepartmentMap[data.department] || data.department || null,
+          );
+          setMbti(data.MBTI || null);
+          setInstagramId(data.instaId || "");
+        } else {
+          setHasProfile(false);
+        }
+      })
+      .catch((error) => {
         console.error("Failed to fetch profile:", error);
         alert("프로필 정보를 불러오는데 실패했습니다.");
       });
-    } else {
-      getUser()
-        .then((data) => {
-          setName(data.user_name || "");
-          setStudentId(data.student_id || "");
-          setEmail(data.user_email_id || "");
-        })
-        .catch((error) => {
-          console.error("Failed to fetch user:", error);
-          alert("사용자 정보를 불러오는데 실패했습니다.");
-        });
-    }
   }, []);
 
   const handleUpdateClick = async () => {
@@ -119,15 +112,15 @@ function ProfilePage() {
       // registerBbunUser는 index.tsx에서 수행됨
 
       const profileData = {
-        department: departmentMap[major] || major,
+        department: major ? (departmentMap[major] || major) : null,
         MBTI: mbti,
         instaId: instagramId,
         description: "",
+        consent: true,
       };
 
       await updateBbunUser(profileData);
       if (!hasProfile) {
-        localStorage.setItem(LocalStorageKeys.HasProfile, "true");
         setHasProfile(true);
       }
       router.navigate({ to: "/" });
@@ -140,7 +133,7 @@ function ProfilePage() {
   };
 
   const handleWithdrawClick = async () => {
-    if (!confirm("정말로 탈퇴하시겠습니까? 이 행위는 되돌릴 수 없습니다.")) {
+    if (!confirm("정말로 탈퇴하시겠습니까? 이 행위는 되돌릴 수 없습니다. 탈퇴 후 일정 기간동안 서비스를 이용하실 수 없습니다. ")) {
       return;
     }
 
@@ -149,7 +142,6 @@ function ProfilePage() {
       localStorage.removeItem(LocalStorageKeys.AccessToken);
       localStorage.removeItem(LocalStorageKeys.IdToken);
       localStorage.removeItem(LocalStorageKeys.BbunAccessToken);
-      localStorage.removeItem(LocalStorageKeys.HasProfile);
       router.navigate({ to: "/onboarding" });
     } catch (error) {
       console.error("Withdrawal failed:", error);

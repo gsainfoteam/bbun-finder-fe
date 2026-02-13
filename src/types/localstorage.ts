@@ -4,7 +4,6 @@ const LocalStorageKeys = {
   ReturnTo: "return_to",
   OAuthNonce: "oauth_nonce",
   CodeVerifier: "code_verifier",
-  HasProfile: "hasProfile",
   IdToken: "id_token",
   BbunAccessToken: "bbun_access_token",
 } as const;
