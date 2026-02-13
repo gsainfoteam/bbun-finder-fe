@@ -199,12 +199,6 @@ function MainPage() {
           ) : (
             <Button label="로그아웃" onClick={handleLogoutClick} />
           )}
-          <button
-            className="text-gray-400 text-xs mb-2"
-            onClick={handleLogoutClick}
-          >
-            테스트용 로그아웃 (토큰/프로필 초기화)
-          </button>
         </div>
       </div>
     </div>
