@@ -1,4 +1,4 @@
-import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import BusinessCard from "../components/BusinessCard";
 import skating_icon_Default from "../assets/icons/skating_icon_Default.svg";
@@ -13,15 +13,6 @@ import { bbunLogout } from "../apis/auth";
 import { reverseDepartmentMap } from "../types/department";
 
 export const Route = createFileRoute("/")({
-  /* 로그인 확인(임시) */
-  beforeLoad: () => {
-    const isAuthenticated = localStorage.getItem(LocalStorageKeys.AccessToken);
-    if (!isAuthenticated) {
-      throw redirect({
-        to: "/onboarding",
-      });
-    }
-  },
   component: MainPage,
 });
 
@@ -180,9 +171,7 @@ function MainPage() {
                     card.department ||
                     ""
                   }
-                  onClick={() =>
-                    handleCardClick(card)
-                  }
+                  onClick={() => handleCardClick(card)}
                 />
               ))}
               {bbunLineCards.length <= 1 &&
@@ -208,10 +197,7 @@ function MainPage() {
               onClick={() => router.navigate({ to: "/profile" })}
             />
           ) : (
-            <Button
-              label="로그아웃"
-              onClick={handleLogoutClick}
-            />
+            <Button label="로그아웃" onClick={handleLogoutClick} />
           )}
           <button
             className="text-gray-400 text-xs mb-2"
@@ -220,7 +206,6 @@ function MainPage() {
             테스트용 로그아웃 (토큰/프로필 초기화)
           </button>
         </div>
-        
       </div>
     </div>
   );
