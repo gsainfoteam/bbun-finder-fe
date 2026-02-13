@@ -25,4 +25,8 @@ dist-ssr
 .env
 .env.*
 
-.yarn
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+.pnp.*
+
