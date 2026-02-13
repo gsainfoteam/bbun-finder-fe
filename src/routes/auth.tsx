@@ -218,7 +218,7 @@ const oauthSequence = async (): Promise<OAuthSequenceResult> => {
             };
           } else {
             return {
-              isSuccessful: true,
+              isSuccessful: false,
               needsSignup: true,
             };
           }
