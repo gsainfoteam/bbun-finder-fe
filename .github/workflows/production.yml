@@ -1,0 +1,34 @@
+name: Production Deploy
+
+on:
+  release:
+    types:
+      - released
+
+jobs:
+  preview-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_IDP_BASE_URL: ${{ secrets.VITE_IDP_BASE_URL }}
+          VITE_IDP_API_URL: ${{ secrets.VITE_IDP_API_URL }}
+          VITE_IDP_CLIENT_ID: ${{ secrets.VITE_IDP_CLIENT_ID }}
+          VITE_IDP_REDIRECT_URI: ${{ secrets.VITE_IDP_REDIRECT_URI }}
+        run: |
+          yarn install
+          yarn build
+      - name: Deploy to production
+        uses: cloudflare/pages-action@v1.5.0
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          projectName: bbunline-fe
+          directory: dist
+          gitHubToken: ${{ github.token }}
+          branch: main
