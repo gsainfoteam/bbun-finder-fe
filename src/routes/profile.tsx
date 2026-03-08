@@ -1,9 +1,5 @@
 import { createFileRoute, useRouter, redirect } from "@tanstack/react-router";
-import {
-  getBbunUser,
-  updateBbunUser,
-  withdrawBbunUser,
-} from "../apis/user";
+import { getBbunUser, updateBbunUser, withdrawBbunUser } from "../apis/user";
 import { useEffect, useState } from "react";
 import snowflake_1 from "../assets/icons/snowflake_1.svg";
 import snowflake_4 from "../assets/icons/snowflake_4.svg";
@@ -112,7 +108,7 @@ function ProfilePage() {
       // registerBbunUser는 index.tsx에서 수행됨
 
       const profileData = {
-        department: major ? (departmentMap[major] || major) : null,
+        department: major ? departmentMap[major] || major : null,
         MBTI: mbti,
         instaId: instagramId,
         description: "",
@@ -149,6 +145,12 @@ function ProfilePage() {
     }
   };
 
+  // 카드 색상 결정 로직
+  const colors = ["blue", "purple", "pink", "yellow", "green"];
+  const studentYear = parseInt(studentId?.toString().slice(0, 4) || "0");
+  const calculatedColor =
+    isNaN(studentYear) || studentYear === 0 ? "blue" : colors[studentYear % 5];
+
   return (
     <div className="relative w-full h-full overflow-y-auto scrollbar-hide overflow-x-hidden">
       <div className="relative z-0 min-h-full w-full flex flex-col gap-[50px] justify-start items-center bg-[linear-gradient(#D2E4FF_0%,#FFFFFF_33%,#FFFFFF_66%,#E9E0FF_100%)]">
@@ -178,7 +180,7 @@ function ProfilePage() {
               name={name}
               studentId={studentId}
               email={email}
-              centerColor="blue"
+              centerColor={calculatedColor}
               instagramId={instagramId}
               department={major}
               isPreview={true}

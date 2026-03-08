@@ -156,24 +156,30 @@ function MainPage() {
             ))
           ) : (
             <>
-              {bbunLineCards.map((card, index) => (
-                <BusinessCard
-                  key={card.uuid || index}
-                  name={card.name}
-                  studentId={card.studentNumber}
-                  email={card.email}
-                  centerColor={
-                    ["blue", "purple", "pink", "yellow", "green"][index % 5]
-                  } // 색상 나중에 수정
-                  instagramId={card.instaId || ""}
-                  department={
-                    reverseDepartmentMap[card.department || ""] ||
-                    card.department ||
-                    ""
-                  }
-                  onClick={() => handleCardClick(card)}
-                />
-              ))}
+              {bbunLineCards.map((card, index) => {
+                const studentYear = parseInt(
+                  card.studentNumber.toString().slice(0, 4),
+                );
+                const colorIndex = studentYear % 5;
+                const colors = ["blue", "purple", "pink", "yellow", "green"];
+
+                return (
+                  <BusinessCard
+                    key={card.uuid || index}
+                    name={card.name}
+                    studentId={card.studentNumber}
+                    email={card.email}
+                    centerColor={colors[colorIndex]}
+                    instagramId={card.instaId || ""}
+                    department={
+                      reverseDepartmentMap[card.department || ""] ||
+                      card.department ||
+                      ""
+                    }
+                    onClick={() => handleCardClick(card)}
+                  />
+                );
+              })}
               {bbunLineCards.length <= 1 &&
                 [1, 2].map((_, index) => (
                   <BusinessCard

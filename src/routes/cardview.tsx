@@ -1,4 +1,4 @@
-import { createFileRoute, useRouter, redirect } from '@tanstack/react-router'
+import { createFileRoute, useRouter, redirect } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import Button from "../components/Button";
 import { getBbunUser } from "../apis/user";
@@ -39,7 +39,7 @@ interface BbunCardData {
   description: string | null;
 }
 
-export const Route = createFileRoute('/cardview')({
+export const Route = createFileRoute("/cardview")({
   beforeLoad: () => {
     const isAuthenticated = localStorage.getItem(LocalStorageKeys.AccessToken);
     if (!isAuthenticated) {
@@ -54,12 +54,14 @@ export const Route = createFileRoute('/cardview')({
     };
   },
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   const router = useRouter();
   const { studentId } = Route.useSearch();
-  const [currentUserStudentId, setCurrentUserStudentId] = useState<string | null>(null);
+  const [currentUserStudentId, setCurrentUserStudentId] = useState<
+    string | null
+  >(null);
   const [bbunList, setBbunList] = useState<BbunCardData[]>([]);
 
   useEffect(() => {
@@ -80,7 +82,9 @@ function RouteComponent() {
       });
   }, []);
 
-  const currentIndex = bbunList.findIndex(card => card.studentNumber === studentId);
+  const currentIndex = bbunList.findIndex(
+    (card) => card.studentNumber === studentId,
+  );
   const selectedCard = currentIndex !== -1 ? bbunList[currentIndex] : null;
   const hasPrev = currentIndex > 0;
   const hasNext = currentIndex !== -1 && currentIndex < bbunList.length - 1;
@@ -98,11 +102,18 @@ function RouteComponent() {
 
   // Derived information from found card
   const name = selectedCard?.name || "";
-  const major = reverseDepartmentMap[selectedCard?.department || ""] || selectedCard?.department || "???과";
+  const major =
+    reverseDepartmentMap[selectedCard?.department || ""] ||
+    selectedCard?.department ||
+    "???과";
   const email = selectedCard?.email || "";
   const mbti = selectedCard?.MBTI || "";
   const instagramId = selectedCard?.instaId || "";
-  const centerColor = ["blue", "purple", "pink", "yellow", "green"][currentIndex % 5] || "blue";
+  const colors = ["blue", "purple", "pink", "yellow", "green"];
+  const studentNumberStr = selectedCard?.studentNumber?.toString() || "";
+  const studentYear = parseInt(studentNumberStr.slice(0, 4));
+  const colorIndex = isNaN(studentYear) ? currentIndex % 5 : studentYear % 5;
+  const centerColor = colors[colorIndex] || "blue";
 
   const imageSrcs: Record<string, string> = {
     blue: default_profile_1,
@@ -115,8 +126,8 @@ function RouteComponent() {
   const imageSrc = imageSrcs[centerColor] || default_profile_1;
 
   return (
-    <div className='w-full h-[100dvh] overflow-y-auto scrollbar-hide overflow-x-hidden'>
-      <div className='relative min-h-[100dvh] w-full bg-blue-200 bg-[linear-gradient(162deg,#D2E4FF,#E9E0FF)] flex flex-col justify-start items-center bg-fixed'>
+    <div className="w-full h-[100dvh] overflow-y-auto scrollbar-hide overflow-x-hidden">
+      <div className="relative min-h-[100dvh] w-full bg-blue-200 bg-[linear-gradient(162deg,#D2E4FF,#E9E0FF)] flex flex-col justify-start items-center bg-fixed">
         {/* 배경 장식*/}
         <div>
           <img
@@ -142,26 +153,34 @@ function RouteComponent() {
           </div>
         </div>
         <div className="flex flex-row justify-between items-center w-[326px] mt-[34px] gap-[20px]">
-          <button 
-            onClick={() => hasPrev && navigateToCard(bbunList[currentIndex - 1])}
+          <button
+            onClick={() =>
+              hasPrev && navigateToCard(bbunList[currentIndex - 1])
+            }
             className={`transition-opacity ${!hasPrev ? "opacity-0 cursor-default" : "cursor-pointer active:scale-95"}`}
             disabled={!hasPrev}
           >
-            <img src={button_left} alt="previous" className="w-[30px] h-[30px]"/>
+            <img
+              src={button_left}
+              alt="previous"
+              className="w-[30px] h-[30px]"
+            />
           </button>
-          
+
           <div className="flex flex-col items-center">
             <img src={imageSrc} alt="profile" className="w-[78px] h-[78px]"/>
             <div className="text-[25px] text-[#414177] mt-[12px] font-extrabold">{name}</div>
             <div className="whitespace-nowrap text-[14px] font-extrabold mt-[14px]">{studentId} • {major}</div>
           </div>
 
-          <button 
-            onClick={() => hasNext && navigateToCard(bbunList[currentIndex + 1])}
+          <button
+            onClick={() =>
+              hasNext && navigateToCard(bbunList[currentIndex + 1])
+            }
             className={`transition-opacity ${!hasNext ? "opacity-0 cursor-default" : "cursor-pointer active:scale-95"}`}
             disabled={!hasNext}
           >
-            <img src={button_right} alt="next" className="w-[30px] h-[30px]"/>
+            <img src={button_right} alt="next" className="w-[30px] h-[30px]" />
           </button>
         </div>
         <div className="z-10 bg-[#FFFFFF]/50 w-[326px] rounded-[8px] flex flex-col px-[24px] py-[30px] mt-[54px] gap-[20px]">
@@ -213,5 +232,5 @@ function RouteComponent() {
         </div>
       </div>
     </div>
-  )
+  );
 }
