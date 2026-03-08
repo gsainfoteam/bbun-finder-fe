@@ -165,26 +165,26 @@ function RouteComponent() {
           </button>
         </div>
         <div className="z-10 bg-[#FFFFFF]/50 w-[326px] rounded-[8px] flex flex-col px-[24px] py-[30px] mt-[54px] gap-[20px]">
-          <div className="flex flex-row items-center gap-[14px] ">
-            <img src={snowflake_5} alt="snowflake" className="w-[23px] h-[23px]" />
-            <div className="text-[14px] font-bold">
+          <div className="flex flex-row items-start gap-[14px]">
+            <img src={snowflake_5} alt="snowflake" className="w-[24px] h-[24px] " />
+            <div className="text-[14px] font-bold flex-1 break-all">
               이메일: {email}
             </div>
           </div>
-          <div className="flex flex-row items-center gap-[14px]">
-            <img src={snowflake_5} alt="snowflake" className="w-[23px] h-[23px]" />
-            <div className="text-[14px] font-bold">
+          <div className="flex flex-row items-start gap-[14px]">
+            <img src={snowflake_5} alt="snowflake" className="w-[24px] h-[24px]" />
+            <div className="text-[14px] font-bold flex-1 break-all">
               MBTI: {mbti}
             </div>
           </div>
-          <div className="flex flex-row items-center gap-[14px]">
-            <img src={snowflake_5} alt="snowflake" className="w-[23px] h-[23px]" />
-            <div className="text-[14px] font-bold">
+          <div className="flex flex-row items-start gap-[14px]">
+            <img src={snowflake_5} alt="snowflake" className="w-[24px] h-[24px]" />
+            <div className="text-[14px] font-bold flex-1 break-all">
               instagram ID: {instagramId}
             </div>
           </div>
         </div>
-        <div className="mt-[230px] pb-[calc(56px+env(safe-area-inset-bottom))] z-10 flex flex-row items-center justify-center gap-[17px] w-full self-center">
+        <div className="mt-[80px] pb-[calc(56px+env(safe-area-inset-bottom))] z-10 flex flex-row items-center justify-center gap-[17px] w-full self-center">
           {isMine ? (
             <>
               <button

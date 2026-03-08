@@ -11,7 +11,7 @@
 
 /* 폰트 설정 */
 @theme {
-  --font-ria: "RiaSansBold", "NanumGothic", sans-serif;
+  --font-ria: "RiaSansBold", "NanumGothic", "Nanum Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
 }
 
 @font-face {
@@ -31,5 +31,5 @@
 }
 
 body {
-  font-family: "NanumGothic", sans-serif;
+  font-family: "NanumGothic", "Nanum Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
 }
