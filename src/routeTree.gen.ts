@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as CardviewRouteImport } from './routes/cardview'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
@@ -23,6 +24,11 @@ const ProfileRoute = ProfileRouteImport.update({
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CardviewRoute = CardviewRouteImport.update({
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/cardview': typeof CardviewRoute
+  '/chat': typeof ChatRoute
   '/onboarding': typeof OnboardingRoute
   '/profile': typeof ProfileRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/cardview': typeof CardviewRoute
+  '/chat': typeof ChatRoute
   '/onboarding': typeof OnboardingRoute
   '/profile': typeof ProfileRoute
 }
@@ -60,21 +68,30 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/cardview': typeof CardviewRoute
+  '/chat': typeof ChatRoute
   '/onboarding': typeof OnboardingRoute
   '/profile': typeof ProfileRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/cardview' | '/onboarding' | '/profile'
+  fullPaths: '/' | '/auth' | '/cardview' | '/chat' | '/onboarding' | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/cardview' | '/onboarding' | '/profile'
-  id: '__root__' | '/' | '/auth' | '/cardview' | '/onboarding' | '/profile'
+  to: '/' | '/auth' | '/cardview' | '/chat' | '/onboarding' | '/profile'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/cardview'
+    | '/chat'
+    | '/onboarding'
+    | '/profile'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   CardviewRoute: typeof CardviewRoute
+  ChatRoute: typeof ChatRoute
   OnboardingRoute: typeof OnboardingRoute
   ProfileRoute: typeof ProfileRoute
 }
@@ -93,6 +110,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cardview': {
@@ -123,6 +147,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   CardviewRoute: CardviewRoute,
+  ChatRoute: ChatRoute,
   OnboardingRoute: OnboardingRoute,
   ProfileRoute: ProfileRoute,
 }

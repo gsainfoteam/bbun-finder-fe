@@ -203,7 +203,13 @@ function MainPage() {
               onClick={() => router.navigate({ to: "/profile" })}
             />
           ) : (
-            <Button label="로그아웃" onClick={handleLogoutClick} />
+            <div className="flex flex-col gap-[10px]">
+              <Button
+                label="채팅방 참여하기"
+                onClick={() => router.navigate({ to: "/chat" })}
+              />
+              <Button label="로그아웃" onClick={handleLogoutClick} />
+            </div>
           )}
         </div>
       </div>
